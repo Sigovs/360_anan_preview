@@ -141,7 +141,13 @@
 // ── Text action ─────────────────────────────────────────────────────────────
 // Mono, uppercase, with a rule that extends on hover. Not underlined: the rule
 // carries the affordance, and the arrow carries direction.
+//
+// The visible rule stays tight against the text, but the touch target does not:
+// an invisible ::before extends the hit area to 44px without moving the rule
+// away from the words it belongs to. An 11px label is a 21px tall target
+// otherwise, which is a miss on a phone.
 .link-action {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
@@ -156,6 +162,15 @@
   text-decoration: none;
   transition: border-color var(--dur-1) var(--ease-out),
               color var(--dur-1) var(--ease-out);
+}
+
+.link-action::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: 44px;
+  translate: 0 -50%;
 }
 
 .link-action__mark {

@@ -126,12 +126,19 @@
   background: var(--color-cold-detail);
 }
 
-// The breaks are hand-set in the markup and "care for" is bound with a
-// non-breaking space, so balancing is switched off: it would override the
-// authored break and strand "for" on a line of its own.
+// The breaks are hand-set in the markup, with non-breaking spaces binding the
+// pairs that must not split, so balancing is switched off: it would override the
+// authored break and strand a word on a line of its own.
 .hero__title {
   font-size: var(--text-hero);
   text-wrap: normal;
+}
+
+// At the narrowest format the fluid floor is still one step too large for the
+// authored two-line break to hold, so it steps down once. Chosen by measuring
+// where the line actually breaks, not by picking a round breakpoint.
+@media (max-width: 22.5rem) {
+  .hero__title { font-size: 2rem; }
 }
 
 .hero__lead {

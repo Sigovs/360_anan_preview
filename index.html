@@ -49,11 +49,16 @@
         <a class="nav-set__link" href="#contact">Contact</a>
       </nav>
 
-      <a class="masthead__phone" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
+      <a class="masthead__phone" href="tel:+15165550100" data-placeholder="true"
+         aria-label="Call the shop on (516) 555-0100">
+        <span class="masthead__phone-short" aria-hidden="true">Call</span>
+        <span class="masthead__phone-full" aria-hidden="true">(516)&nbsp;555-0100</span>
+      </a>
 
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel"
+              aria-label="Sections menu">
         <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span data-nav-label>Menu</span>
+        <span class="nav-toggle__label" data-nav-label>Menu</span>
       </button>
     </div>
   </div>
@@ -89,7 +94,7 @@
         <div class="hero__eyebrow">
           <p class="label label--accent">Lynbrook, New York</p>
         </div>
-        <h1 class="hero__title">Complete Care&nbsp;for<br>the Road&nbsp;Ahead</h1>
+        <h1 class="hero__title">Complete Care&nbsp;for<br>the&nbsp;Road Ahead</h1>
         <p class="lead hero__lead">
           Diagnostics, maintenance, inspections, tires, major repairs and vehicle
           care for foreign and domestic vehicles in Lynbrook.

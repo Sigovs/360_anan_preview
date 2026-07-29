@@ -5494,6 +5494,7 @@ h4, .h4 {
 }
 
 .link-action {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
@@ -5507,6 +5508,15 @@ h4, .h4 {
   text-transform: uppercase;
   text-decoration: none;
   transition: border-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+
+.link-action::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: 44px;
+  translate: 0 -50%;
 }
 
 .link-action__mark {
@@ -5789,6 +5799,8 @@ textarea.form-control {
 .wordmark {
   display: inline-flex;
   align-items: baseline;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   gap: 0.35em;
   font-family: var(--font-display);
   font-variation-settings: "wdth" var(--wdth-display);
@@ -5878,7 +5890,9 @@ textarea.form-control {
 }
 
 .masthead__phone {
-  display: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 500;
@@ -5890,16 +5904,35 @@ textarea.form-control {
   white-space: nowrap;
 }
 
-.masthead__phone:hover {
+.masthead__phone::before,
+.nav-toggle::before {
+  content: "";
+  position: absolute;
+  inset-inline: -8px;
+  inset-block-start: 50%;
+  block-size: 44px;
+  translate: 0 -50%;
+}
+
+.masthead__phone:hover,
+.masthead__phone:focus-visible {
   color: var(--color-accent);
 }
 
+.masthead__phone-full {
+  display: none;
+}
+
 @media (min-width: 48rem) {
-  .masthead__phone {
-    display: inline-block;
+  .masthead__phone-short {
+    display: none;
+  }
+  .masthead__phone-full {
+    display: inline;
   }
 }
 .nav-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
@@ -5927,6 +5960,15 @@ textarea.form-control {
   background: var(--color-accent);
 }
 
+.nav-toggle__label {
+  display: none;
+}
+
+@media (min-width: 22.5rem) {
+  .nav-toggle__label {
+    display: inline;
+  }
+}
 @media (min-width: 75rem) {
   .nav-toggle {
     display: none;
@@ -6059,6 +6101,11 @@ textarea.form-control {
   text-wrap: normal;
 }
 
+@media (max-width: 22.5rem) {
+  .hero__title {
+    font-size: 2rem;
+  }
+}
 .hero__lead {
   margin-block-start: var(--space-5);
   color: var(--ink-a72);
