@@ -66,6 +66,30 @@
   color: var(--color-accent);
 }
 
+// Hovering or tabbing into a step brings it forward: its numeral warms to accent
+// and its marker fills. The step is not interactive, so this is orientation
+// rather than affordance — it answers "which one am I reading" without implying
+// that anything can be clicked.
+.process__step {
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.process__step:hover .process__numeral,
+.process__step:focus-within .process__numeral {
+  color: var(--color-accent);
+}
+
+.process__step::before {
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+
+.process__step:hover::before,
+.process__step:focus-within::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 .process__step-title {
   font-family: var(--font-display);
   font-variation-settings: "wdth" var(--wdth-display);

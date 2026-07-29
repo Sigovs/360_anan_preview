@@ -4,9 +4,10 @@ Dark industrial-editorial one-pager for a foreign & domestic repair shop in
 Lynbrook, New York. Built on **Bootstrap 5.3** (SCSS source, twelve-column grid,
 forms, collapse) with a project token layer on top.
 
-**Preview build.** The page carries `<meta name="robots" content="noindex">` and
-several values marked *to confirm* — see [docs/CONTENT-TODO.md](docs/CONTENT-TODO.md)
-before it goes anywhere public.
+**Preview build.** The phone and address are the shop's real details. What is
+still placeholder: the opening hours, the Google reviews and rating, and the
+form's endpoint. The page carries `<meta name="robots" content="noindex">` until
+those are resolved — see [docs/CONTENT-TODO.md](docs/CONTENT-TODO.md).
 
 ---
 
@@ -88,11 +89,25 @@ inside a shipped stylesheet is past the point a variable can change it.
   (`offset-lg-1`), not padding, so every edge lands on the same axis.
 - **Squares used three times** — hero → rail transition, the shop's offset
   fragments, the warranty mosaic. Not as page-wide decoration.
-- **Motion with a job** — a choreographed hero entrance (≈1.05s), bands settling
-  in as they arrive, a scroll-linked hero drift at 6% of the hero's own height,
-  crossfading service images, line-grow link and field states. Every hidden-then-
-  revealed state is applied by script under `.js-motion` and cleared by a
-  watchdog, so no-JS and reduced-motion both open on the finished page.
+- **One motion language, no dependencies** — CSS transitions plus one
+  IntersectionObserver and one rAF scroll frame. No GSAP, no scroll library: the
+  whole system is ~4 kB of the stylesheet and one file of behaviour.
+  · *Entrance* — the hero arrives in reading order over ≈1.05s, ending with the
+    disc opening and the hung modules masking in.
+  · *Scroll* — the header settles from 24px to 14px padding and its descriptor
+    retires; the hero photograph lags 6% of its height with the wordmark at a
+    third of that rate; five images drift ±26px against their own frames.
+  · *Arrival* — bands fade and settle 14px, with variants (lateral drift, mask
+    from left/right, scale) so no two chapters open the same way; structural
+    hairlines draw themselves from their start edge.
+  · *Interaction* — one hover idea at three scales (a rule growing from the start
+    edge) on nav, text actions and footer links; the active service row takes an
+    accent bar, a ground lift and a brighter numeral; fields take a focus rule and
+    a label that warms with them.
+  Every hidden-then-revealed state is applied by script under `.js-motion`, and a
+  watchdog clears it after three seconds, so no-JS and reduced-motion both open on
+  the finished page. Only opacity, transform and clip-path animate — the single
+  exception is the masthead's padding, which is documented in place.
 - **A reviews band in the page's own language** — hairline columns, a display
   rating figure, mono metadata, no plugin chrome. Content comes from one data
   file; see below on placeholders.

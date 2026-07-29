@@ -123,9 +123,32 @@
   gap: var(--space-5);
   padding-block: var(--space-7);
   border-block-end: var(--rule) solid var(--color-line);
+  // The excerpt lifts a little and its ground warms under the pointer. Three
+  // hover treatments exist on this page — colour, rule, lift — and this is the
+  // lift, because a column-shaped mass is the only thing here that can carry one
+  // without reading as a button.
+  transition: background-color var(--dur-3) var(--ease-out),
+              translate var(--dur-3) var(--ease-out);
 }
 
 .review .stars { align-self: flex-start; }
+
+@media (min-width: 62rem) and (hover: hover) {
+  .review:hover {
+    background: linear-gradient(to bottom, var(--ink-a06) 0%, rgb(241 240 235 / 0) 100%);
+    translate: 0 -3px;
+  }
+}
+
+// The rating marks arrive just behind the words they belong to.
+.js-motion [data-reveal-group="pending"] .review .stars {
+  opacity: 0;
+}
+
+.js-motion [data-reveal-group="in"] .review .stars {
+  opacity: 1;
+  transition: opacity var(--dur-4) var(--ease-out) 180ms;
+}
 
 .review__quote {
   font-size: var(--text-lead);

@@ -49,10 +49,10 @@
         <a class="nav-set__link" href="#contact">Contact</a>
       </nav>
 
-      <a class="masthead__phone" href="tel:+15165550100" data-placeholder="true"
-         aria-label="Call the shop on (516) 555-0100">
+      <a class="masthead__phone" href="tel:+15168200360"
+         aria-label="Call the shop on (516) 820-0360">
         <span class="masthead__phone-short" aria-hidden="true">Call</span>
-        <span class="masthead__phone-full" aria-hidden="true">(516)&nbsp;555-0100</span>
+        <span class="masthead__phone-full" aria-hidden="true">(516)&nbsp;820-0360</span>
       </a>
 
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-panel"
@@ -71,7 +71,7 @@
       <a class="nav-panel__link" href="#warranties"><span>Warranties</span> <span class="num">07</span></a>
       <a class="nav-panel__link" href="#inspections"><span>Inspections</span> <span class="num">08</span></a>
       <a class="nav-panel__link" href="#contact"><span>Contact</span> <span class="num">11</span></a>
-      <a class="nav-panel__phone" href="tel:+15165550100" data-placeholder="true">(516) 555-0100</a>
+      <a class="nav-panel__phone" href="tel:+15168200360">(516) 820-0360</a>
     </div>
   </div>
 </header>
@@ -104,8 +104,8 @@
       <div class="hero__anchor">
         <p class="label">Call the shop</p>
         <div class="hero__anchor-line">
-          <a class="phone-line" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
-          <p class="label" data-placeholder="true">Street address to confirm · Lynbrook, NY 11563</p>
+          <a class="phone-line" href="tel:+15168200360">(516)&nbsp;820-0360</a>
+          <p class="label">10 N Prospect Ave · Lynbrook, NY 11563</p>
         </div>
       </div>
 
@@ -182,7 +182,7 @@
       </div>
 
       <div class="services__body row g-0 gy-8 gy-lg-0 align-items-lg-start">
-        <ol class="services__list col-lg-5" data-services data-reveal-group>
+        <ol class="services__list col-lg-5 line-grow" data-services data-reveal-group>
 
           <li class="svc" data-service-id="01" data-active="true">
             <details class="svc__disc" open>
@@ -383,7 +383,7 @@
     <div class="shell">
       <div class="shop__body row g-0 gy-8 gy-lg-0 align-items-lg-center">
         <div class="shop__figure col-lg-7">
-          <div class="media media--portrait shop__main" data-reveal-media>
+          <div class="media media--portrait shop__main" data-reveal-media data-reveal-from="left" data-parallax="0.8">
             <img src="assets/img/shop-bays.jpg" width="1200" height="1586" loading="lazy" decoding="async"
                  alt="Two service bays at night: a minivan raised on a lift in the far bay and a pickup with its hood open in the near bay.">
           </div>
@@ -445,7 +445,7 @@
        05 · FULL-BLEED WORKSHOP MOMENT
        ═════════════════════════════════════════════════════════════════════ -->
   <section class="moment" aria-label="In the shop">
-    <div class="moment__media">
+    <div class="moment__media" data-parallax="1">
       <img src="assets/img/moment-underbody.jpg" width="2400" height="1029" loading="lazy" decoding="async"
            alt="Seen from the shop floor, a technician reaching up into the underbody of a raised car with a socket wrench.">
     </div>
@@ -462,7 +462,7 @@
   <section class="detail-band band" id="detailing">
     <div class="shell">
       <div class="detail-band__figure">
-        <div class="media media--scrim-corner detail-band__media" data-reveal-media>
+        <div class="media media--scrim-corner detail-band__media" data-reveal-media data-parallax="0.6">
           <img src="assets/img/detailing-polish.jpg" width="2400" height="951" loading="lazy" decoding="async"
                alt="A dark sedan in the detailing bay at night, a technician crouched at the rear wheel wiping the panel down.">
         </div>
@@ -481,7 +481,7 @@
         </div>
       </div>
 
-      <ul class="detail-band__steps" data-reveal-group>
+      <ul class="detail-band__steps line-grow" data-reveal-group>
         <li><span class="num">01</span> <span>Exterior wash, decontamination and machine polish</span></li>
         <li><span class="num">02</span> <span>Interior extraction, trim, glass and vents</span></li>
         <li><span class="num">03</span> <span>Seasonal protection before the salt starts</span></li>
@@ -501,7 +501,7 @@
   <section class="warranty band" id="warranties">
     <div class="shell">
       <div class="warranty__body row g-0 gy-8 gy-lg-0 align-items-lg-center">
-        <div class="warranty__statement col-lg-6" data-reveal>
+        <div class="warranty__statement col-lg-6" data-reveal data-reveal-from="lateral">
           <p class="chapter__label">
             <span class="chapter__numeral">07</span>
             <span class="label">Coverage</span>
@@ -530,7 +530,7 @@
           </p>
         </div>
 
-        <div class="warranty__mosaic col-lg-5 offset-lg-1" aria-hidden="true" data-reveal-group>
+        <div class="warranty__mosaic col-lg-5 offset-lg-1" aria-hidden="true" data-reveal-group data-reveal-from="lateral-end">
           <div class="media media--square media--module">
             <img src="assets/img/warranty-workorder.jpg" width="1000" height="1000" loading="lazy" decoding="async" alt="">
           </div>
@@ -559,7 +559,7 @@
             looked at properly.
           </p>
 
-          <ol class="ppi__steps mt-7">
+          <ol class="ppi__steps line-grow mt-7" data-reveal>
             <li class="ppi__step">
               <span class="num">01</span>
               <h3 class="ppi__step-title">On the lift</h3>
@@ -590,7 +590,7 @@
         </div>
 
         <div class="ppi__figure col-lg-6 offset-lg-1">
-          <div class="media media--scrim-left ppi__media" data-reveal-media>
+          <div class="media media--scrim-left ppi__media" data-reveal-media data-reveal-from="right" data-parallax="0.7">
             <img src="assets/img/inspection-lift.jpg" width="1800" height="1005" loading="lazy" decoding="async"
                  alt="A used sedan raised on a two-post lift, a technician beneath the front of it with a flashlight.">
           </div>
@@ -677,7 +677,7 @@
           </p>
           <p>
             <a class="link-action"
-               href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc+Lynbrook+NY"
+               href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc%2C+10+N+Prospect+Ave%2C+Lynbrook%2C+NY+11563"
                target="_blank" rel="noopener" data-placeholder="true">
               Read the reviews on Google <span class="link-action__mark" aria-hidden="true">→</span>
             </a>
@@ -701,7 +701,7 @@
         <div class="contact__direct col-lg-5" data-reveal>
           <div class="contact__phone-block">
             <p class="label label--lg label--accent">Call the shop</p>
-            <a class="contact__phone" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
+            <a class="contact__phone" href="tel:+15168200360">(516)&nbsp;820-0360</a>
             <p class="copy contact__phone-note">
               Fastest way to get a vehicle booked in. Tell us the year, make and
               model, and what it is doing.
@@ -710,7 +710,7 @@
 
           <dl class="plate">
             <dt>Address</dt>
-            <dd data-placeholder="true">Street address to confirm<br>Lynbrook, New York 11563</dd>
+            <dd>10 N Prospect Ave<br>Lynbrook, New York 11563</dd>
             <dt>Hours</dt>
             <dd data-placeholder="true">
               Mon–Fri 8:00 – 18:00<br>
@@ -724,7 +724,7 @@
                row of its own: it answers the same question, and it is what makes
                this column stand level with the form beside it. -->
           <div class="contact__place">
-            <div class="media contact__place-media" data-reveal-media>
+            <div class="media contact__place-media" data-reveal-media data-reveal-from="scale" data-parallax="0.5">
               <img src="assets/img/shop-exterior.jpg" width="2000" height="937" loading="lazy" decoding="async"
                    alt="The shop from the street at dusk, two of its three bay doors open and lit from inside.">
             </div>
@@ -737,7 +737,7 @@
                 </p>
               </div>
               <p>
-                <a class="link-action" href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc+Lynbrook+NY"
+                <a class="link-action" href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc%2C+10+N+Prospect+Ave%2C+Lynbrook%2C+NY+11563"
                    target="_blank" rel="noopener" data-placeholder="true">
                   Get directions <span class="link-action__mark" aria-hidden="true">→</span>
                 </a>
@@ -823,7 +823,7 @@
      ═══════════════════════════════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="shell">
-    <div class="footer__top">
+    <div class="footer__top" data-reveal-group>
       <div class="footer__mark">
         <a class="wordmark" href="#top" aria-label="360 Auto Care Inc — back to top">
           <span class="wordmark__num">360</span>
@@ -850,7 +850,7 @@
       <div>
         <p class="label label--lg label--bright">Call</p>
         <p class="mt-3">
-          <a class="phone-line" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
+          <a class="phone-line" href="tel:+15168200360">(516)&nbsp;820-0360</a>
         </p>
         <dl class="plate plate--stacked mt-6">
           <dt>Hours</dt>
@@ -876,13 +876,13 @@
   "description": "Foreign and domestic auto repair, diagnostics, maintenance, NYS inspections, tires, brakes, air conditioning, detailing and pre-purchase inspections in Lynbrook, New York.",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "TO CONFIRM",
+    "streetAddress": "10 N Prospect Ave",
     "addressLocality": "Lynbrook",
     "addressRegion": "NY",
     "postalCode": "11563",
     "addressCountry": "US"
   },
-  "telephone": "TO CONFIRM",
+  "telephone": "+1-516-820-0360",
   "areaServed": ["Lynbrook", "Valley Stream", "Malverne", "Rockville Centre", "East Rockaway"]
 }
 </script>

@@ -36,7 +36,21 @@
   flex: 1 1 auto;
   max-inline-size: 8rem;
   block-size: var(--rule);
-  background: var(--color-line);
+  background: var(--color-cold-detail);
+  transform-origin: left center;
+}
+
+// Drawn out of the numeral as the chapter arrives: the number lands, then the
+// rule extends from it. One gesture, read as a single mark being made.
+.js-motion [data-reveal="pending"] .chapter__label::after,
+.js-motion [data-reveal-media="pending"] .chapter__label::after {
+  scale: 0 1;
+}
+
+.js-motion [data-reveal="in"] .chapter__label::after,
+.js-motion [data-reveal-media="in"] .chapter__label::after {
+  scale: 1 1;
+  transition: scale var(--dur-6) var(--ease-mask) 220ms;
 }
 
 // ═══ 06 · Detailing — image-led band ════════════════════════════════════════
@@ -148,6 +162,20 @@
 
 .warranty__mosaic .media {
   aspect-ratio: 1 / 1;
+}
+
+// Decorative modules: a slow 1.03 drift under the pointer, inside a fixed crop.
+// Purely enriching — these carry no content and no action, so there is nothing
+// for a keyboard or touch visitor to miss. Gated on a real pointer so a tap
+// cannot leave a phone holding a hover state it can never release.
+@media (hover: hover) {
+  .warranty__mosaic .media > img {
+    transition: scale var(--dur-6) var(--ease-out);
+  }
+
+  .warranty__mosaic .media:hover > img {
+    scale: 1.03;
+  }
 }
 
 .warranty__mosaic .media:nth-child(1) { grid-column: 1 / 6; }

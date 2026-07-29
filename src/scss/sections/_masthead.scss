@@ -35,12 +35,25 @@
   opacity: 0;
 }
 
+// The header settles into a tighter bar once the page has moved: the block
+// padding closes from 24px to 14px over a quarter second.
+//
+// Padding is a layout property, and animating layout is normally off the table —
+// but the masthead is `position: fixed`, so its box is outside the document flow
+// and nothing below it reflows. The cost is re-laying out three grid children,
+// once, on a discrete state change. Scaling the bar instead would have been
+// GPU-cheap and resampled the wordmark, which is the worse trade.
 .masthead__inner {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
   padding-block: var(--space-5);
+  transition: padding-block var(--dur-2) var(--ease-out);
+}
+
+.masthead[data-scrolled="true"] .masthead__inner {
+  padding-block: 0.875rem;
 }
 
 // ── Temporary text logo ─────────────────────────────────────────────────────
@@ -134,15 +147,26 @@
   color: var(--color-text);
 }
 
+// One hover language across the page: a rule that grows from the start edge.
+// Hover draws it in the cold detail tone, the section actually in view holds it
+// in accent — so hovering never impersonates the current-page state.
 .nav-set__link::after {
   content: "";
   position: absolute;
-  inset-block-end: 0;
+  inset-block-end: 0.35rem;
   inset-inline-start: 0;
-  inline-size: 0;
+  inline-size: 100%;
   block-size: 2px;
-  background: var(--color-accent);
-  transition: inline-size var(--dur-2) var(--ease-out);
+  background: var(--color-cold-detail);
+  transform-origin: left center;
+  scale: 0 1;
+  transition: scale var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
+}
+
+.nav-set__link:hover::after,
+.nav-set__link:focus-visible::after {
+  scale: 1 1;
 }
 
 .nav-set__link[aria-current="true"] {
@@ -150,7 +174,8 @@
 }
 
 .nav-set__link[aria-current="true"]::after {
-  inline-size: 100%;
+  scale: 1 1;
+  background: var(--color-accent);
 }
 
 // ── Phone ───────────────────────────────────────────────────────────────────

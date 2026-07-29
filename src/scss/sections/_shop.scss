@@ -109,6 +109,16 @@
     aspect-ratio: 1 / 1;
   }
 
+  @media (hover: hover) {
+    .shop__frag > img {
+      transition: scale var(--dur-6) var(--ease-out);
+    }
+
+    .shop__frag:hover > img {
+      scale: 1.04;
+    }
+  }
+
   // Both modules straddle the photograph's edge. Previously the second sat
   // almost entirely below it, floating on flat ground with nothing to overlap —
   // a hung module needs something to hang from.

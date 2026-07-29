@@ -35,6 +35,7 @@
 // 13px at reading ink, with a 44px row so the whole line is a target. At 11px in
 // metadata grey this column was the least legible text on the page.
 .footer__set a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
@@ -50,6 +51,26 @@
 .footer__set a:hover,
 .footer__set a:focus-visible {
   color: var(--color-accent);
+}
+
+// The same grow-from-the-start rule the nav and the text actions use, at footer
+// scale. Consistency is the point: one hover idea, three sizes.
+.footer__set a::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0.55rem;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: var(--rule);
+  background: var(--color-accent);
+  transform-origin: left center;
+  scale: 0 1;
+  transition: scale var(--dur-2) var(--ease-out);
+}
+
+.footer__set a:hover::after,
+.footer__set a:focus-visible::after {
+  scale: 1 1;
 }
 
 .footer__base {

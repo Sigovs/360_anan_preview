@@ -49,20 +49,22 @@
   outline-offset: 4px;
 }
 
-// A thin ring set inside the disc, echoing the technical markers elsewhere.
+// A thin ring set inside the disc, echoing the technical markers elsewhere. It
+// opens outward under the pointer — scaled rather than inset, so the growth is a
+// compositor transform instead of a layout change on every frame.
 .cta-circle::after {
   content: "";
   position: absolute;
   inset: 0.5rem;
   border: var(--rule) solid rgb(9 12 13 / 0.28);
   border-radius: 50%;
-  transition: inset var(--dur-3) var(--ease-out),
+  transition: scale var(--dur-3) var(--ease-out),
               border-color var(--dur-3) var(--ease-out);
 }
 
 .cta-circle:hover::after,
 .cta-circle:focus-visible::after {
-  inset: 0.3rem;
+  scale: 1.035;
   border-color: rgb(9 12 13 / 0.45);
 }
 

@@ -3,42 +3,32 @@
 Everything below is a placeholder I could not verify. Append **`?todo`** to the
 URL to outline all of them on the page.
 
-The phone number is from the reserved 555-01xx fictitious range, so it cannot
-ring a real person. The address and hours say on the page that they are
-unconfirmed. **Section 10's reviews and rating are visible placeholders** — see
-§4, which is the most important item on this list.
+**Resolved 2026-07-29:** the phone `(516) 820-0360` and the address
+`10 N Prospect Ave, Lynbrook, NY 11563` are the shop's real details and are now
+live everywhere on the page, in the `tel:` links, in the directions link and in
+the JSON-LD.
+
+Still outstanding: the opening hours (§3), the Google reviews and rating (§4 —
+the most important item here), the form endpoint (§5) and the noindex (§6).
 
 ---
 
-## 1 · Phone number — 5 places
+## 1 · Phone number — DONE
 
-Currently `(516) 555-0100`, `tel:+15165550100`.
+`(516) 820-0360` / `tel:+15168200360`, live in the masthead, the mobile menu, the
+hero anchor, the contact section, the footer, the form's notice text and the
+JSON-LD.
 
-| File | Where |
-|---|---|
-| `index.html` | masthead link |
-| `index.html` | mobile menu panel |
-| `index.html` | hero anchor row |
-| `index.html` | contact section — the large typographic phone |
-| `index.html` | footer |
-| `src/js/main.js` | the form's preview notice text |
-| `index.html` | JSON-LD `telephone` (currently `TO CONFIRM`) |
-
-Find and replace both the display form and the `tel:` href. The display form is
-non-breaking-spaced (`(516)&nbsp;555-0100`) in the masthead and hero so it never
+The display form is non-breaking-spaced in the masthead and hero so it never
 splits across lines.
 
-## 2 · Street address — 3 places
+## 2 · Street address — DONE
 
-Currently *"Street address to confirm · Lynbrook, NY 11563"*.
-
-- hero anchor row
-- contact section address plate
-- JSON-LD `streetAddress` (currently `TO CONFIRM`)
-
-The **Get directions** link in the contact section currently searches Google Maps
-for `360 Auto Care Inc Lynbrook NY`. Once the address is confirmed, point it at
-the shop's own Google Business Profile place URL instead.
+`10 N Prospect Ave, Lynbrook, NY 11563`, live in the hero anchor, the contact
+plate and the JSON-LD. The **Get directions** link and the reviews profile link
+both search Google Maps for the full name and address; swapping them for the
+shop's own Google Business Profile place URL is a small improvement worth making
+when that URL is to hand.
 
 ## 3 · Opening hours — 2 places
 

@@ -170,25 +170,98 @@ video {
 .js-motion [data-reveal-group="in"] > *:nth-child(5) { transition-delay: calc(var(--stagger) * 4); }
 .js-motion [data-reveal-group="in"] > *:nth-child(6) { transition-delay: calc(var(--stagger) * 5); }
 
-// A photograph arriving: the mask lifts and the image settles out of a 1.04
-// scale. Slower than the type it accompanies, because a large mass reads as
-// heavier when it moves more slowly.
+// ── Reveal variants ─────────────────────────────────────────────────────────
+// Related, not identical. Every band shares the same easing and the same sense
+// of settling; what differs is the direction it settles from, so a long page
+// does not repeat one gesture twelve times.
+//
+//   (default)      fade + 14px rise      primary content blocks
+//   lateral        fade + 24px drift     one chapter, entering from its own side
+//   still          fade only             where any travel would fight the type
+.js-motion [data-reveal="pending"][data-reveal-from="lateral"] {
+  transform: translate3d(calc(var(--drift) * -1), 0, 0);
+}
+
+.js-motion [data-reveal="pending"][data-reveal-from="lateral-end"] {
+  transform: translate3d(var(--drift), 0, 0);
+}
+
+.js-motion [data-reveal="pending"][data-reveal-from="still"] {
+  transform: none;
+}
+
+// ── Photographic reveals ────────────────────────────────────────────────────
+// A mass reads as heavy when it moves slowly, so images take --dur-6 against the
+// type's --dur-4, and the mask uses a longer ease so it lands like a shutter
+// rather than a wipe. Three directions, chosen per band so the page's images
+// don't all open the same way.
 .js-motion [data-reveal-media="pending"] {
   clip-path: inset(0 0 100% 0);
 }
 
+.js-motion [data-reveal-media="pending"][data-reveal-from="left"] {
+  clip-path: inset(0 100% 0 0);
+}
+
+.js-motion [data-reveal-media="pending"][data-reveal-from="right"] {
+  clip-path: inset(0 0 0 100%);
+}
+
+.js-motion [data-reveal-media="pending"][data-reveal-from="scale"] {
+  clip-path: none;
+  opacity: 0;
+}
+
 .js-motion [data-reveal-media="pending"] > img {
-  scale: 1.04;
+  scale: 1.05;
 }
 
 .js-motion [data-reveal-media="in"] {
   clip-path: inset(0 0 0 0);
-  transition: clip-path var(--dur-5) var(--ease-out);
+  opacity: 1;
+  transition: clip-path var(--dur-6) var(--ease-mask),
+              opacity var(--dur-5) var(--ease-out);
 }
 
+// The image settles out of its own scale more slowly than the mask opens, so the
+// frame is already there while the picture is still coming to rest.
 .js-motion [data-reveal-media="in"] > img {
   scale: 1;
-  transition: scale 1.6s var(--ease-out);
+  transition: scale 1.9s var(--ease-out);
+}
+
+// ── Line growth ─────────────────────────────────────────────────────────────
+// Structural hairlines draw themselves from their start edge. Borders cannot be
+// transformed, so anything that grows is a pseudo-element and the resting border
+// stays underneath it — which means the structure is intact with no motion at
+// all, and the growth is purely additive.
+.line-grow {
+  position: relative;
+}
+
+.line-grow::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline: 0;
+  block-size: var(--rule);
+  background: var(--color-cold-detail);
+  transform-origin: left center;
+  scale: 0 1;
+}
+
+// Both cases: the growing rule may be a descendant of the element carrying the
+// reveal, or it may be that element itself. Missing the self-case leaves the line
+// permanently collapsed, which is invisible in review because the resting border
+// underneath it still draws.
+.js-motion [data-reveal="in"] .line-grow::before,
+.js-motion [data-reveal-group="in"] .line-grow::before,
+.js-motion [data-reveal-media="in"] .line-grow::before,
+.js-motion .line-grow[data-reveal="in"]::before,
+.js-motion .line-grow[data-reveal-group="in"]::before,
+.js-motion .line-grow[data-reveal-media="in"]::before {
+  scale: 1 1;
+  transition: scale var(--dur-6) var(--ease-mask) 100ms;
 }
 
 // ── Code ────────────────────────────────────────────────────────────────────
@@ -217,11 +290,26 @@ code {
 
   [data-reveal],
   [data-reveal-group] > *,
-  [data-reveal-media] {
+  [data-reveal-media],
+  [data-reveal-media] > img,
+  [data-parallax] > img,
+  .hero__media img,
+  .hero__wordmark {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     scale: 1 !important;
+  }
+
+  // Lines are drawn, not grown.
+  .line-grow::before,
+  .sec-index::after {
+    scale: 1 1 !important;
+  }
+
+  // Nothing needs a compositor layer if nothing moves.
+  * {
+    will-change: auto !important;
   }
 }
 

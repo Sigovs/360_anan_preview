@@ -1,0 +1,40 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Parallax — the last layer, deliberately
+//
+// This partial is imported AFTER sections/, and the order is the whole point.
+// Section partials size their own images (`.moment__media img { block-size:
+// 100% }`, `.media > img { block-size: 100% }`) at the same specificity as the
+// attribute selector below. Left in base/, these rules would compile first and
+// lose. Winning on position rather than on a doubled selector keeps the
+// specificity graph flat and keeps the reason visible.
+//
+// Script writes --shift on the elements it is currently tracking, and only while
+// they are on screen — an off-screen image costs nothing per frame.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// The headroom is what makes the drift safe: the image is grown by twice the
+// travel and pulled up by half of that, so it sits over-sized and centred inside
+// its own frame. The shift can never expose an edge, and with motion disabled the
+// crop is identical to the crop at rest.
+[data-parallax] > img {
+  block-size: calc(100% + var(--parallax) * 2);
+  margin-block-start: calc(var(--parallax) * -1);
+}
+
+.js-motion [data-parallax] > img {
+  transform: translate3d(0, var(--shift, 0px), 0);
+  will-change: transform;
+}
+
+// A photograph that is masking in should not also be drifting: the two would
+// compete for the same axis. The drift takes over once the mask has opened.
+.js-motion [data-parallax][data-reveal-media="pending"] > img {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-parallax] > img {
+    transform: none !important;
+    will-change: auto !important;
+  }
+}

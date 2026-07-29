@@ -134,15 +134,28 @@
   --measure-note:  46ch;
 
   // ── Motion ────────────────────────────────────────────────────────────────
+  // One language, four speeds. Everything on the page draws its timing from
+  // here, so the whole surface decelerates at the same rate.
   --dur-1: 0.15s;   // state change on a control
   --dur-2: 0.25s;   // hover, focus, small crossfades
   --dur-3: 0.4s;    // content crossfade, panel change
   --dur-4: 0.75s;   // a section arriving
   --dur-5: 1.1s;    // the hero entrance, once
+  --dur-6: 1.5s;    // a photographic mass arriving — mass reads as slow
   --stagger: 70ms;  // step between siblings arriving
+  --stagger-tight: 45ms;  // where a group is long and the queue must not be felt
+
+  // Ease-out only, and deliberately slower than UI default. No spring, no
+  // overshoot, no elastic: the page stops where it means to.
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);  // entering, expanding
   --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);  // exiting, collapsing
-  --rise: 14px;     // how far a revealed element travels — settling, not flying
+  --ease-mask: cubic-bezier(0.16, 1, 0.3, 1);  // long masks — a shutter opening
+
+  // Travel budgets. Small on purpose: a reveal should read as settling into
+  // place, never as arriving from off-stage.
+  --rise: 14px;     // vertical settle
+  --drift: 24px;    // lateral settle, used sparingly
+  --parallax: 26px; // total scroll travel of a parallax image, top to bottom
 
   // ── Layers ────────────────────────────────────────────────────────────────
   // Three planes only: photograph → scrim → type/controls. Header sits above.

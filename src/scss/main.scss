@@ -63,3 +63,8 @@
 @import "sections/reviews";
 @import "sections/contact";
 @import "sections/footer";
+
+// ── 8 · Motion overrides ────────────────────────────────────────────────────
+// Last on purpose: these have to win over the image sizing declared inside the
+// section partials above. The partial itself documents why.
+@import "motion/parallax";

@@ -116,6 +116,21 @@
   scale: 0.92;
 }
 
+// The hung modules are the hero's handover into the capability rail, so they are
+// the last thing to land — masked upward, after the disc has come to rest.
+.js-motion .hero[data-entered="pending"] .hero__module {
+  clip-path: inset(0 0 100% 0);
+}
+
+.js-motion .hero[data-entered="in"] .hero__module {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--dur-6) var(--ease-mask) 620ms;
+}
+
+.js-motion .hero[data-entered="in"] .hero__module--drop {
+  transition-delay: 740ms;
+}
+
 .js-motion .hero[data-entered="in"] .hero__cta {
   scale: 1;
   transition: opacity var(--dur-4) var(--ease-out) 500ms,

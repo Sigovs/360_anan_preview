@@ -38,7 +38,7 @@ window.REVIEWS_360 = {
   placeholder: true,
 
   /* Where "View on Google" points. Replace with the shop's own profile URL. */
-  profileUrl: 'https://www.google.com/maps/search/?api=1&query=360+Auto+Care+Inc+Lynbrook+NY',
+  profileUrl: 'https://www.google.com/maps/search/?api=1&query=360+Auto+Care+Inc%2C+10+N+Prospect+Ave%2C+Lynbrook%2C+NY+11563',
 
   summary: {
     rating: 4.8,     // out of 5

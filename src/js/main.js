@@ -54,24 +54,48 @@
   }
 
   /* ── Scroll work ──────────────────────────────────────────────────────────
-     One listener, one rAF frame, two jobs: firm the masthead, and drift the hero
-     photograph. Reads happen together and writes happen together, so a scroll
-     never interleaves layout reads with style writes. */
+     ONE scroll listener for the whole page, coalesced into one rAF frame, doing
+     three jobs: firm the masthead, drift the hero photograph, and shift whichever
+     parallax images are currently on screen.
+
+     Two rules keep this cheap. Reads happen together and writes happen together,
+     so a scroll never interleaves layout reads with style writes. And the
+     parallax set is maintained by an IntersectionObserver rather than measured
+     every frame — an image off screen costs nothing at all. */
   const masthead = document.querySelector('[data-masthead]');
   const hero = document.querySelector('[data-hero]');
   const heroMedia = hero ? hero.querySelector('.hero__media') : null;
+
+  /* Parallax targets, measured directly.
+     
+     An earlier version gated this on an IntersectionObserver so off-screen images
+     cost nothing. It was the wrong trade twice over: an observer is kept alive
+     only while something references it, so it was collected and silently stopped
+     reporting, and its callback resolves a frame after the scroll that caused it,
+     so an image entering during a pause never got positioned. For five elements
+     the optimisation was saving microseconds and costing correctness.
+     
+     This reads five rects per frame and writes only the ones that changed. Reads
+     all happen before writes, so no frame interleaves layout reads with style
+     writes. */
+  const parallaxTargets = [...document.querySelectorAll('[data-parallax]')].map((el) => ({
+    el,
+    travel: parseFloat(el.dataset.parallax) || 1,
+    last: null,
+  }));
 
   let scrollQueued = false;
 
   const onScrollFrame = () => {
     scrollQueued = false;
     const y = window.scrollY;
+    const vh = window.innerHeight || 1;
 
     if (masthead) {
       masthead.dataset.scrolled = y > 32 ? 'true' : 'false';
     }
 
-    /* The photograph lags the page by up to 6% of its own height as the hero
+    /* The hero photograph lags the page by up to 6% of its own height as the hero
        leaves the viewport — a depth cue, not a parallax effect. Written on the
        section so the wordmark inherits it too and drifts at a third of the rate,
        which is what puts the two layers at different depths. Clamped at 1, so
@@ -81,12 +105,42 @@
       const progress = Math.min(Math.max(y / height, 0), 1);
       hero.style.setProperty('--hero-shift', `${(-6 * progress).toFixed(2)}%`);
     }
+
+    if (!motionOK || !parallaxTargets.length) return;
+
+    /* Read everything first. */
+    const frames = parallaxTargets.map((t) => {
+      const box = t.el.getBoundingClientRect();
+      return { t, top: box.top, height: box.height };
+    });
+
+    /* Then write. Every other image drifts against its own frame as it crosses
+       the viewport: one travel-unit down at the bottom of the screen, one up at
+       the top. The amplitude is a couple of dozen pixels across a whole screen of
+       scrolling, and each image carries that much headroom on both sides, so the
+       drift can never expose an edge. */
+    frames.forEach(({ t, top, height }) => {
+      if (top > vh || top + height < 0) return;          // off screen: leave as-is
+      const centre = top + height / 2;
+      const progress = Math.max(-1, Math.min(1, (centre - vh / 2) / vh));
+      const shift = (progress * -26 * t.travel).toFixed(1);
+      if (shift === t.last) return;                      // no redundant writes
+      t.last = shift;
+      t.el.style.setProperty('--shift', `${shift}px`);
+    });
   };
 
+  /* Coalesce to one frame per burst of scroll events — but never let a dropped
+     frame strand the handler. requestAnimationFrame is suspended while a tab is
+     hidden, so a flag that is only cleared inside the callback can stay raised
+     forever: the tab goes to the background mid-scroll, the frame never arrives,
+     and scroll handling is dead for the rest of the session. The timeout is the
+     guarantee of forward progress. */
   const queueScroll = () => {
     if (scrollQueued) return;
     scrollQueued = true;
     requestAnimationFrame(onScrollFrame);
+    window.setTimeout(() => { if (scrollQueued) onScrollFrame(); }, 120);
   };
 
   onScrollFrame();
@@ -285,7 +339,7 @@
       }
 
       notice.textContent =
-        'This preview form is not connected to the shop yet. Call (516) 555-0100 and the same details get taken straight over the phone.';
+        'This preview form is not connected to the shop yet. Call (516) 820-0360 and the same details get taken straight over the phone.';
     });
   }
 
@@ -299,36 +353,44 @@
      browser without IntersectionObserver, a layout that never triggers it, or an
      error anywhere after this point still ends with the page visible. */
   const revealSelectors = '[data-reveal], [data-reveal-group], [data-reveal-media]';
+  const REVEAL_KEYS = ['reveal', 'revealGroup', 'revealMedia'];
+
+  const markIn = (el) => {
+    REVEAL_KEYS.forEach((key) => {
+      if (el.dataset[key] !== undefined) el.dataset[key] = 'in';
+    });
+  };
+
+  /* Exposed so sections built after this point — the reviews list — can join the
+     same observer instead of appearing without their reveal. */
+  let registerReveal = (el) => { markIn(el); };
 
   document.querySelectorAll(revealSelectors).forEach((el) => revealTargets.push(el));
 
-  if (motionOK && 'IntersectionObserver' in window && revealTargets.length) {
+  if (motionOK && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
-        ['reveal', 'revealGroup', 'revealMedia'].forEach((key) => {
-          if (el.dataset[key] !== undefined) el.dataset[key] = 'in';
-        });
-        io.unobserve(el);
+        markIn(entry.target);
+        io.unobserve(entry.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
-    revealTargets.forEach((el) => {
-      /* Anything already on screen at load skips the hidden state entirely —
-         above-the-fold content must never animate in after the first paint. */
-      const box = el.getBoundingClientRect();
-      if (box.top < window.innerHeight * 0.92) {
-        ['reveal', 'revealGroup', 'revealMedia'].forEach((key) => {
-          if (el.dataset[key] !== undefined) el.dataset[key] = 'in';
-        });
+    registerReveal = (el) => {
+      revealTargets.push(el);
+      /* Already on screen? Skip the hidden state entirely — content in view must
+         never animate in after the first paint. */
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
+        markIn(el);
         return;
       }
-      ['reveal', 'revealGroup', 'revealMedia'].forEach((key) => {
+      REVEAL_KEYS.forEach((key) => {
         if (el.dataset[key] !== undefined) el.dataset[key] = 'pending';
       });
       io.observe(el);
-    });
+    };
+
+    revealTargets.splice(0).forEach(registerReveal);
 
     /* Watchdog: whatever happened, the page is readable three seconds in. */
     window.setTimeout(revealAll, 3000);
@@ -412,7 +474,6 @@
   if (reviewsRoot && items.length) {
     const set = document.createElement('ul');
     set.className = 'reviews__set';
-    set.dataset.revealGroup = 'in';
 
     items.slice(0, REVIEWS_SHOWN).forEach((review) => {
       const li = document.createElement('li');
@@ -435,6 +496,11 @@
       : '';
 
     reviewsRoot.replaceChildren(set, foot);
+
+    /* Built after the reveal observer was wired, so it joins explicitly. Without
+       this the excerpts appeared fully formed while every other band settled in. */
+    set.dataset.revealGroup = 'pending';
+    registerReveal(set);
 
     if (data.placeholder) {
       reviewsRoot.setAttribute('data-placeholder', 'true');
