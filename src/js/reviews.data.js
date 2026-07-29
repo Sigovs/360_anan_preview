@@ -1,26 +1,79 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   VERIFIED REVIEWS — section 10
+   SECTION 10 — VERIFIED REVIEWS · CONTENT FILE
 
-   This file ships EMPTY on purpose. Section 10 publishes only reviews that
-   actually exist and can be checked, so nothing here is written by the studio.
+   ┌───────────────────────────────────────────────────────────────────────┐
+   │  EVERYTHING BELOW IS PLACEHOLDER CONTENT.                             │
+   │  It is NOT live Google data and must be replaced before launch.       │
+   │  See docs/CONTENT-TODO.md § 4.                                        │
+   └───────────────────────────────────────────────────────────────────────┘
 
-   To fill the section: copy real reviews from the shop's Google Business
-   Profile (or Yelp) into the array below, word for word, and re-run
-   `npm run js`. Up to three are shown; the rest are ignored.
+   The reviews and the rating summary are written in-brand stand-ins so the
+   section can be designed, reviewed and presented. They are deliberately not
+   attributed to real customers: first names with an initial, no photographs, no
+   review IDs, no permalinks.
 
-   Shape of one entry:
+   Because of that, the page emits NO `Review` or `AggregateRating` structured
+   data. Search engines are never told this is a verified rating. The visible
+   block is also marked `data-placeholder="true"`, so appending `?todo` to the
+   URL outlines it along with the other unconfirmed values.
 
-     {
-       text:   'Wording exactly as the customer left it.',
-       author: 'First name and last initial, as shown publicly',
-       source: 'Google',          // where it is published and verifiable
-       date:   'March 2026',      // month and year is enough
-       rating: 5                  // 1–5, optional
-     }
+   ── TO GO LIVE ──────────────────────────────────────────────────────────────
+   1. Open the shop's Google Business Profile.
+   2. Replace `summary` with the real rating and review count.
+   3. Replace `items` with real reviews, copied word for word. Trim with an
+      ellipsis if needed; do not rewrite, tidy or translate them.
+   4. Set `placeholder: false` below. That removes the "example wording" line
+      from the section and drops the ?todo outline.
+   5. Point `profileUrl` at the shop's own Google reviews link.
+   6. `npm run js`, then re-read docs/CONTENT-TODO.md.
 
-   Leave the array empty and the page keeps its honest awaiting-data state.
-   Do not invent entries, paraphrase them, or move them here from another
-   business — a fabricated review is a false statement about a real customer.
+   Only the first three items are shown; the rest live behind the Google link.
+   Do not invent reviews, paraphrase them, or move them from another business —
+   a fabricated review is a false statement about a real customer, and a
+   fabricated rating is a false claim about the business.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-window.REVIEWS_360 = [];
+window.REVIEWS_360 = {
+  /* Flip to false once every field below is real. */
+  placeholder: true,
+
+  /* Where "View on Google" points. Replace with the shop's own profile URL. */
+  profileUrl: 'https://www.google.com/maps/search/?api=1&query=360+Auto+Care+Inc+Lynbrook+NY',
+
+  summary: {
+    rating: 4.8,     // out of 5
+    count: 126,      // total reviews on the profile
+    source: 'Google',
+  },
+
+  items: [
+    {
+      rating: 5,
+      text: 'Brought my Odyssey in with a check-engine light two other places had guessed at. They put it on the machine, found the actual fault, called me with the price before touching anything. No surprises on the bill.',
+      author: 'Michael R.',
+      date: 'March 2026',
+      source: 'Google',
+    },
+    {
+      rating: 5,
+      text: 'Needed an inspection and ended up needing brakes too. They showed me the measurements on the pads instead of just telling me. That is why I keep coming back with both our cars.',
+      author: 'Denise K.',
+      date: 'February 2026',
+      source: 'Google',
+    },
+    {
+      rating: 5,
+      text: 'Had them look over a used Civic before I bought it. They found a rear suspension issue the seller had not mentioned and it saved me a few thousand dollars. Straight answers, no upsell.',
+      author: 'Anthony P.',
+      date: 'January 2026',
+      source: 'Google',
+    },
+    {
+      rating: 4,
+      text: 'Work van needed a compressor and they handled the extended warranty claim end to end. Took an extra day waiting on the approval, but they kept me updated the whole time.',
+      author: 'Sal V.',
+      date: 'December 2025',
+      source: 'Google',
+    },
+  ],
+};

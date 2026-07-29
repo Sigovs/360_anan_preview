@@ -81,7 +81,7 @@
   <!-- ═════════════════════════════════════════════════════════════════════════
        01 · HERO
        ═════════════════════════════════════════════════════════════════════ -->
-  <section class="hero" id="top">
+  <section class="hero" id="top" data-hero>
     <div class="hero__media media--settle">
       <img src="assets/img/hero-lift.jpg" width="2400" height="1340" fetchpriority="high" decoding="async"
            alt="A crossover raised on a two-post lift at night while a technician standing beneath it inspects the front suspension with a work light.">
@@ -136,7 +136,7 @@
   <section class="rail" aria-labelledby="rail-title">
     <h2 class="sr-only" id="rail-title">What the shop is set up for</h2>
     <div class="shell">
-      <ul class="rail__set">
+      <ul class="rail__set" data-reveal-group>
         <li class="rail__item">
           <p class="rail__index"><span class="num">01</span></p>
           <h3 class="rail__title">Foreign &amp; Domestic Repairs</h3>
@@ -166,7 +166,7 @@
        ═════════════════════════════════════════════════════════════════════ -->
   <section class="services band" id="services">
     <div class="shell">
-      <div class="services__head row g-0 gy-5 gy-lg-0">
+      <div class="services__head row g-0 gy-5 gy-lg-0" data-reveal>
         <div class="col-lg-5">
           <div class="sec-head">
             <p class="sec-index">03<span class="sec-index__label">Services</span></p>
@@ -182,7 +182,7 @@
       </div>
 
       <div class="services__body row g-0 gy-8 gy-lg-0 align-items-lg-start">
-        <ol class="services__list col-lg-5" data-services>
+        <ol class="services__list col-lg-5" data-services data-reveal-group>
 
           <li class="svc" data-service-id="01" data-active="true">
             <details class="svc__disc" open>
@@ -370,6 +370,7 @@
             <p class="label" data-stage-label>Diagnostics &amp; Major Repair</p>
             <p class="num" data-stage-index>01 / 06</p>
           </div>
+          <div class="services__progress" data-stage-progress></div>
         </div>
       </div>
     </div>
@@ -382,7 +383,7 @@
     <div class="shell">
       <div class="shop__body row g-0 gy-8 gy-lg-0 align-items-lg-center">
         <div class="shop__figure col-lg-7">
-          <div class="media media--portrait shop__main">
+          <div class="media media--portrait shop__main" data-reveal-media>
             <img src="assets/img/shop-bays.jpg" width="1200" height="1586" loading="lazy" decoding="async"
                  alt="Two service bays at night: a minivan raised on a lift in the far bay and a pickup with its hood open in the near bay.">
           </div>
@@ -396,7 +397,7 @@
           </div>
         </div>
 
-        <div class="shop__story col-lg-4 offset-lg-1">
+        <div class="shop__story col-lg-4 offset-lg-1" data-reveal>
           <div class="sec-head">
             <p class="sec-index">04<span class="sec-index__label">The Shop</span></p>
             <h2>Service for the Vehicles<br>You Depend On</h2>
@@ -419,7 +420,7 @@
         </div>
       </div>
 
-      <ul class="shop__facts">
+      <ul class="shop__facts" data-reveal-group>
         <li class="shop__fact">
           <h3 class="shop__fact-title">Foreign &amp; Domestic Vehicles</h3>
           <p class="shop__fact-note">Imported and domestic cars, crossovers, vans and light trucks.</p>
@@ -449,7 +450,7 @@
            alt="Seen from the shop floor, a technician reaching up into the underbody of a raised car with a socket wrench.">
     </div>
     <div class="moment__scrim" aria-hidden="true"></div>
-    <div class="moment__line shell">
+    <div class="moment__line shell" data-reveal>
       <div class="moment__rule" aria-hidden="true"></div>
       <p class="moment__text display">Built around the vehicles people rely on.</p>
     </div>
@@ -461,9 +462,9 @@
   <section class="detail-band band" id="detailing">
     <div class="shell">
       <div class="detail-band__figure">
-        <div class="media media--scrim-corner detail-band__media">
-          <img src="assets/img/detailing-polish.jpg" width="1800" height="2234" loading="lazy" decoding="async"
-               alt="A family sedan in the detailing bay at night, freshly polished, with a single strip light reflected along its flank.">
+        <div class="media media--scrim-corner detail-band__media" data-reveal-media>
+          <img src="assets/img/detailing-polish.jpg" width="2400" height="951" loading="lazy" decoding="async"
+               alt="A dark sedan in the detailing bay at night, a technician crouched at the rear wheel wiping the panel down.">
         </div>
 
         <div class="detail-band__panel">
@@ -480,7 +481,7 @@
         </div>
       </div>
 
-      <ul class="detail-band__steps">
+      <ul class="detail-band__steps" data-reveal-group>
         <li><span class="num">01</span> <span>Exterior wash, decontamination and machine polish</span></li>
         <li><span class="num">02</span> <span>Interior extraction, trim, glass and vents</span></li>
         <li><span class="num">03</span> <span>Seasonal protection before the salt starts</span></li>
@@ -500,7 +501,7 @@
   <section class="warranty band" id="warranties">
     <div class="shell">
       <div class="warranty__body row g-0 gy-8 gy-lg-0 align-items-lg-center">
-        <div class="warranty__statement col-lg-6">
+        <div class="warranty__statement col-lg-6" data-reveal>
           <p class="chapter__label">
             <span class="chapter__numeral">07</span>
             <span class="label">Coverage</span>
@@ -529,7 +530,7 @@
           </p>
         </div>
 
-        <div class="warranty__mosaic col-lg-5 offset-lg-1" aria-hidden="true">
+        <div class="warranty__mosaic col-lg-5 offset-lg-1" aria-hidden="true" data-reveal-group>
           <div class="media media--square media--module">
             <img src="assets/img/warranty-workorder.jpg" width="1000" height="1000" loading="lazy" decoding="async" alt="">
           </div>
@@ -547,7 +548,7 @@
   <section class="ppi band" id="inspections">
     <div class="shell">
       <div class="ppi__body row g-0 gy-8 gy-lg-0 align-items-lg-end">
-        <div class="ppi__panel col-lg-5">
+        <div class="ppi__panel col-lg-5" data-reveal>
           <p class="chapter__label">
             <span class="chapter__numeral">08</span>
             <span class="label">Before You Buy</span>
@@ -589,7 +590,7 @@
         </div>
 
         <div class="ppi__figure col-lg-6 offset-lg-1">
-          <div class="media media--scrim-left ppi__media">
+          <div class="media media--scrim-left ppi__media" data-reveal-media>
             <img src="assets/img/inspection-lift.jpg" width="1800" height="1005" loading="lazy" decoding="async"
                  alt="A used sedan raised on a two-post lift, a technician beneath the front of it with a flashlight.">
           </div>
@@ -608,24 +609,24 @@
         <h2>How Service Runs</h2>
       </div>
 
-      <ol class="process__track">
+      <ol class="process__track" data-reveal-group>
         <li class="process__step process__step--first">
-          <p class="label label--accent">Step 01</p>
+          <p class="process__numeral">01</p>
           <h3 class="process__step-title">Call or request</h3>
           <p class="process__step-note">Tell us the vehicle and the symptom. The phone is fastest.</p>
         </li>
         <li class="process__step">
-          <p class="label">Step 02</p>
+          <p class="process__numeral">02</p>
           <h3 class="process__step-title">Diagnosis</h3>
           <p class="process__step-note">The fault is identified on equipment before anything is ordered.</p>
         </li>
         <li class="process__step">
-          <p class="label">Step 03</p>
+          <p class="process__numeral">03</p>
           <h3 class="process__step-title">Approval</h3>
           <p class="process__step-note">You get the findings, the parts and the price before work starts.</p>
         </li>
         <li class="process__step">
-          <p class="label">Step 04</p>
+          <p class="process__numeral">04</p>
           <h3 class="process__step-title">Repair &amp; return</h3>
           <p class="process__step-note">Work completed, the vehicle checked, and back to you ready for the road.</p>
         </li>
@@ -640,17 +641,46 @@
        ═════════════════════════════════════════════════════════════════════ -->
   <section class="reviews band" id="reviews">
     <div class="shell">
-      <div class="sec-head">
-        <p class="sec-index">10<span class="sec-index__label">Reviews</span></p>
-        <h2>What Lynbrook<br>Drivers Say</h2>
+      <div class="row g-0 gy-8 gy-lg-0" data-reveal>
+        <div class="col-lg-6">
+          <div class="sec-head">
+            <p class="sec-index">10<span class="sec-index__label">Reviews</span></p>
+            <h2>What Lynbrook<br>Drivers Say</h2>
+          </div>
+        </div>
+
+        <!-- Rating summary. Rendered from window.REVIEWS_360.summary; ships as
+             placeholder content and is marked as such by script. No Review or
+             AggregateRating structured data is emitted for it anywhere. -->
+        <div class="col-lg-5 offset-lg-1">
+          <div class="reviews__summary" data-reviews-summary></div>
+        </div>
       </div>
+
+      <!-- Review excerpts. Script replaces the block below with the entries in
+           assets/js/reviews.data.js.
+
+           TO EDIT THE REVIEWS: open src/js/reviews.data.js, replace the
+           placeholder entries with real ones from the shop's Google Business
+           Profile, set `placeholder: false`, then run `npm run js`.
+           Full instructions: docs/CONTENT-TODO.md § 4.
+
+           The markup below is the no-script fallback, so it is written for a
+           visitor rather than for a developer: with an empty data file, or with
+           JavaScript unavailable, the section still points at the real reviews
+           instead of showing an internal note or an empty hole. -->
       <div data-reviews-root>
         <div class="reviews__pending">
           <p class="reviews__pending-note">
-            Only verified reviews are published here. Paste the real ones from the
-            shop's Google Business Profile into
-            <code>assets/js/reviews.data.js</code> and this section fills itself
-            in — see <code>docs/CONTENT-TODO.md</code>.
+            Reviews for 360 Auto Care are published on the shop's Google profile,
+            where every one of them can be checked against the account that left it.
+          </p>
+          <p>
+            <a class="link-action"
+               href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc+Lynbrook+NY"
+               target="_blank" rel="noopener" data-placeholder="true">
+              Read the reviews on Google <span class="link-action__mark" aria-hidden="true">→</span>
+            </a>
           </p>
         </div>
       </div>
@@ -668,13 +698,13 @@
       </div>
 
       <div class="contact__body row g-0 gy-9 gy-lg-0">
-        <div class="contact__direct col-lg-5">
-          <div>
-            <p class="label">Call the shop</p>
+        <div class="contact__direct col-lg-5" data-reveal>
+          <div class="contact__phone-block">
+            <p class="label label--lg label--accent">Call the shop</p>
             <a class="contact__phone" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
             <p class="copy contact__phone-note">
               Fastest way to get a vehicle booked in. Tell us the year, make and
-              model and what it is doing.
+              model, and what it is doing.
             </p>
           </div>
 
@@ -690,10 +720,37 @@
             <dt>Serving</dt>
             <dd>Lynbrook, Valley Stream, Malverne, Rockville Centre and East Rockaway</dd>
           </dl>
-        </div>
+          <!-- Finding the shop sits with the address rather than in a full-width
+               row of its own: it answers the same question, and it is what makes
+               this column stand level with the form beside it. -->
+          <div class="contact__place">
+            <div class="media contact__place-media" data-reveal-media>
+              <img src="assets/img/shop-exterior.jpg" width="2000" height="937" loading="lazy" decoding="async"
+                   alt="The shop from the street at dusk, two of its three bay doors open and lit from inside.">
+            </div>
+            <div class="contact__place-lines">
+              <div>
+                <p class="label label--lg label--bright">Finding the shop</p>
+                <p class="copy mt-3">
+                  Off-street parking in front of the bays. Drop-off before opening
+                  can be arranged by phone.
+                </p>
+              </div>
+              <p>
+                <a class="link-action" href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc+Lynbrook+NY"
+                   target="_blank" rel="noopener" data-placeholder="true">
+                  Get directions <span class="link-action__mark" aria-hidden="true">→</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        </div><!-- /contact__direct -->
 
-        <div class="contact__request col-lg-6 offset-lg-1">
-          <p class="label">Service request</p>
+        <div class="contact__request col-lg-6 offset-lg-1" data-reveal>
+          <div class="contact__request-head">
+            <p class="label label--lg label--bright">Service request</p>
+            <p class="label">Replies same working day</p>
+          </div>
 
           <form class="request-form" data-request-form novalidate>
             <div class="field-grid">
@@ -754,32 +811,8 @@
 
             <p class="form-notice" data-form-notice role="status" aria-live="polite"></p>
           </form>
-        </div>
-
-        <div class="contact__place col-12 row g-0 gy-6 gy-lg-0">
-          <div class="col-lg-7">
-            <div class="media contact__place-media">
-              <img src="assets/img/shop-exterior.jpg" width="2000" height="1116" loading="lazy" decoding="async"
-                   alt="The shop from the street at dusk, two of its three bay doors open and lit from inside.">
-            </div>
-          </div>
-          <div class="contact__place-lines col-lg-4 offset-lg-1">
-            <div>
-              <p class="label">Finding the shop</p>
-              <p class="copy mt-3">
-                Off-street parking in front of the bays. Drop-off before opening
-                can be arranged by phone.
-              </p>
-            </div>
-            <p>
-              <a class="link-action" href="https://www.google.com/maps/search/?api=1&amp;query=360+Auto+Care+Inc+Lynbrook+NY"
-                 target="_blank" rel="noopener" data-placeholder="true">
-                Get directions <span class="link-action__mark" aria-hidden="true">→</span>
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
+        </div><!-- /contact__request -->
+      </div><!-- /contact__body -->
     </div>
   </section>
 
@@ -815,11 +848,11 @@
       </nav>
 
       <div>
-        <p class="label">Call</p>
+        <p class="label label--lg label--bright">Call</p>
         <p class="mt-3">
           <a class="phone-line" href="tel:+15165550100" data-placeholder="true">(516)&nbsp;555-0100</a>
         </p>
-        <dl class="plate mt-6">
+        <dl class="plate plate--stacked mt-6">
           <dt>Hours</dt>
           <dd data-placeholder="true">Mon–Fri 8–18 · Sat 8–15 · Sun closed</dd>
         </dl>
@@ -827,7 +860,7 @@
     </div>
 
     <div class="footer__base">
-      <p class="label">© 2026 360 Auto Care Inc · Lynbrook, New York</p>
+      <p class="label label--lg">© 2026 360 Auto Care Inc · Lynbrook, New York</p>
       <p class="label">Preview build · content marked “to confirm”</p>
     </div>
   </div>

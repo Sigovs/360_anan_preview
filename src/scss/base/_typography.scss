@@ -37,11 +37,13 @@ h4 { font-size: var(--text-h4); }
   color: var(--color-text);
 }
 
+// Reading ranks. Both take --color-text-body, which is a full rank brighter than
+// the metadata grey they used to share.
 .lead {
   font-size: var(--text-lead);
   line-height: var(--lh-lead);
-  color: var(--color-text-muted);
-  max-inline-size: 46ch;
+  color: var(--color-text-body);
+  max-inline-size: var(--measure-lead);
   text-wrap: pretty;
   margin: 0;
 }
@@ -49,16 +51,18 @@ h4 { font-size: var(--text-h4); }
 .copy {
   font-size: var(--text-body);
   line-height: var(--lh-body);
-  color: var(--color-text-muted);
-  max-inline-size: 62ch;
+  color: var(--color-text-body);
+  max-inline-size: var(--measure-copy);
   text-wrap: pretty;
   margin: 0;
 }
 
 .copy--bright { color: var(--color-text); }
+.copy--muted  { color: var(--color-text-muted); }
 
 // Named measures, so a line length is a decision rather than a one-off value.
-.measure-short { max-inline-size: 34ch; }
+.measure-short { max-inline-size: var(--measure-short); }
+.measure-note  { max-inline-size: var(--measure-note); }
 
 .copy a,
 .lead a {
@@ -66,24 +70,36 @@ h4 { font-size: var(--text-h4); }
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
+  transition: color var(--dur-1) var(--ease-out),
+              text-decoration-color var(--dur-1) var(--ease-out);
 }
 
 .copy a:hover,
-.lead a:hover {
+.copy a:focus-visible,
+.lead a:hover,
+.lead a:focus-visible {
   color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
 }
 
 // ── Micro-labels ────────────────────────────────────────────────────────────
 // Filed as metadata by register, not by size: mono, uppercase, tracked, short.
+// Two sizes, because these do two different jobs — a caption is glanced at, a
+// nav item or a field label is read.
 .label {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.35;
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--color-text-muted);
   margin: 0;
+}
+
+.label--lg {
+  font-size: var(--text-label);
+  letter-spacing: var(--ls-label-lg);
 }
 
 .label--accent { color: var(--color-accent); }
@@ -91,7 +107,7 @@ h4 { font-size: var(--text-h4); }
 
 .num {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: var(--text-2xs);
   font-weight: 500;
   letter-spacing: var(--ls-mono);
   font-variant-numeric: tabular-nums;
@@ -125,8 +141,22 @@ h4 { font-size: var(--text-h4); }
   border-block-start: var(--rule) solid var(--color-line);
   margin: 0;
   font-size: var(--text-body);
+  line-height: 1.5;
   font-variant-numeric: tabular-nums;
   color: var(--color-text);
+}
+
+// Stacked variant, for narrow fields where a key column would leave the value
+// stranded halfway across the block.
+.plate--stacked {
+  grid-template-columns: 1fr;
+}
+
+.plate--stacked dt { padding-block-end: var(--space-1); }
+
+.plate--stacked dd {
+  border-block-start: 0;
+  padding-block-start: 0;
 }
 
 @media (max-width: 47.9375rem) {

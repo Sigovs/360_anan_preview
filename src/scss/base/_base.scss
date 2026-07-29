@@ -75,14 +75,23 @@ video {
 // ── Section head ────────────────────────────────────────────────────────────
 // index · title · lead. The index is the page's unifying grammar: the same mark
 // opens every band, while the mass beneath it changes each time.
+//
+// Gaps are differentiated rather than uniform: the index sits close to the title
+// it introduces, and the lead sits further from the title than the title does
+// from its own index. Proximity has to keep telling the truth about grouping.
 .sec-head {
   display: grid;
-  gap: var(--space-5);
+  gap: 0;
 }
+
+.sec-head > * + *              { margin-block-start: var(--space-5); }
+.sec-head > .sec-index + *     { margin-block-start: var(--space-4); }
+.sec-head > h2 + .lead,
+.sec-head > h2 + .copy         { margin-block-start: var(--space-6); }
 
 .sec-index {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-3);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -90,19 +99,96 @@ video {
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
 }
 
+// The rule grows out of the index when the band arrives — a line expanding, not
+// an element flying in.
 .sec-index::after {
   content: "";
   inline-size: clamp(1.5rem, 4vw, 4rem);
   block-size: var(--rule);
   background: var(--color-cold-detail);
-  translate: 0 -0.25em;
+  transform-origin: left center;
+}
+
+.js-motion [data-reveal="pending"] .sec-index::after {
+  scale: 0 1;
+}
+
+.js-motion [data-reveal="in"] .sec-index::after {
+  scale: 1 1;
+  transition: scale var(--dur-4) var(--ease-out) 120ms;
 }
 
 .sec-index__label {
   color: var(--color-text-muted);
   letter-spacing: var(--ls-label);
+}
+
+// ── Reveal ──────────────────────────────────────────────────────────────────
+// A band arriving: opacity plus a 14px settle in the reading direction. Only
+// opacity and transform are animated, so it costs no layout work.
+//
+// Three guards, because the failure mode of a reveal system is invisible
+// content: the hidden state exists only under `.js-motion`, which script adds
+// only when motion is allowed; it applies only to `[data-reveal="pending"]`,
+// which script sets element by element; and script clears every pending state
+// after a timeout if the observer never fires. No JS, no motion preference, a
+// dead observer or a thrown error all end with the page fully visible.
+.js-motion [data-reveal="pending"] {
+  opacity: 0;
+  transform: translate3d(0, var(--rise), 0);
+}
+
+.js-motion [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-4) var(--ease-out),
+              transform var(--dur-4) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+// Children arriving in sequence rather than as a block. The step is small enough
+// to read as one movement with internal order, not as a queue.
+.js-motion [data-reveal-group="pending"] > * {
+  opacity: 0;
+  transform: translate3d(0, var(--rise), 0);
+}
+
+.js-motion [data-reveal-group="in"] > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-4) var(--ease-out),
+              transform var(--dur-4) var(--ease-out);
+}
+
+.js-motion [data-reveal-group="in"] > *:nth-child(1) { transition-delay: 0ms; }
+.js-motion [data-reveal-group="in"] > *:nth-child(2) { transition-delay: calc(var(--stagger) * 1); }
+.js-motion [data-reveal-group="in"] > *:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
+.js-motion [data-reveal-group="in"] > *:nth-child(4) { transition-delay: calc(var(--stagger) * 3); }
+.js-motion [data-reveal-group="in"] > *:nth-child(5) { transition-delay: calc(var(--stagger) * 4); }
+.js-motion [data-reveal-group="in"] > *:nth-child(6) { transition-delay: calc(var(--stagger) * 5); }
+
+// A photograph arriving: the mask lifts and the image settles out of a 1.04
+// scale. Slower than the type it accompanies, because a large mass reads as
+// heavier when it moves more slowly.
+.js-motion [data-reveal-media="pending"] {
+  clip-path: inset(0 0 100% 0);
+}
+
+.js-motion [data-reveal-media="pending"] > img {
+  scale: 1.04;
+}
+
+.js-motion [data-reveal-media="in"] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--dur-5) var(--ease-out);
+}
+
+.js-motion [data-reveal-media="in"] > img {
+  scale: 1;
+  transition: scale 1.6s var(--ease-out);
 }
 
 // ── Code ────────────────────────────────────────────────────────────────────
@@ -116,6 +202,9 @@ code {
 }
 
 // ── Reduced motion ──────────────────────────────────────────────────────────
+// The blanket reset is the floor. Above it, every reveal state is neutralised
+// explicitly, so a reduced-motion visitor gets the finished page rather than the
+// end frame of an animation that was skipped.
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -124,6 +213,15 @@ code {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  [data-reveal],
+  [data-reveal-group] > *,
+  [data-reveal-media] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    scale: 1 !important;
   }
 }
 

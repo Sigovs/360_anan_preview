@@ -61,8 +61,8 @@
 
 .shop__fact-note {
   font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--color-text-muted);
+  line-height: 1.6;
+  color: var(--color-text-body);
   margin: 0;
 }
 
@@ -98,8 +98,8 @@
   .shop__frags {
     position: absolute;
     z-index: calc(var(--z-content) + 1);
-    inset-block-end: calc(var(--space-8) * -1);
-    inset-inline-end: calc(var(--space-8) * -1);
+    inset-block-end: calc(var(--space-7) * -1);
+    inset-inline-end: calc(var(--space-9) * -1);
     display: grid;
     gap: var(--space-4);
   }
@@ -109,9 +109,13 @@
     aspect-ratio: 1 / 1;
   }
 
+  // Both modules straddle the photograph's edge. Previously the second sat
+  // almost entirely below it, floating on flat ground with nothing to overlap —
+  // a hung module needs something to hang from.
   .shop__frag:nth-child(2) {
     justify-self: end;
-    translate: calc(var(--space-6) * -1) 0;
+    inline-size: clamp(5rem, 8vw, 8.5rem);
+    translate: calc(var(--space-7) * -1) calc(var(--space-6) * -1);
   }
 
   .shop__facts {

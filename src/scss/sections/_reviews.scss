@@ -1,51 +1,169 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // 10 · Verified reviews
 //
-// Nothing here is written by us. The band renders from window.REVIEWS_360, which
-// ships empty: until real, verifiable reviews are pasted in, the section shows
-// its own honest state rather than invented praise. See docs/CONTENT-TODO.md.
+// A trust layer in the page's own language: hairline-divided columns on a dark
+// ground, mono metadata, one accent mark per rating. No plugin card, no white
+// panel, no rounded chrome — those are what make a review section read as bolted
+// on rather than composed.
 //
-// The band is deliberately the airiest on the page — it resets the eye before
-// the density of the contact block.
+// Composition: the rating summary is the dominant mass (a display numeral, the
+// largest figure in the band), the three excerpts are subordinate columns, and
+// the Google attribution is support. That ranking is deliberate — a visitor
+// checks the score first and reads one review second.
+//
+// Content: rendered from window.REVIEWS_360 in assets/js/reviews.data.js. Nothing
+// here is written by the studio, and no review or aggregateRating structured data
+// is emitted, so nothing on this page can claim to be live Google data.
 // ─────────────────────────────────────────────────────────────────────────────
 
 .reviews {
   background: var(--color-bg);
 }
 
+// ── Summary ─────────────────────────────────────────────────────────────────
+.reviews__summary {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+  padding-block-start: var(--space-6);
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.reviews__score {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.reviews__score-figure {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--wdth-display);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 4.4vw + 1rem, 4.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.reviews__score-of {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.reviews__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+}
+
+// "Google" set in the body face at reading size — an attribution, not a badge.
+// No borrowed logo: a four-colour mark would be the one thing on this page from
+// another design system, and a redrawn one would misrepresent a trademark.
+.reviews__source-name {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.reviews__count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+// ── Stars ───────────────────────────────────────────────────────────────────
+// The figure is always stated in words beside the marks, so the rating never
+// depends on counting shapes or on seeing the accent hue.
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stars svg {
+  inline-size: 1em;
+  block-size: 1em;
+  flex: 0 0 auto;
+}
+
+.stars--lg { font-size: 1.125rem; }
+.stars--sm { font-size: 0.875rem; }
+
+.stars__on  { fill: var(--color-accent); }
+.stars__off { fill: var(--color-line); }
+
+// ── Excerpts ────────────────────────────────────────────────────────────────
 .reviews__set {
   display: grid;
   gap: 0;
   list-style: none;
   margin: 0;
   padding: 0;
+  margin-block-start: var(--space-8);
   border-block-start: var(--rule) solid var(--color-line);
 }
 
+// Flex column rather than grid: the attribution has to sit on one baseline
+// across all three excerpts regardless of how long each quote runs, and that
+// needs a child with `margin-block-start: auto` in a stretched column.
 .review {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-5);
   padding-block: var(--space-7);
   border-block-end: var(--rule) solid var(--color-line);
 }
 
+.review .stars { align-self: flex-start; }
+
 .review__quote {
   font-size: var(--text-lead);
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--color-text);
-  max-inline-size: 44ch;
+  max-inline-size: 38ch;
   margin: 0;
   text-wrap: pretty;
 }
 
-.review__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-3) var(--space-5);
+// A quiet open quote in the display face, marking the excerpt as reported speech
+// without setting the whole thing in quotation marks.
+.review__quote::before {
+  content: "“";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  line-height: 0.5;
+  color: var(--color-accent);
+  margin-block-end: var(--space-3);
 }
 
-.review__source {
+.review__meta {
+  display: grid;
+  gap: var(--space-2);
+  margin-block-start: auto;
+  padding-block-start: var(--space-5);
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.review__author {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.review__where {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: var(--ls-mono);
@@ -53,20 +171,26 @@
   color: var(--color-text-muted);
 }
 
-// Rating is stated in words as well as in marks — never carried by shape or
-// colour alone.
-.review__rating {
-  display: inline-flex;
+.reviews__foot {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--ls-mono);
-  color: var(--color-accent);
-  font-variant-numeric: tabular-nums;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin-block-start: var(--space-7);
+}
+
+.reviews__disclosure {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-inline-size: var(--measure-note);
+  margin: 0;
 }
 
 // ── Awaiting-data state ─────────────────────────────────────────────────────
+// Shown when the data file is empty, so the section never invents content and
+// never renders as a hole either.
 .reviews__pending {
   display: grid;
   gap: var(--space-5);
@@ -77,26 +201,31 @@
 
 .reviews__pending-note {
   font-size: var(--text-body);
-  line-height: 1.6;
+  line-height: var(--lh-body);
   color: var(--color-text-muted);
 }
 
+// Three-up only where a column is still wide enough to read: at 48rem the
+// columns came out at 230px, which is a 28-character measure for a quote set at
+// 19px. Below this they stack full-width.
 @media (min-width: 62rem) {
   .reviews__set {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: var(--space-8);
   }
 
   .review {
-    padding-block: var(--space-8) var(--space-7);
-    padding-inline-end: var(--space-6);
+    padding-block: var(--space-7) var(--space-8);
+    padding-inline: var(--space-6);
     border-block-end: 0;
     border-inline-start: var(--rule) solid var(--color-line);
-    padding-inline-start: var(--space-6);
   }
 
   .review:first-child {
     border-inline-start: 0;
     padding-inline-start: 0;
+  }
+
+  .review:last-child {
+    padding-inline-end: 0;
   }
 }

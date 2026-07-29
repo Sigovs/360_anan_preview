@@ -55,7 +55,9 @@
 }
 
 .detail-band__media img {
-  object-position: 55% 50%;
+  // The frame is now a 21:9 source at 21:9, so the crop is honest: the car holds
+  // the right two thirds and the copy sits in the quiet left field.
+  object-position: 52% 50%;
 }
 
 .detail-band__panel {
@@ -85,8 +87,8 @@
   padding-block: var(--space-5);
   border-block-end: var(--rule) solid var(--color-line);
   font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--color-text-muted);
+  line-height: 1.55;
+  color: var(--color-text-body);
 }
 
 @media (min-width: 62rem) {
@@ -133,9 +135,13 @@
   background: var(--color-surface);
 }
 
+// A stepped pair, not a two-up grid: the first module is the larger mass and the
+// second hangs off its lower edge. The previous even pair left the top of this
+// field empty and the band read left-heavy — an unbalanced composition rather
+// than an asymmetric one.
 .warranty__mosaic {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-4);
   align-items: start;
 }
@@ -143,6 +149,9 @@
 .warranty__mosaic .media {
   aspect-ratio: 1 / 1;
 }
+
+.warranty__mosaic .media:nth-child(1) { grid-column: 1 / 6; }
+.warranty__mosaic .media:nth-child(2) { grid-column: 4 / 7; }
 
 .warranty__statement {
   display: grid;
@@ -155,10 +164,11 @@
     gap: var(--space-5);
   }
 
-  // The second square drops below the first: a module hung off a structure,
-  // not a two-up grid.
+  // The smaller module hangs off the larger one's lower edge and breaks its
+  // right boundary — the hung-module logic used at the hero and the shop, so the
+  // motif reads as one system across the page.
   .warranty__mosaic .media:nth-child(2) {
-    translate: 0 var(--space-8);
+    translate: var(--space-6) calc(var(--space-7) * -1);
   }
 }
 
@@ -208,9 +218,9 @@
   grid-column: 2;
   margin-block-start: var(--space-2);
   font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--color-text-muted);
-  max-inline-size: 46ch;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  max-inline-size: 40ch;
 }
 
 @media (min-width: 62rem) {

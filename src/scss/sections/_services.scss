@@ -30,7 +30,29 @@
 
 // ── Row ─────────────────────────────────────────────────────────────────────
 .svc {
+  position: relative;
   border-block-end: var(--rule) solid var(--color-line);
+}
+
+// The active row is marked three ways at once — an accent bar growing down its
+// inline edge, its ground lifting one tonal step, and its numeral and title
+// brightening. Colour alone would be a hue-only signal.
+.svc::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--space-5) * -1);
+  inline-size: 2px;
+  background: var(--color-accent);
+  transform-origin: top center;
+  scale: 1 0;
+  transition: scale var(--dur-3) var(--ease-out);
+}
+
+.svc:hover::before,
+.svc:focus-within::before,
+.svc[data-active="true"]::before {
+  scale: 1 1;
 }
 
 .svc__disc {
@@ -42,10 +64,11 @@
   grid-template-columns: auto 1fr auto;
   align-items: baseline;
   column-gap: var(--space-5);
-  row-gap: var(--space-3);
-  padding-block: var(--space-6);
+  row-gap: var(--space-4);
+  padding-block: var(--space-5);
   cursor: pointer;
   list-style: none;
+  transition: background-color var(--dur-3) var(--ease-out);
 }
 
 .svc__head::-webkit-details-marker {
@@ -55,13 +78,13 @@
 .svc__num {
   font-size: var(--text-xs);
   color: var(--color-text-muted);
-  transition: color var(--dur-1) var(--ease-out);
+  transition: color var(--dur-2) var(--ease-out);
 }
 
 .svc__title {
   font-size: var(--text-h3);
   color: var(--ink-a72);
-  transition: color var(--dur-1) var(--ease-out);
+  transition: color var(--dur-2) var(--ease-out);
 }
 
 .svc__marker {
@@ -79,35 +102,32 @@
 .svc__desc {
   display: block;
   grid-column: 2 / -1;
-  font-size: var(--text-sm);
+  font-size: var(--text-body);
   line-height: 1.55;
-  color: var(--color-text-muted);
-  max-inline-size: 50ch;
+  color: var(--color-text-body);
+  max-inline-size: 46ch;
   margin: 0;
 }
 
 .svc__body {
   display: grid;
   gap: var(--space-5);
-  padding-block: 0 var(--space-7);
+  padding-block: 0 var(--space-6);
 }
 
 .svc__related {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) var(--space-5);
+  gap: var(--space-2) var(--space-3);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.svc__related {
-  gap: var(--space-2) var(--space-3);
-}
-
 .svc__related li {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
+  line-height: 1.4;
   letter-spacing: var(--ls-mono);
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -146,6 +166,14 @@
   translate: 3px 0;
 }
 
+// The ground lifts one tonal step under the active row, fading out to the right
+// so it reads as light falling across the row rather than as a filled card.
+.svc:hover .svc__head,
+.svc:focus-within .svc__head,
+.svc[data-active="true"] .svc__head {
+  background: linear-gradient(to right, var(--ink-a06) 0%, rgb(241 240 235 / 0) 78%);
+}
+
 // ── Stage ───────────────────────────────────────────────────────────────────
 // One square photographic field, held at the top of the viewport while the
 // index is read. Decorative reinforcement: the descriptions carry the content,
@@ -177,11 +205,16 @@
     block-size: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity var(--dur-3) var(--ease-out);
+    scale: 1.03;
+    transition: opacity var(--dur-3) var(--ease-out),
+                scale 1.2s var(--ease-out);
   }
 
+  // The arriving frame settles out of a 1.03 scale while the leaving one fades:
+  // a crossfade with a direction, rather than two images swapping places.
   .services__frame img[data-current="true"] {
     opacity: 1;
+    scale: 1;
   }
 
   .services__caption {
@@ -193,12 +226,12 @@
   }
 
   .svc__head {
-    padding-block: var(--space-7);
+    padding-block: var(--space-6);
     cursor: default;
   }
 
   .svc__body {
-    padding-block-end: var(--space-7);
+    padding-block-end: var(--space-6);
   }
 
   // With script present the stage carries the photograph, so the inline copy of
@@ -208,8 +241,37 @@
   }
 }
 
+// ── Progress rail ───────────────────────────────────────────────────────────
+// Six segments under the frame, the active one filled. It answers "where am I in
+// this list" from the image side of the composition, which is what stops the
+// stage from being a passive picture. Decorative: the list itself carries state.
+.services__progress {
+  display: none;
+}
+
+@media (min-width: 62rem) {
+  .services__progress {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-2);
+    margin-block-start: var(--space-5);
+  }
+
+  .services__progress span {
+    block-size: 2px;
+    background: var(--color-line);
+    transform-origin: left center;
+    transition: background-color var(--dur-3) var(--ease-out);
+  }
+
+  .services__progress span[data-on="true"] {
+    background: var(--color-accent);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .services__frame img {
     transition: none;
+    scale: 1;
   }
 }

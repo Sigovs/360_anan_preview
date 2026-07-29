@@ -49,11 +49,11 @@ floating vehicle cut-outs.
 | `shop-detail-tools.jpg` | 1:1 | open drawer of wrenches on worn foam | 04 fragment · 01 hero module |
 | `shop-detail-hub.jpg` | 1:1 | gloved hands fitting a wheel bearing into a hub | 04 fragment |
 | `moment-underbody.jpg` | 21:9 | from the floor, looking up past a raised car's underbody | 05 full-bleed moment |
-| `detailing-polish.jpg` | 21:9 | sedan in the detailing bay, one strip light along the flank | 06 detailing |
+| `detailing-polish.jpg` | 21:9 | dark sedan in the detailing bay, technician crouched at the rear wheel | 06 detailing |
 | `warranty-workorder.jpg` | 1:1 | work order on a clipboard under a desk lamp, deliberately out of focus | 07 mosaic |
 | `warranty-counter.jpg` | 1:1 | technician and customer at the counter, both in profile | 07 mosaic |
 | `inspection-lift.jpg` | 16:9 | used sedan chest-high on a lift, flashlight into the front subframe | 08 inspections |
-| `shop-exterior.jpg` | 16:9 | the shop from the street at dusk, two bays lit warm from inside | 11 contact |
+| `shop-exterior.jpg` | 16:9 → cropped to ~2.13:1 | the shop from the street at dusk, two bays lit warm from inside | 11 contact |
 
 `warranty-counter.jpg` carries a **flat tonal wash** (`.media--tone`,
 `brightness(0.82) saturate(0.88)`) — its own exposure ran lighter than the set,
@@ -87,19 +87,31 @@ Resized and re-encoded with Pillow — progressive JPEG, `optimize=True`, qualit
 ```
 hero-lift            2400w   q80    190 KB
 moment-underbody     2400w   q80    170 KB
-detailing-polish     1800w   q82    238 KB
+detailing-polish     2400w   q80     95 KB
 inspection-lift      1800w   q82     86 KB
-shop-exterior        2000w   q82     73 KB
+shop-exterior        2000w   q82     72 KB (cropped)
 shop-bays            1200w   q82    112 KB
 service-*            1100w   q82   93–139 KB
 shop-detail-*         900w   q82    65–74 KB
 warranty-*           1000w   q82     57–61 KB
                                    ─────────
-                                   1.8 MB total, hero eager, everything else lazy
+                                   1.7 MB total, hero eager, everything else lazy
 ```
 
 `warranty-counter.jpg` was additionally cropped to 86% width from the left, to
 cut illegible generated signage at the right edge.
+
+**Polish pass, 2026-07-29.** Two frames changed:
+
+- `detailing-polish.jpg` was a 4:5 portrait being cropped to 21:9 in section 06,
+  which threw away two thirds of the frame. Replaced with a purpose-generated
+  21:9 exposure (seed 2040838497) whose composition was art-directed for the
+  band: *"the car filling the right two thirds, quiet dark floor space to the
+  left"*. The model's own letterbox bars were trimmed programmatically before
+  resizing.
+- `shop-exterior.jpg` lost 13% off the top and 3% off the bottom. The flat dusk
+  sky read as letterboxing inside the 4:3 frame the contact column gives it; the
+  crop now sits on the building and the lit bays.
 
 ---
 

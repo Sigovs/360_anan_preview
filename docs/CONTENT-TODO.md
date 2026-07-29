@@ -3,9 +3,10 @@
 Everything below is a placeholder I could not verify. Append **`?todo`** to the
 URL to outline all of them on the page.
 
-Nothing here was invented to look plausible: the phone number is from the
-reserved 555-01xx fictitious range so it cannot ring a real person, and the
-address, hours and reviews say what they are.
+The phone number is from the reserved 555-01xx fictitious range, so it cannot
+ring a real person. The address and hours say on the page that they are
+unconfirmed. **Section 10's reviews and rating are visible placeholders** — see
+§4, which is the most important item on this list.
 
 ---
 
@@ -49,17 +50,39 @@ independent-shop schedule and **not** confirmed for this business.
 
 Consider adding `openingHoursSpecification` to the JSON-LD at the same time.
 
-## 4 · Verified reviews — section 10
+## 4 · Google reviews — section 10  ⚠ PLACEHOLDER CONTENT ON THE PAGE
 
-`assets/js/reviews.data.js` (source: `src/js/reviews.data.js`) ships with an
-**empty array**. While it is empty, section 10 shows an honest note instead of
-review cards.
+**Section 10 currently displays placeholder reviews and a placeholder 4.8 / 126
+rating.** They are in-brand stand-ins so the section could be designed and
+presented — they are not live Google data and they are not real customers.
 
-Paste real reviews from the shop's Google Business Profile, word for word, then
-run `npm run js`. Up to three are shown. The file documents the entry shape.
+What protects this while it is a preview:
+
+- No `Review` or `AggregateRating` structured data is emitted anywhere on the
+  page, so no crawler is told this is a verified rating.
+- The section prints a visible line: *"Example wording shown. Real reviews from
+  the shop's Google profile replace these before launch."*
+- The block carries `data-placeholder="true"`, so `?todo` outlines it.
+- Reviewers are first name + initial, with no photographs and no permalinks.
+
+**To go live**, in `src/js/reviews.data.js`:
+
+1. Replace `summary` with the real rating and review count.
+2. Replace `items` with real reviews, copied word for word — trim with an
+   ellipsis if needed, but do not rewrite, tidy or translate them.
+3. Point `profileUrl` at the shop's own Google reviews link.
+4. Set `placeholder: false`. That drops the example-wording line and the outline.
+5. `npm run js`.
+
+Only the first three items render; the rest live behind the Google link.
 
 > Do not paraphrase, compose, or move reviews from another business. A
-> fabricated review is a false statement about a real customer.
+> fabricated review is a false statement about a real customer, and a fabricated
+> rating is a false claim about the business.
+
+**If the real rating is materially lower than the placeholder, remove the rating
+summary rather than shipping a flattering number** — the excerpts alone still
+work as a trust layer.
 
 ## 5 · The request form has no endpoint
 
@@ -87,12 +110,14 @@ the seed for each frame, so any single image can be replaced or regenerated. Rea
 photographs of the actual bays would be better than all of them; the direction
 notes describe what to shoot.
 
-Two frames carry small artefacts worth knowing about:
+Three frames carry small artefacts worth knowing about:
 
 - `shop-exterior.jpg` — a generic *AUTO REPAIR SHOP* sign is legible above the
   bay doors. Fine as a stand-in, wrong once the shop's own signage exists.
 - `service-03-brakes.jpg` — an illegible few characters on the rotor hub. Small
   and dark; visible if you look for it.
+- `warranty-workorder.jpg` — the form on the clipboard reads as a generic
+  service work order. Deliberately shallow-focused, but legible enough to notice.
 
 ---
 
@@ -108,6 +133,8 @@ worst pixel in the text's own area, not the image average.
 |---|---|---|---|
 | `--color-text` `#f1f0eb` | `--color-bg` `#090c0d` | 17.20:1 | 4.5 |
 | `--color-text` | `--color-surface-raised` `#1b2528` | 13.72:1 | 4.5 |
+| `--color-text-body` `#b4bfc1` | `--color-bg` | 10.43:1 | 4.5 |
+| `--color-text-body` | `--color-surface-raised` | 8.32:1 | 4.5 |
 | `--color-text-muted` `#929d9f` | `--color-bg` | 7.05:1 | 4.5 |
 | `--color-text-muted` | `--color-surface-raised` | 5.62:1 | 4.5 |
 | `--color-accent` `#f47a17` | `--color-bg` | 7.14:1 | 4.5 |
@@ -120,12 +147,21 @@ worst pixel in the text's own area, not the image average.
 
 | Element | Desktop | Mobile 390 | Needs |
 |---|---|---|---|
-| accent eyebrow, 11px | 7.10:1 | 5.99:1 | 4.5 |
+| accent eyebrow, 12px | 7.10:1 | 5.99:1 | 4.5 |
 | H1 | 15.15:1 | 15.72:1 | 3.0 |
 | lead, 17–21px | 5.06:1 | 5.77:1 | 4.5 |
-| anchor label, 11px | 5.53:1 | 6.05:1 | 4.5 |
+| anchor label, 12px | 5.53:1 | 6.05:1 | 4.5 |
 | phone | 12.76:1 | 14.43:1 | 3.0 |
-| address, 11px | 5.79:1 | 6.45:1 | 4.5 |
+| address, 12px | 5.79:1 | 6.45:1 | 4.5 |
+
+### Type over the detailing photograph (section 06), worst pixel
+
+| Element | Ratio | Needs |
+|---|---|---|
+| chapter numeral 06, 34px accent | 7.10:1 | 3.0 |
+| label VEHICLE CARE, 12px muted | 6.67:1 | 4.5 |
+| H2 AUTO DETAILING | 16.07:1 | 3.0 |
+| panel copy, 17px | 16.37:1 | 4.5 |
 
 Two of those needed the scrim moved, not the text changed: the anchor label came
 out at 4.34:1 on desktop and the mobile headline at 1.87:1 where it crossed a

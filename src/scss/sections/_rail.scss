@@ -56,10 +56,10 @@
 
 .rail__note {
   font-size: var(--text-sm);
-  line-height: 1.5;
-  color: var(--color-text-muted);
+  line-height: 1.6;
+  color: var(--color-text-body);
   margin: 0;
-  max-inline-size: 34ch;
+  max-inline-size: 32ch;
 }
 
 // The two-up rules are bounded at the top: left unbounded they would keep

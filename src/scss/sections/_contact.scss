@@ -15,12 +15,18 @@
 // ── Left field ──────────────────────────────────────────────────────────────
 .contact__direct {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-8);
   align-content: start;
+}
+
+.contact__phone-block {
+  padding-block-start: var(--space-6);
+  border-block-start: 2px solid var(--color-accent);
 }
 
 .contact__phone {
   display: inline-block;
+  margin-block-start: var(--space-4);
   white-space: nowrap;
   font-family: var(--font-display);
   font-variation-settings: "wdth" var(--wdth-display);
@@ -40,7 +46,8 @@
 }
 
 .contact__phone-note {
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-5);
+  max-inline-size: var(--measure-note);
 }
 
 // ── Form field ──────────────────────────────────────────────────────────────
@@ -50,9 +57,21 @@
   align-content: start;
 }
 
-// ── Lower row ───────────────────────────────────────────────────────────────
+// The form's own heading rank: the field group needs a label above it that is
+// not competing with the band heading.
+.contact__request-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-block-end: var(--space-2);
+}
+
+// ── Finding the shop ────────────────────────────────────────────────────────
+// Inside the left column, under the address record it belongs to.
 .contact__place {
-  margin-block-start: var(--space-9);
+  display: grid;
+  gap: var(--space-6);
   padding-block-start: var(--space-7);
   border-block-start: var(--rule) solid var(--color-line);
 }
@@ -67,12 +86,12 @@
 
 .contact__place-lines {
   display: grid;
-  gap: var(--space-5);
-  align-content: center;
+  gap: var(--space-6);
+  align-content: start;
 }
 
 @media (min-width: 62rem) {
   .contact__place-media {
-    aspect-ratio: 21 / 9;
+    aspect-ratio: 4 / 3;
   }
 }

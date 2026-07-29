@@ -44,7 +44,7 @@ committed, so no build step is needed just to look at it.
 ├── assets/                     everything the browser loads
 │   ├── css/main.css            compiled · main.min.css for production
 │   ├── js/main.js              page behaviour (copied from src/js)
-│   ├── js/reviews.data.js      verified reviews — ships EMPTY on purpose
+│   ├── js/reviews.data.js      reviews + rating — PLACEHOLDER content, see docs
 │   ├── js/vendor/              bootstrap.bundle.min.js
 │   └── img/                     the art direction (see docs/IMAGE-DIRECTION.md)
 ├── src/
@@ -77,17 +77,25 @@ inside a shipped stylesheet is past the point a variable can change it.
   the primary action, active state, index numerals, technical markers and the
   focus ring. Nothing else. Near-black ink on orange fills, never white
   (white on this orange measures 2.41:1).
-- **Three type voices** — Archivo at width 82 for display, Inter for reading,
-  IBM Plex Mono for indices and labels.
+- **Three type voices, three ink ranks, three mono steps** — Archivo at width 82
+  for display, Inter for reading, IBM Plex Mono for indices and labels. Ink is
+  ranked `text` → `body` → `muted` so paragraphs are never set in the metadata
+  grey; mono runs 11 / 12 / 13px depending on whether a label is glanced at or
+  read.
 - **One numbering system** — a small mono index opens an ordinary band, a large
   numeral opens a chapter; both carry the same section number.
 - **Twelve-column editorial grid** — intervals between masses are grid columns
   (`offset-lg-1`), not padding, so every edge lands on the same axis.
 - **Squares used three times** — hero → rail transition, the shop's offset
   fragments, the warranty mosaic. Not as page-wide decoration.
-- **Motion with a job** — the hero settles once, service images crossfade, the
-  masthead firms on scroll. No scroll reveals: a paragraph fading in
-  communicates nothing.
+- **Motion with a job** — a choreographed hero entrance (≈1.05s), bands settling
+  in as they arrive, a scroll-linked hero drift at 6% of the hero's own height,
+  crossfading service images, line-grow link and field states. Every hidden-then-
+  revealed state is applied by script under `.js-motion` and cleared by a
+  watchdog, so no-JS and reduced-motion both open on the finished page.
+- **A reviews band in the page's own language** — hairline columns, a display
+  rating figure, mono metadata, no plugin chrome. Content comes from one data
+  file; see below on placeholders.
 
 Every text/background pair was measured against the composited page, including
 type over photography at its worst pixel. Ratios are in
@@ -100,10 +108,19 @@ type over photography at its worst pixel. Ratios are in
 - Skip link, visible 2px focus ring at ≥3:1 on every interactive element.
 - The service directory works with no JavaScript: every `<details>` ships open,
   so all copy, related services and request links are readable. Script adds the
-  desktop image stage and turns the same markup into a native exclusive
-  accordion below 62rem.
+  desktop image stage, the progress rail and a native exclusive accordion below
+  62rem.
+- Reviews render from `assets/js/reviews.data.js`. **They are placeholders** —
+  the section says so on the page, and no `Review`/`AggregateRating` structured
+  data is emitted. See `docs/CONTENT-TODO.md` §4.
+- Every focusable element clears a 24px minimum target and shows a 2px accent
+  focus ring; every hover state has a focus equivalent (audited, no exceptions).
 - Hover and keyboard focus drive identical state — tabbing through the service
   list changes the image exactly as a pointer does.
 - No horizontal page scroll at 320px.
-- `prefers-reduced-motion` removes the hero settle and the crossfade; nothing on
-  the page is hidden pending an animation, so there is no state to get stuck in.
+- `prefers-reduced-motion` neutralises every reveal, the hero entrance, the
+  crossfades and the scroll drift explicitly — not just via the blanket reset —
+  and the preference is re-checked if it changes mid-session.
+- Star ratings are `role="img"` with an "N out of 5 stars" name, and the figure is
+  printed in words beside the marks, so a rating never depends on counting shapes
+  or on seeing the accent hue.

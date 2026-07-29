@@ -26,8 +26,13 @@
   --color-surface-raised:  #1b2528;
 
   // ── Ink ───────────────────────────────────────────────────────────────────
+  // Three ranks, not two. Metadata sits dimmer than reading copy on purpose, but
+  // reading copy was previously sharing the metadata value — which is why body
+  // text felt fragile on this ground even at 7:1. Measured on --color-bg:
+  //   text        17.20:1   ·   body 10.43:1   ·   muted 7.05:1
   --color-text:            #f1f0eb;
-  --color-text-muted:      #929d9f;
+  --color-text-body:       #b4bfc1;   // paragraphs, leads, anything read in runs
+  --color-text-muted:      #929d9f;   // labels, keys, captions, metadata
 
   // ── Structure ─────────────────────────────────────────────────────────────
   --color-line:            #2b3537;  // decorative dividers
@@ -83,13 +88,23 @@
 
   // ── Type scale ────────────────────────────────────────────────────────────
   // Fluid, so type is optically correct at every width rather than at two.
-  --text-xs:      0.6875rem;                                    // 11px mono labels
-  --text-sm:      clamp(0.8125rem, 0.3vw + 0.75rem, 0.9375rem);
+  //
+  // The mono register has three steps, not one. A single 11px size was carrying
+  // nav, form labels, footer links, spec keys, related-service lines and index
+  // marks at once — legible in isolation, fragile everywhere it had to be read
+  // rather than glanced at.
+  --text-2xs:     0.6875rem;   // 11px — index marks and the tightest technical marks only
+  --text-xs:      0.75rem;     // 12px — default micro-label: eyebrows, captions, plate keys
+  --text-label:   0.8125rem;   // 13px — read, not glanced: nav, form labels, actions, footer
+  --text-sm:      clamp(0.875rem, 0.3vw + 0.8rem, 0.9375rem);
   --text-body:    clamp(1rem, 0.25vw + 0.95rem, 1.0625rem);
   --text-lead:    clamp(1.0625rem, 0.6vw + 0.95rem, 1.3125rem);
   --text-h4:      clamp(1.25rem, 0.9vw + 1.05rem, 1.625rem);
-  --text-h3:      clamp(1.5rem, 1.6vw + 1.1rem, 2.25rem);
-  --text-h2:      clamp(2rem, 3.4vw + 1.1rem, 3.75rem);
+  --text-h3:      clamp(1.5rem, 1.4vw + 1.15rem, 2.125rem);
+  // Pulled down from 3.75rem: at 1440 the hero was 66px against a 60px h2, and
+  // two ranks six per cent apart are not two ranks. The ladder is now
+  // 66 / 52 / 34 / 26 — steps of 1.27, 1.53, 1.31.
+  --text-h2:      clamp(1.875rem, 2.9vw + 1.1rem, 3.25rem);
   --text-hero:    clamp(2.25rem, 3.6vw + 0.9rem, 4.75rem);
   // Sized so "(516) 555-0100" holds one line inside a five-column field at
   // every width — a phone number broken across two lines is not a phone number.
@@ -100,20 +115,34 @@
   // ── Type mechanics ────────────────────────────────────────────────────────
   --lh-display:   0.94;
   --lh-tight:     1.12;
-  --lh-body:      1.6;
+  --lh-body:      1.65;   // one notch looser: muted ink on a dark ground needs it
   --lh-lead:      1.45;
   --ls-display:  -0.02em;
-  --ls-label:     0.14em;
-  --ls-mono:      0.08em;
+  // Tracking scales down as the label grows: 0.14em holds an 11px mark together
+  // and makes a 13px one read as spaced-out lettering rather than as words.
+  --ls-label:     0.12em;
+  --ls-label-lg:  0.08em;
+  --ls-mono:      0.06em;
   --wdth-display: 82;   // Archivo width axis — condensed industrial signage cut
 
+  // ── Measures ──────────────────────────────────────────────────────────────
+  // Named, so a line length is a decision. Shorter than a light-mode equivalent:
+  // reading grey-on-black across 62ch costs more than the extra words are worth.
+  --measure-copy:  58ch;
+  --measure-lead:  42ch;
+  --measure-short: 34ch;
+  --measure-note:  46ch;
+
   // ── Motion ────────────────────────────────────────────────────────────────
-  --dur-1: 0.15s;
-  --dur-2: 0.25s;
-  --dur-3: 0.4s;
-  --dur-4: 1.2s;
+  --dur-1: 0.15s;   // state change on a control
+  --dur-2: 0.25s;   // hover, focus, small crossfades
+  --dur-3: 0.4s;    // content crossfade, panel change
+  --dur-4: 0.75s;   // a section arriving
+  --dur-5: 1.1s;    // the hero entrance, once
+  --stagger: 70ms;  // step between siblings arriving
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);  // entering, expanding
   --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);  // exiting, collapsing
+  --rise: 14px;     // how far a revealed element travels — settling, not flying
 
   // ── Layers ────────────────────────────────────────────────────────────────
   // Three planes only: photograph → scrim → type/controls. Header sits above.

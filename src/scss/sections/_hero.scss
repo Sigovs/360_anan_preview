@@ -32,10 +32,31 @@
 
 .hero__media img {
   inline-size: 100%;
-  block-size: 100%;
+  // Sixteen per cent of overhang, split evenly above and below, so the resting
+  // crop stays centred on the subject and a 6% drift still never exposes an
+  // edge. Hanging the overhang off the bottom only — the first attempt — pushed
+  // the whole composition down and cropped the vehicle high.
+  block-size: 116%;
+  margin-block-start: -8%;
   object-fit: cover;
   // The technician and the lifted vehicle stay in frame as the format narrows.
   object-position: 46% 42%;
+  // Scroll drift: script writes --hero-shift as the hero leaves the viewport, to
+  // a maximum of 6% of its height. Far under the 15%-of-scroll-distance ceiling,
+  // scroll-linked rather than looping — so nothing moves while the first screen
+  // is being read — and a transform, so it costs no layout work.
+  transform: translate3d(0, var(--hero-shift, 0px), 0);
+}
+
+.js-motion .hero__media img {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media img {
+    transform: none;
+    will-change: auto;
+  }
 }
 
 // ── Scrims ──────────────────────────────────────────────────────────────────
@@ -58,15 +79,57 @@
     linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 24%);
 }
 
+// ── Entrance ────────────────────────────────────────────────────────────────
+// One choreographed arrival with a subject, and the subject is the workshop: the
+// photograph settles, then the eyebrow, headline, lead, anchor and action follow
+// it in reading order. Total 1.05s, inside the one-entrance budget. Applied by
+// script via `.js-motion`, so no-JS and reduced-motion both open on the finished
+// composition.
+.js-motion .hero[data-entered="pending"] .hero__statement > *,
+.js-motion .hero[data-entered="pending"] .hero__anchor,
+.js-motion .hero[data-entered="pending"] .hero__cta,
+.js-motion .hero[data-entered="pending"] .hero__cta-bar {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+.js-motion .hero[data-entered="in"] .hero__statement > *,
+.js-motion .hero[data-entered="in"] .hero__anchor,
+.js-motion .hero[data-entered="in"] .hero__cta,
+.js-motion .hero[data-entered="in"] .hero__cta-bar {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-4) var(--ease-out),
+              transform var(--dur-4) var(--ease-out);
+}
+
+.js-motion .hero[data-entered="in"] .hero__eyebrow  { transition-delay: 160ms; }
+.js-motion .hero[data-entered="in"] .hero__title    { transition-delay: 240ms; }
+.js-motion .hero[data-entered="in"] .hero__lead     { transition-delay: 340ms; }
+.js-motion .hero[data-entered="in"] .hero__anchor   { transition-delay: 430ms; }
+.js-motion .hero[data-entered="in"] .hero__cta,
+.js-motion .hero[data-entered="in"] .hero__cta-bar  { transition-delay: 500ms; }
+
+// The disc arrives by opening rather than by sliding: it is the culmination of
+// the entrance, so it gets the one distinct gesture.
+.js-motion .hero[data-entered="pending"] .hero__cta {
+  scale: 0.92;
+}
+
+.js-motion .hero[data-entered="in"] .hero__cta {
+  scale: 1;
+  transition: opacity var(--dur-4) var(--ease-out) 500ms,
+              transform var(--dur-4) var(--ease-out) 500ms,
+              scale var(--dur-5) var(--ease-out) 460ms;
+}
+
 // ── Wordmark texture band ───────────────────────────────────────────────────
 // A supporting compositional layer, not a heading: translucent warm white,
-// cropped by both viewport edges, and cut by the rail's rule below. It carries
-// no information — the legible wordmark is in the masthead.
-// Dropped below 62rem: the job it does on wide formats — a texture band crossing
-// the lower third and cut by the rail's rule — has no room at 390px, where it
-// would sit half-hidden behind the action bar and read as an artefact rather
-// than as a decision. It carries no information; the legible wordmark is in the
-// masthead.
+// cropped by both viewport edges, and cut by the rail's rule below. It carries no
+// information — the legible wordmark is in the masthead.
+//
+// Dropped below 62rem: at 390px it would sit half-hidden behind the action bar
+// and read as an artefact rather than as a decision.
 .hero__wordmark {
   display: none;
   position: absolute;
@@ -82,12 +145,32 @@
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
-  color: rgb(241 240 235 / 0.09);
+  color: rgb(241 240 235 / 0.06);
   pointer-events: none;
   user-select: none;
+  // Drifts at a third of the photograph's rate, which is what makes it read as a
+  // layer behind the image rather than as text sitting on it.
+  transform: translate3d(0, calc(var(--hero-shift, 0px) * -0.34), 0);
 }
 
-// ── Layout ──────────────────────────────────────────────────────────────────
+// Wiped in from the left as the page opens — a band being drawn, not a word
+// fading up. It is the last thing to arrive because it is support, not content.
+.js-motion .hero[data-entered="pending"] .hero__wordmark {
+  clip-path: inset(0 100% 0 0);
+}
+
+.js-motion .hero[data-entered="in"] .hero__wordmark {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.4s var(--ease-out) 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__wordmark {
+    transform: none;
+    clip-path: none !important;
+  }
+}
+
 // ── Layout ──────────────────────────────────────────────────────────────────
 // Small formats: an open photographic field on top, then the whole type stack
 // in the deep lower band — headline, lead, phone, address, action. This is a
@@ -142,9 +225,9 @@
 }
 
 .hero__lead {
-  margin-block-start: var(--space-5);
-  color: var(--ink-a72);
-  max-inline-size: 38ch;
+  margin-block-start: var(--space-6);
+  color: var(--color-text-body);
+  max-inline-size: 40ch;
 }
 
 // ── Anchor row ──────────────────────────────────────────────────────────────
@@ -161,7 +244,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--space-3) var(--space-5);
+  gap: var(--space-3) var(--space-6);
+  margin-block-start: var(--space-1);
 }
 
 // Shared by the hero anchor and the footer: a phone number set in the display
@@ -247,7 +331,7 @@
     text-align: left;
     padding-inline-start: var(--gutter);
     inset-block-end: clamp(8rem, 21vh, 16rem);
-    color: rgb(241 240 235 / 0.05);
+    color: rgb(241 240 235 / 0.055);
   }
 
   .hero__cta {
