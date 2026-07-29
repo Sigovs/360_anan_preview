@@ -1,0 +1,150 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Typography — three voices, each with one job
+//
+//   Display · Archivo, width axis 82, 700   headlines, numerals, the phone
+//   Body    · Inter                          leads, paragraphs, form copy
+//   Mono    · IBM Plex Mono, uppercase 11px  indices, labels, plates, actions
+//
+// Large type is tracked in and set below 1.0 leading so it holds as a shape;
+// body type is left at 1.6 with a capped measure so it holds as reading.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.display,
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--wdth-display);
+  font-weight: 700;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+  margin: 0;
+}
+
+h1 { font-size: var(--text-hero); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+h4 { font-size: var(--text-h4); }
+
+// A display word carrying the stress of the sentence. Weight and width do the
+// work — Archivo has no true italic, so the italic signature move is skipped
+// rather than faked.
+.display__stress {
+  font-variation-settings: "wdth" 100;
+  color: var(--color-text);
+}
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: var(--lh-lead);
+  color: var(--color-text-muted);
+  max-inline-size: 46ch;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.copy {
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+  color: var(--color-text-muted);
+  max-inline-size: 62ch;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.copy--bright { color: var(--color-text); }
+
+// Named measures, so a line length is a decision rather than a one-off value.
+.measure-short { max-inline-size: 34ch; }
+
+.copy a,
+.lead a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.copy a:hover,
+.lead a:hover {
+  color: var(--color-accent);
+}
+
+// ── Micro-labels ────────────────────────────────────────────────────────────
+// Filed as metadata by register, not by size: mono, uppercase, tracked, short.
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.label--accent { color: var(--color-accent); }
+.label--bright { color: var(--color-text); }
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+// ── Spec plate ──────────────────────────────────────────────────────────────
+// Facts as a record: mono keys subordinate, values forming the reading line,
+// hairlines between rows and no container at all.
+.plate {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  column-gap: var(--space-6);
+  row-gap: 0;
+  margin: 0;
+}
+
+.plate dt {
+  padding-block: var(--space-4);
+  border-block-start: var(--rule) solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.plate dd {
+  padding-block: var(--space-4);
+  border-block-start: var(--rule) solid var(--color-line);
+  margin: 0;
+  font-size: var(--text-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+@media (max-width: 47.9375rem) {
+  .plate { grid-template-columns: 1fr; }
+  .plate dt { padding-block-end: var(--space-1); }
+  .plate dd {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+}
+
+// ── Stack ───────────────────────────────────────────────────────────────────
+// Differentiated gaps, set once. Internal gaps stay smaller than the gap to the
+// neighbouring group so proximity keeps telling the truth.
+.stack > * + *              { margin-block-start: var(--space-4); }
+.stack > .label + *         { margin-block-start: var(--space-3); }
+.stack > h1 + .lead,
+.stack > h2 + .lead,
+.stack > h3 + .lead         { margin-block-start: var(--space-5); }
+.stack > .lead + *          { margin-block-start: var(--space-6); }
+.stack > * + .stack__action { margin-block-start: var(--space-7); }

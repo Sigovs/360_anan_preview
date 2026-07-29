@@ -1,0 +1,130 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Bootstrap configuration
+//
+// These overrides MUST be imported after `bootstrap/scss/functions` and BEFORE
+// `bootstrap/scss/variables`. A token override only reaches what is compiled
+// after it — anything already resolved inside Bootstrap's own defaults is past
+// the point a variable can change it.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Feature switches ────────────────────────────────────────────────────────
+// Gradients and shadows are off at the source, not overridden per component:
+// the design carries depth with tone, overlap and hairlines only.
+$enable-shadows:            false;
+$enable-gradients:          false;
+$enable-rfs:                false; // fluid type is handled by our own clamp scale
+$enable-dark-mode:          false; // the design is dark-first; there is no light mode
+$enable-smooth-scroll:      true;
+
+// ── Ground and ink ──────────────────────────────────────────────────────────
+$body-bg:                   #090c0d;
+$body-color:                #f1f0eb;
+$body-secondary-color:      #929d9f;
+$body-tertiary-color:       #929d9f;
+
+$primary:                   #f47a17;
+$secondary:                 #60777b;
+$dark:                      #090c0d;
+$light:                     #f1f0eb;
+
+// ── Type ────────────────────────────────────────────────────────────────────
+$font-family-sans-serif:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-family-monospace:     "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+$font-size-base:            1rem;
+$line-height-base:          1.6;
+$headings-font-family:      "Archivo", "Archivo Narrow", "Helvetica Neue", sans-serif;
+$headings-font-weight:      700;
+$headings-line-height:      0.95;
+$headings-color:            #f1f0eb;
+$paragraph-margin-bottom:   0; // every vertical gap is a decided token, never inherited
+
+// ── Links ───────────────────────────────────────────────────────────────────
+$link-color:                #f1f0eb;
+$link-hover-color:          #f47a17;
+$link-decoration:           none;          // nav and UI links; prose links re-enable it
+$link-hover-decoration:     none;
+
+// ── Geometry ────────────────────────────────────────────────────────────────
+// Square-module motif: sharp corners at the source. No radius anywhere.
+$border-radius:             0;
+$border-radius-sm:          0;
+$border-radius-lg:          0;
+$border-radius-xl:          0;
+$border-radius-xxl:         0;
+$border-radius-pill:        50rem; // reserved for the circular CTA only
+$border-width:              1px;
+$border-color:              #2b3537;
+
+// ── Grid ────────────────────────────────────────────────────────────────────
+$grid-gutter-width:         2rem;
+$grid-columns:              12;
+
+// ── Spacing scale ───────────────────────────────────────────────────────────
+// Bootstrap's utility spacers are re-pointed at the project scale so that any
+// m-*/p-*/gap-* class in the markup resolves to a documented step.
+$spacers: (
+  0:  0,
+  1:  0.25rem,   //   4px
+  2:  0.5rem,    //   8px
+  3:  0.75rem,   //  12px
+  4:  1rem,      //  16px
+  5:  1.5rem,    //  24px
+  6:  2rem,      //  32px
+  7:  3rem,      //  48px
+  8:  4rem,      //  64px
+  9:  6rem,      //  96px
+  10: 8rem,      // 128px
+  11: 12rem,     // 192px
+);
+
+// ── Motion ──────────────────────────────────────────────────────────────────
+$transition-base:           all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+$transition-collapse:       height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+// ── Focus ───────────────────────────────────────────────────────────────────
+// 2px ring, measured at 7.14:1 against the ground and 6.23:1 against surfaces.
+$focus-ring-width:          2px;
+$focus-ring-opacity:        1;
+$focus-ring-color:          #f47a17;
+$focus-ring-blur:           0;
+
+// ── Form controls ───────────────────────────────────────────────────────────
+// Modular square fields sitting on the dark ground: a 1px boundary at 3.60:1,
+// no radius, no inner shadow, no shrinking on focus.
+$input-bg:                  #151d1f;
+$input-disabled-bg:         #101617;
+$input-color:               #f1f0eb;
+$input-border-color:        #60777b;
+$input-border-width:        1px;
+$input-box-shadow:          none;
+$input-focus-bg:            #1b2528;
+$input-focus-border-color:  #f47a17;
+$input-focus-box-shadow:    none;
+$input-focus-color:         #f1f0eb;
+$input-placeholder-color:   #929d9f;
+$input-padding-y:           0.875rem;
+$input-padding-x:           1rem;
+$input-font-size:           1rem;
+$input-line-height:         1.4;
+$input-transition:          border-color 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+                            background-color 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+
+$form-label-color:          #929d9f;
+$form-label-font-size:      0.6875rem;
+$form-label-margin-bottom:  0.75rem;
+
+$form-select-bg:            #151d1f;
+$form-select-color:         #f1f0eb;
+$form-select-border-color:  #60777b;
+$form-select-indicator-color: #929d9f;
+$form-select-focus-box-shadow: none;
+
+$form-check-input-bg:               transparent;
+$form-check-input-border:           1px solid #60777b;
+$form-check-input-border-radius:    0;
+$form-check-input-checked-bg-color: #f47a17;
+$form-check-input-focus-box-shadow: none;
+$form-check-input-width:            1.125em;
+
+$form-feedback-invalid-color:  #ff8a24;
+$form-feedback-valid-color:    #929d9f;

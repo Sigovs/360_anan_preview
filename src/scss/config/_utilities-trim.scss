@@ -1,0 +1,25 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Utility trim
+//
+// Imported between `bootstrap/scss/utilities` and `bootstrap/scss/utilities/api`
+// so the generated CSS carries only the groups this page uses. The full set
+// generates ~150 kB of classes for the six that get written in the markup.
+//
+// Every spacing utility resolves to $spacers, which is the project scale — so a
+// class in the markup can never introduce an off-scale value.
+// ─────────────────────────────────────────────────────────────────────────────
+
+$utilities: map-get-multiple($utilities, (
+  "display",
+  "order",
+  "align-items",
+  "align-self",
+  "justify-content",
+  "text-align",
+  "margin-top",
+  "margin-bottom",
+  "padding-top",
+  "padding-bottom",
+  "max-width",
+  "visibility",
+));

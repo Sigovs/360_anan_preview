@@ -1,0 +1,67 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 12 · Footer — a flat close
+//
+// Low, quiet and wide. It repeats nothing the contact band already carries
+// except the phone, which is the one thing worth repeating.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.footer {
+  background: var(--color-bg);
+  border-block-start: var(--rule) solid var(--color-line);
+  padding-block: var(--space-8) var(--space-7);
+}
+
+.footer__top {
+  display: grid;
+  gap: var(--space-7);
+  padding-block-end: var(--space-7);
+  border-block-end: var(--rule) solid var(--color-line);
+}
+
+.footer__mark {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.footer__set {
+  display: grid;
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__set a {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.footer__set a:hover,
+.footer__set a:focus-visible {
+  color: var(--color-text);
+}
+
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-7);
+  padding-block-start: var(--space-6);
+}
+
+.footer__base p {
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .footer__top {
+    grid-template-columns: 5fr 3fr 4fr;
+    column-gap: var(--space-8);
+  }
+}

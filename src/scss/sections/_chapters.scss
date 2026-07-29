@@ -1,0 +1,227 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 06–08 · Three chapters, three different compositions, one system
+//
+// The shared grammar is the oversized chapter numeral, the hairline and the mono
+// label. The mass scheme is deliberately different in each, because three equal
+// columns is exactly what turns a page into a template:
+//
+//   06 Detailing      one wide image, copy attached to its lower edge
+//   07 Warranties     text-led, with a two-square document mosaic
+//   08 Inspections    tall vehicle-on-lift image against four numbered steps
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Chapter index ───────────────────────────────────────────────────────────
+// One numbering system on the page, in two weights: the small mono `.sec-index`
+// opens an ordinary band, and this large numeral opens a chapter. Both carry the
+// same section number, so a reader never has to reconcile two counts.
+.chapter__numeral {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--wdth-display);
+  font-weight: 700;
+  font-size: var(--text-index);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.chapter__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.chapter__label::after {
+  content: "";
+  flex: 1 1 auto;
+  max-inline-size: 8rem;
+  block-size: var(--rule);
+  background: var(--color-line);
+}
+
+// ═══ 06 · Detailing — image-led band ════════════════════════════════════════
+.detail-band {
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.detail-band__figure {
+  position: relative;
+  isolation: isolate;
+}
+
+.detail-band__media {
+  aspect-ratio: 4 / 3;
+}
+
+.detail-band__media img {
+  object-position: 55% 50%;
+}
+
+.detail-band__panel {
+  position: relative;
+  z-index: var(--z-content);
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6) 0 0;
+}
+
+// The three steps sit below the image rather than on it: keeping them out of the
+// overlay is what lets the copy actually attach to the lower edge instead of
+// filling the frame — and it gives the band a second, quieter mass.
+.detail-band__steps {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin-block-start: var(--space-7);
+  padding: 0;
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.detail-band__steps li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  column-gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-block-end: var(--rule) solid var(--color-line);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 62rem) {
+  .detail-band__media {
+    aspect-ratio: 21 / 9;
+  }
+
+  // Copy attached to the image's lower-left corner, on the corner scrim the
+  // media carries — a joined mass rather than a caption beneath. Capped in width
+  // and height so the photograph's subject keeps the right of the frame.
+  .detail-band__panel {
+    position: absolute;
+    z-index: var(--z-content);
+    inset-block-end: var(--space-7);
+    inset-inline-start: var(--space-8);
+    max-inline-size: 30rem;
+    padding: 0;
+  }
+
+  .detail-band__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-block-start: 0;
+  }
+
+  .detail-band__steps li {
+    padding-block: var(--space-6) 0;
+    padding-inline-end: var(--space-6);
+    border-block-end: 0;
+    border-block-start: var(--rule) solid var(--color-line);
+  }
+
+  .detail-band__steps li + li {
+    padding-inline-start: var(--space-6);
+    border-inline-start: var(--rule) solid var(--color-line);
+  }
+
+  .detail-band__steps li:last-child {
+    padding-inline-end: 0;
+  }
+}
+
+// ═══ 07 · Extended warranties — text-led with a square mosaic ═══════════════
+.warranty {
+  background: var(--color-surface);
+}
+
+.warranty__mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.warranty__mosaic .media {
+  aspect-ratio: 1 / 1;
+}
+
+.warranty__statement {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+@media (min-width: 62rem) {
+  .warranty__mosaic {
+    gap: var(--space-5);
+  }
+
+  // The second square drops below the first: a module hung off a structure,
+  // not a two-up grid.
+  .warranty__mosaic .media:nth-child(2) {
+    translate: 0 var(--space-8);
+  }
+}
+
+// ═══ 08 · Pre-purchase inspections — image against numbered steps ═══════════
+.ppi {
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.ppi__media {
+  aspect-ratio: 4 / 3;
+}
+
+.ppi__media img {
+  object-position: 50% 55%;
+}
+
+.ppi__steps {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.ppi__step {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--space-5);
+  padding-block: var(--space-5);
+  border-block-end: var(--rule) solid var(--color-line);
+}
+
+.ppi__step-title {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.ppi__step-note {
+  grid-column: 2;
+  margin-block-start: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  max-inline-size: 46ch;
+}
+
+@media (min-width: 62rem) {
+  // Panel left, image right — the mirror of the shop band, so the alternation
+  // reads as rhythm rather than as variety.
+  .ppi__figure {
+    // Committed bleed off the right edge of the viewport.
+    margin-inline-end: calc(var(--gutter) * -1);
+  }
+
+  .ppi__media {
+    aspect-ratio: 5 / 4;
+  }
+}

@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+._*
+
+# Editor
+.vscode/
+.idea/
+
+# Tooling scratch
+.playwright-mcp/
+*.log
+
+# Sass
+.sass-cache/
+*.css.map
+
+# The taste system is a separate project (github.com/Sigovs/design_dna), kept
+# here as a local clone. Committing a copy into this repo would fork it and let
+# the two drift — and its own CLAUDE.md forbids exactly that kind of duplication.
+# Anything written into design_dna/projects/ belongs to that repo.
+design_dna/
+
+# NOT ignored, on purpose:
+#   assets/css/main.css      compiled, committed so index.html opens with no build
+#   assets/js/*.js           copied from src/js, same reason
+#   assets/js/vendor/        Bootstrap bundle, pinned with the lockfile
+#   assets/img/              the project's own art direction

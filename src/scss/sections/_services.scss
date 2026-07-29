@@ -1,0 +1,215 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 03 · Indexed service directory
+//
+// Not six cards. A numbered index on the left against one dominant square image
+// field on the right — an editorial project index, where hovering or focusing a
+// row changes the image and the row's own marker, and where every description,
+// related-service line and request action is readable with no interaction at
+// all.
+//
+// Structure is a list of <details>, open by default. Script closes all but the
+// first below 62rem and gives them a shared `name`, which makes the mobile
+// accordion native and exclusive; with script absent, every item is simply
+// open and nothing is lost.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.services {
+  background: var(--color-bg);
+}
+
+.services__head {
+  padding-block-end: var(--space-8);
+}
+
+.services__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+// ── Row ─────────────────────────────────────────────────────────────────────
+.svc {
+  border-block-end: var(--rule) solid var(--color-line);
+}
+
+.svc__disc {
+  display: block;
+}
+
+.svc__head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  column-gap: var(--space-5);
+  row-gap: var(--space-3);
+  padding-block: var(--space-6);
+  cursor: pointer;
+  list-style: none;
+}
+
+.svc__head::-webkit-details-marker {
+  display: none;
+}
+
+.svc__num {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.svc__title {
+  font-size: var(--text-h3);
+  color: var(--ink-a72);
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.svc__marker {
+  align-self: center;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-1) var(--ease-out),
+              translate var(--dur-1) var(--ease-out);
+}
+
+// A span rather than a paragraph: <summary> takes phrasing and heading content
+// only, so a <p> in there is invalid markup.
+.svc__desc {
+  display: block;
+  grid-column: 2 / -1;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-inline-size: 50ch;
+  margin: 0;
+}
+
+.svc__body {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: 0 var(--space-7);
+}
+
+.svc__related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.svc__related {
+  gap: var(--space-2) var(--space-3);
+}
+
+.svc__related li {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+// The separator travels inline with the text it follows, so a wrapped line never
+// begins with an orphaned divider mark.
+.svc__related li:not(:last-child)::after {
+  content: " ·";
+  color: var(--color-cold-detail);
+}
+
+.svc__img {
+  margin-block-start: var(--space-2);
+}
+
+// ── Active state ────────────────────────────────────────────────────────────
+// Hover and focus both drive it, so a keyboard reaching the row's request link
+// changes the image exactly as a pointer does.
+.svc:hover .svc__num,
+.svc:focus-within .svc__num,
+.svc[data-active="true"] .svc__num {
+  color: var(--color-accent);
+}
+
+.svc:hover .svc__title,
+.svc:focus-within .svc__title,
+.svc[data-active="true"] .svc__title {
+  color: var(--color-text);
+}
+
+.svc:hover .svc__marker,
+.svc:focus-within .svc__marker,
+.svc[data-active="true"] .svc__marker {
+  opacity: 1;
+  translate: 3px 0;
+}
+
+// ── Stage ───────────────────────────────────────────────────────────────────
+// One square photographic field, held at the top of the viewport while the
+// index is read. Decorative reinforcement: the descriptions carry the content,
+// so the stage is hidden from assistive technology.
+.services__stage {
+  display: none;
+}
+
+@media (min-width: 62rem) {
+  .services__stage {
+    display: block;
+    position: sticky;
+    inset-block-start: 6.5rem;
+  }
+
+  .services__frame {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-block-size: 40rem;
+    overflow: hidden;
+    background: var(--color-bg-soft);
+    border: var(--rule) solid var(--ink-a12);
+  }
+
+  .services__frame img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+  }
+
+  .services__frame img[data-current="true"] {
+    opacity: 1;
+  }
+
+  .services__caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block-start: var(--space-4);
+  }
+
+  .svc__head {
+    padding-block: var(--space-7);
+    cursor: default;
+  }
+
+  .svc__body {
+    padding-block-end: var(--space-7);
+  }
+
+  // With script present the stage carries the photograph, so the inline copy of
+  // it is redundant rather than absent.
+  .js .svc__img {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__frame img {
+    transition: none;
+  }
+}

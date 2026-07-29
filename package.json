@@ -1,0 +1,19 @@
+{
+  "name": "360-auto-care",
+  "version": "1.0.0",
+  "private": true,
+  "description": "360 Auto Care Inc — one-page site. Dark industrial editorial, built on Bootstrap 5.3 SCSS.",
+  "scripts": {
+    "css": "sass src/scss/main.scss assets/css/main.css --load-path=node_modules --style=expanded --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions",
+    "css:min": "sass src/scss/main.scss assets/css/main.min.css --load-path=node_modules --style=compressed --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions",
+    "watch": "sass --watch src/scss/main.scss:assets/css/main.css --load-path=node_modules --style=expanded --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions",
+    "js": "cp src/js/main.js src/js/reviews.data.js assets/js/",
+    "vendor": "cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js assets/js/vendor/bootstrap.bundle.min.js",
+    "build": "npm run css && npm run css:min && npm run js && npm run vendor",
+    "serve": "npx --yes live-server --port=5188 --no-browser ."
+  },
+  "devDependencies": {
+    "bootstrap": "^5.3.8",
+    "sass": "^1.102.0"
+  }
+}

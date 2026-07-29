@@ -1,0 +1,286 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 01 · Hero — cinematic editorial composition
+//
+// Masses: one photographic field of work in progress (dominant, weight left of
+// centre) · one compact type mass held in the dark upper-right (subordinate,
+// dominant by contrast and isolation, not by size) · one translucent wordmark
+// band across the lower third (support texture) · two square image modules
+// hung across the bottom edge (the one committed grid-break) · the accent disc
+// low right (the action centre the whole field resolves into).
+//
+// Measured before placement, on the actual photograph:
+//   upper-right type zone   ink 7.97:1 at p95, 5.40:1 at the brightest pixel
+//   lower-left anchor zone  ink 3.48:1 at p95  → bottom scrim required
+//   bottom edge / rail zone ink 2.75:1 at p95  → opaque rail surface required
+// ─────────────────────────────────────────────────────────────────────────────
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-block-size: min(100svh, 54rem);
+  display: grid;
+}
+
+// ── Photographic field ──────────────────────────────────────────────────────
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
+  overflow: hidden;
+  background: var(--color-bg-soft);
+}
+
+.hero__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  // The technician and the lifted vehicle stay in frame as the format narrows.
+  object-position: 46% 42%;
+}
+
+// ── Scrims ──────────────────────────────────────────────────────────────────
+// Two different compositions need two different scrims, and both were measured
+// against the composited photograph rather than assumed.
+//
+// Small formats: the type stack occupies the lower half, so the lower half is
+// carried deep. Unscrimmed, the headline crossed a taillight at 1.87:1.
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background:
+    linear-gradient(to top,
+      var(--scrim-a92) 0%,
+      rgb(9 12 13 / 0.9) 48%,
+      rgb(9 12 13 / 0.78) 64%,
+      rgb(9 12 13 / 0) 88%),
+    linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 24%);
+}
+
+// ── Wordmark texture band ───────────────────────────────────────────────────
+// A supporting compositional layer, not a heading: translucent warm white,
+// cropped by both viewport edges, and cut by the rail's rule below. It carries
+// no information — the legible wordmark is in the masthead.
+// Dropped below 62rem: the job it does on wide formats — a texture band crossing
+// the lower third and cut by the rail's rule — has no room at 390px, where it
+// would sit half-hidden behind the action bar and read as an artefact rather
+// than as a decision. It carries no information; the legible wordmark is in the
+// masthead.
+.hero__wordmark {
+  display: none;
+  position: absolute;
+  z-index: var(--z-scrim);
+  inset-inline: 0;
+  inset-block-end: clamp(3.5rem, 9vh, 8rem);
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 68;
+  font-weight: 700;
+  font-size: var(--text-mega);
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: rgb(241 240 235 / 0.09);
+  pointer-events: none;
+  user-select: none;
+}
+
+// ── Layout ──────────────────────────────────────────────────────────────────
+// ── Layout ──────────────────────────────────────────────────────────────────
+// Small formats: an open photographic field on top, then the whole type stack
+// in the deep lower band — headline, lead, phone, address, action. This is a
+// different composition from the desktop one, not a stacked copy of it: the
+// dominant is still the photograph, but the type mass is carried by tonal depth
+// instead of by horizontal isolation, which does not exist at 390px.
+.hero__layout {
+  position: relative;
+  z-index: var(--z-content);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 1fr auto auto auto;
+  column-gap: var(--grid-gutter-width);
+  padding-block: var(--space-10) var(--space-7);
+}
+
+// ── Statement ───────────────────────────────────────────────────────────────
+.hero__statement {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  max-inline-size: 34rem;
+}
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-block-end: var(--space-5);
+}
+
+.hero__eyebrow::after {
+  content: "";
+  flex: 1 1 auto;
+  max-inline-size: 6rem;
+  block-size: var(--rule);
+  background: var(--color-cold-detail);
+}
+
+// The breaks are hand-set in the markup and "care for" is bound with a
+// non-breaking space, so balancing is switched off: it would override the
+// authored break and strand "for" on a line of its own.
+.hero__title {
+  font-size: var(--text-hero);
+  text-wrap: normal;
+}
+
+.hero__lead {
+  margin-block-start: var(--space-5);
+  color: var(--ink-a72);
+  max-inline-size: 38ch;
+}
+
+// ── Anchor row ──────────────────────────────────────────────────────────────
+.hero__anchor {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  align-self: end;
+  display: grid;
+  gap: var(--space-2);
+  margin-block-start: var(--space-7);
+}
+
+.hero__anchor-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3) var(--space-5);
+}
+
+// Shared by the hero anchor and the footer: a phone number set in the display
+// face, tabular, and never allowed to break across lines.
+.phone-line {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--wdth-display);
+  font-weight: 700;
+  font-size: var(--text-h4);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.phone-line:hover,
+.phone-line:focus-visible {
+  color: var(--color-accent);
+}
+
+// ── Action ──────────────────────────────────────────────────────────────────
+.hero__cta {
+  display: none;
+}
+
+.hero__cta-bar {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  margin-block-start: var(--space-6);
+}
+
+// ── Square modules hung across the bottom edge ──────────────────────────────
+// The page's single committed grid-break: two image modules straddling the
+// boundary between the photograph and the capability rail, so the two masses
+// read as one structure rather than two stacked bands.
+.hero__modules {
+  display: none;
+}
+
+// ── Desktop composition ─────────────────────────────────────────────────────
+@media (min-width: 62rem) {
+  // Wide formats: four rows — masthead clearance, the statement held at centre
+  // height, the wordmark field, then the anchor row along the bottom edge.
+  .hero__layout {
+    grid-template-rows:
+      minmax(var(--space-10), 0.9fr)
+      auto
+      minmax(var(--space-9), 1fr)
+      auto;
+    padding-block: 0 var(--space-9);
+  }
+
+  // The type mass moves into the quiet upper-right field, held against the
+  // photograph's weight rather than sitting on top of it. With the mass beside
+  // the subject rather than below it, the deep lower scrim is no longer needed
+  // and the right field carries the legibility instead.
+  .hero__scrim {
+    background:
+      linear-gradient(to top, var(--scrim-a92) 0%, rgb(9 12 13 / 0.82) 26%, rgb(9 12 13 / 0) 60%),
+      linear-gradient(to left, var(--scrim-a72) 0%, var(--scrim-a40) 40%, rgb(9 12 13 / 0) 74%),
+      linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 26%);
+  }
+
+  .hero__statement {
+    grid-column: 6 / 13;
+    grid-row: 2;
+    align-self: center;
+    max-inline-size: none;
+  }
+
+  .hero__anchor {
+    grid-column: 1 / 6;
+    grid-row: 4;
+    margin-block-start: 0;
+  }
+
+  // Raised clear of the anchor row: the wordmark band sits above the phone and
+  // address rather than running through them, so the texture layer never
+  // competes with the information it supports.
+  .hero__wordmark {
+    display: block;
+    text-align: left;
+    padding-inline-start: var(--gutter);
+    inset-block-end: clamp(8rem, 21vh, 16rem);
+    color: rgb(241 240 235 / 0.05);
+  }
+
+  .hero__cta {
+    display: block;
+    grid-column: 10 / 13;
+    grid-row: 4;
+    align-self: end;
+    justify-self: end;
+  }
+
+  .hero__cta-bar {
+    display: none;
+  }
+
+  .hero__modules {
+    --module: clamp(6rem, 9vw, 10rem);
+
+    position: absolute;
+    z-index: var(--z-content);
+    inset-block-end: calc(var(--module) * -0.42);
+    inset-inline-start: var(--gutter);
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-4);
+    pointer-events: none;
+  }
+
+  .hero__module {
+    inline-size: var(--module);
+    aspect-ratio: 1 / 1;
+  }
+
+  .hero__module--drop {
+    inline-size: calc(var(--module) * 0.72);
+    translate: 0 calc(var(--module) * 0.34);
+  }
+}
+
+@media (min-width: 90rem) {
+  .hero__statement {
+    grid-column: 7 / 13;
+  }
+}

@@ -1,0 +1,137 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 04 · The shop — editorial two-column capability section
+//
+// Mass ratio inverts the services band: the photograph takes the left 7 columns
+// and bleeds to the viewport edge, the story column is narrow and held right,
+// and two square fragments are offset behind the main image — the second of the
+// three square moments on the page. Below, four factual capability statements
+// on one wide architectural rail.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.shop {
+  background: var(--color-bg-soft);
+  overflow: hidden;
+}
+
+.shop__figure {
+  position: relative;
+}
+
+.shop__main {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.shop__frags {
+  display: none;
+}
+
+.shop__story {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.shop__facts {
+  margin-block-start: var(--space-9);
+  border-block-start: var(--rule) solid var(--color-line);
+  display: grid;
+  grid-template-columns: 1fr;
+  list-style: none;
+  padding: 0;
+}
+
+.shop__fact {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-5);
+  border-block-end: var(--rule) solid var(--color-line);
+}
+
+.shop__fact-title {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.shop__fact-note {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+// Bounded for the same reason as the capability rail: unbounded, these zero the
+// inside padding of cells 2 and 3 in the four-up layout and push their text
+// against a divider rule.
+@media (min-width: 48rem) and (max-width: 61.9375rem) {
+  .shop__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shop__fact {
+    padding-inline: var(--space-6);
+  }
+
+  .shop__fact:nth-child(odd) {
+    padding-inline-start: 0;
+  }
+
+  .shop__fact:nth-child(even) {
+    padding-inline-end: 0;
+    border-inline-start: var(--rule) solid var(--color-line);
+  }
+}
+
+@media (min-width: 62rem) {
+  .shop__figure {
+    // Committed bleed: the image runs off the left edge of the viewport instead
+    // of stopping short of it.
+    margin-inline-start: calc(var(--gutter) * -1);
+  }
+
+  .shop__frags {
+    position: absolute;
+    z-index: calc(var(--z-content) + 1);
+    inset-block-end: calc(var(--space-8) * -1);
+    inset-inline-end: calc(var(--space-8) * -1);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .shop__frag {
+    inline-size: clamp(7rem, 11vw, 12rem);
+    aspect-ratio: 1 / 1;
+  }
+
+  .shop__frag:nth-child(2) {
+    justify-self: end;
+    translate: calc(var(--space-6) * -1) 0;
+  }
+
+  .shop__facts {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-block-start: var(--space-11);
+  }
+
+  .shop__fact {
+    padding-block: var(--space-6) var(--space-7);
+    padding-inline: var(--space-6);
+    border-block-end: 0;
+    border-inline-start: var(--rule) solid var(--color-line);
+  }
+
+  .shop__fact:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  .shop__fact:last-child {
+    padding-inline-end: 0;
+  }
+}

@@ -1,0 +1,124 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Design tokens
+//
+// The single source of every colour, interval, size and duration on the page.
+// Nothing in sections/ may introduce a raw value; the only exceptions are 1px
+// hairlines, 0, and 100%/100vh-class values.
+//
+// Contrast is measured, not assumed. Every ratio below was computed against the
+// ground it actually sits on (WCAG 2.1 relative luminance):
+//
+//   text        #f1f0eb  on bg 17.20 · bg-soft 16.01 · surface 14.99 · raised 13.72
+//   text-muted  #929d9f  on bg  7.05 · bg-soft  6.57 · surface  6.15 · raised  5.62
+//   accent      #f47a17  on bg  7.14 · bg-soft  6.65 · surface  6.23 · raised  5.70
+//   bg on accent (CTA ink)          7.14   ← the CTA label is near-black, never white
+//   text on accent                  2.41 ✗ never used
+//   cold-detail #60777b  on bg  4.13 · surface 3.60  → boundaries/markers, never body
+//   line        #2b3537  on bg  1.56          → decorative hairline only
+// ─────────────────────────────────────────────────────────────────────────────
+
+:root {
+  // ── Ground ────────────────────────────────────────────────────────────────
+  // Four dark steps, not one flat black. Depth comes from moving between them.
+  --color-bg:              #090c0d;
+  --color-bg-soft:         #101617;
+  --color-surface:         #151d1f;
+  --color-surface-raised:  #1b2528;
+
+  // ── Ink ───────────────────────────────────────────────────────────────────
+  --color-text:            #f1f0eb;
+  --color-text-muted:      #929d9f;
+
+  // ── Structure ─────────────────────────────────────────────────────────────
+  --color-line:            #2b3537;  // decorative dividers
+  --color-cold-detail:     #60777b;  // control boundaries, markers, large labels
+
+  // ── Accent ────────────────────────────────────────────────────────────────
+  // Derived from the workshop itself: the sodium-orange work lamp that lights
+  // every photograph in the image set, and the only warm hue the photography
+  // leaves as a signal rather than as subject. Four roles, no fifth:
+  // primary action · active service index · section numbers · focus ring.
+  --color-accent:          #f47a17;
+  --color-accent-hover:    #ff8a24;
+  --color-accent-ink:      #090c0d;  // label colour on an accent fill
+
+  // Translucent inks, for type and scrims over photography.
+  --ink-a72:               rgb(241 240 235 / 0.72);
+  --ink-a40:               rgb(241 240 235 / 0.4);
+  --ink-a12:               rgb(241 240 235 / 0.12);
+  --ink-a06:               rgb(241 240 235 / 0.06);
+  --scrim-a92:             rgb(9 12 13 / 0.92);
+  --scrim-a72:             rgb(9 12 13 / 0.72);
+  --scrim-a40:             rgb(9 12 13 / 0.4);
+
+  // ── Space ─────────────────────────────────────────────────────────────────
+  // 4px base. Mirrors $spacers, so utility classes and hand-written rules draw
+  // from one scale.
+  --space-1:   0.25rem;   //   4px
+  --space-2:   0.5rem;    //   8px
+  --space-3:   0.75rem;   //  12px
+  --space-4:   1rem;      //  16px
+  --space-5:   1.5rem;    //  24px
+  --space-6:   2rem;      //  32px
+  --space-7:   3rem;      //  48px
+  --space-8:   4rem;      //  64px
+  --space-9:   6rem;      //  96px
+  --space-10:  8rem;      // 128px
+  --space-11: 12rem;      // 192px
+
+  // ── Shell ─────────────────────────────────────────────────────────────────
+  --shell:    1560px;
+  --gutter:   clamp(1.5rem, 4vw, 4.5rem);
+  --rule:     1px;
+
+  // Section rhythm: bottom-heavy, 1 : 1.6 → each band ends before the next
+  // begins instead of being shoved into it.
+  --band-top:     clamp(4rem, 9vw, 6rem);
+  --band-bottom:  clamp(6rem, 14vw, 12rem);
+
+  // ── Type families ─────────────────────────────────────────────────────────
+  --font-display: "Archivo", "Archivo Narrow", "Helvetica Neue", sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  // ── Type scale ────────────────────────────────────────────────────────────
+  // Fluid, so type is optically correct at every width rather than at two.
+  --text-xs:      0.6875rem;                                    // 11px mono labels
+  --text-sm:      clamp(0.8125rem, 0.3vw + 0.75rem, 0.9375rem);
+  --text-body:    clamp(1rem, 0.25vw + 0.95rem, 1.0625rem);
+  --text-lead:    clamp(1.0625rem, 0.6vw + 0.95rem, 1.3125rem);
+  --text-h4:      clamp(1.25rem, 0.9vw + 1.05rem, 1.625rem);
+  --text-h3:      clamp(1.5rem, 1.6vw + 1.1rem, 2.25rem);
+  --text-h2:      clamp(2rem, 3.4vw + 1.1rem, 3.75rem);
+  --text-hero:    clamp(2.25rem, 3.6vw + 0.9rem, 4.75rem);
+  // Sized so "(516) 555-0100" holds one line inside a five-column field at
+  // every width — a phone number broken across two lines is not a phone number.
+  --text-phone:   clamp(1.875rem, 4.1vw + 0.4rem, 4.25rem);
+  --text-index:   clamp(2rem, 3vw + 1rem, 3.5rem);              // chapter numerals
+  --text-mega:    clamp(3.5rem, 15.5vw, 15rem);                 // wordmark texture band
+
+  // ── Type mechanics ────────────────────────────────────────────────────────
+  --lh-display:   0.94;
+  --lh-tight:     1.12;
+  --lh-body:      1.6;
+  --lh-lead:      1.45;
+  --ls-display:  -0.02em;
+  --ls-label:     0.14em;
+  --ls-mono:      0.08em;
+  --wdth-display: 82;   // Archivo width axis — condensed industrial signage cut
+
+  // ── Motion ────────────────────────────────────────────────────────────────
+  --dur-1: 0.15s;
+  --dur-2: 0.25s;
+  --dur-3: 0.4s;
+  --dur-4: 1.2s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);  // entering, expanding
+  --ease-in:  cubic-bezier(0.55, 0, 1, 0.45);  // exiting, collapsing
+
+  // ── Layers ────────────────────────────────────────────────────────────────
+  // Three planes only: photograph → scrim → type/controls. Header sits above.
+  --z-media:   0;
+  --z-scrim:   1;
+  --z-content: 2;
+  --z-header:  50;
+}

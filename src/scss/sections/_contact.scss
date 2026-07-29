@@ -1,0 +1,78 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 11 · Contact — the page's culmination
+//
+// Densest band on the page and the only one whose dominant is typographic: the
+// phone number is the largest type mass outside the hero, because it is the
+// means the visitor is most likely to use. Address and hours sit under it as a
+// record; the request form occupies the right field as a modular instrument;
+// a wide image strip and the directions line close the block.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.contact {
+  background: var(--color-bg-soft);
+}
+
+// ── Left field ──────────────────────────────────────────────────────────────
+.contact__direct {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+.contact__phone {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" var(--wdth-display);
+  font-weight: 700;
+  font-size: var(--text-phone);
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.contact__phone:hover,
+.contact__phone:focus-visible {
+  color: var(--color-accent);
+}
+
+.contact__phone-note {
+  margin-block-start: var(--space-4);
+}
+
+// ── Form field ──────────────────────────────────────────────────────────────
+.contact__request {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+// ── Lower row ───────────────────────────────────────────────────────────────
+.contact__place {
+  margin-block-start: var(--space-9);
+  padding-block-start: var(--space-7);
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.contact__place-media {
+  aspect-ratio: 16 / 9;
+}
+
+.contact__place-media img {
+  object-position: 50% 62%;
+}
+
+.contact__place-lines {
+  display: grid;
+  gap: var(--space-5);
+  align-content: center;
+}
+
+@media (min-width: 62rem) {
+  .contact__place-media {
+    aspect-ratio: 21 / 9;
+  }
+}

@@ -1,0 +1,102 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 10 · Verified reviews
+//
+// Nothing here is written by us. The band renders from window.REVIEWS_360, which
+// ships empty: until real, verifiable reviews are pasted in, the section shows
+// its own honest state rather than invented praise. See docs/CONTENT-TODO.md.
+//
+// The band is deliberately the airiest on the page — it resets the eye before
+// the density of the contact block.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.reviews {
+  background: var(--color-bg);
+}
+
+.reviews__set {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.review {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: var(--space-7);
+  border-block-end: var(--rule) solid var(--color-line);
+}
+
+.review__quote {
+  font-size: var(--text-lead);
+  line-height: 1.45;
+  color: var(--color-text);
+  max-inline-size: 44ch;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.review__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3) var(--space-5);
+}
+
+.review__source {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+// Rating is stated in words as well as in marks — never carried by shape or
+// colour alone.
+.review__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-mono);
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+// ── Awaiting-data state ─────────────────────────────────────────────────────
+.reviews__pending {
+  display: grid;
+  gap: var(--space-5);
+  max-inline-size: 52ch;
+  padding-block-start: var(--space-7);
+  border-block-start: var(--rule) solid var(--color-line);
+}
+
+.reviews__pending-note {
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 62rem) {
+  .reviews__set {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--space-8);
+  }
+
+  .review {
+    padding-block: var(--space-8) var(--space-7);
+    padding-inline-end: var(--space-6);
+    border-block-end: 0;
+    border-inline-start: var(--rule) solid var(--color-line);
+    padding-inline-start: var(--space-6);
+  }
+
+  .review:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+}

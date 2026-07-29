@@ -1,0 +1,105 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 09 · Service process — architectural horizontal timeline
+//
+// A single continuous rule with four markers sitting on it. Thin, wide and low
+// in density on purpose: it is the quiet band between the chapters and the
+// contact block, and it exists to answer "what actually happens if I call".
+// On small formats the rule turns vertical and the markers hang off it.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.process {
+  background: var(--color-bg-soft);
+}
+
+.process__track {
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.process__step {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  padding: 0 0 var(--space-7) var(--space-7);
+  border-inline-start: var(--rule) solid var(--color-line);
+}
+
+.process__step:last-child {
+  padding-block-end: 0;
+}
+
+// The marker: a small square sitting on the line, filled on the first step.
+.process__step::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.45rem;
+  inset-inline-start: 0;
+  inline-size: 9px;
+  block-size: 9px;
+  background: var(--color-bg-soft);
+  border: var(--rule) solid var(--color-cold-detail);
+  translate: -5px 0;
+}
+
+.process__step--first::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.process__step-title {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.process__step-note {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin: 0;
+  max-inline-size: 40ch;
+}
+
+@media (min-width: 62rem) {
+  .process__track {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--space-7);
+    margin-block-start: var(--space-8);
+  }
+
+  .process__step {
+    padding: var(--space-7) 0 0;
+    border-inline-start: 0;
+    border-block-start: var(--rule) solid var(--color-line);
+  }
+
+  .process__step::before {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    translate: 0 -5px;
+  }
+
+  // The continuous rule: each step's own top border joins the next, so the
+  // track reads as one structure the markers are fixed to.
+  .process__step::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 100%;
+    inline-size: var(--space-7);
+    block-size: var(--rule);
+    background: var(--color-line);
+  }
+
+  .process__step:last-child::after {
+    display: none;
+  }
+}

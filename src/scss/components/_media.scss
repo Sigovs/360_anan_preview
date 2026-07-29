@@ -1,0 +1,115 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Media
+//
+// Three planes and no more: photograph → scrim → type. Every scrim is a
+// background-layer fix for legibility, never a text shadow.
+// ─────────────────────────────────────────────────────────────────────────────
+
+.media {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-bg-soft);
+}
+
+.media > img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+// Aspect ratios as named relationships, not as one-off numbers.
+.media--wide      { aspect-ratio: 16 / 9; }
+.media--cinema    { aspect-ratio: 21 / 9; }
+.media--portrait  { aspect-ratio: 3 / 4; }
+.media--tall      { aspect-ratio: 4 / 5; }
+.media--square    { aspect-ratio: 1 / 1; }
+
+// Directional scrims. Applied to the container, above the image, below the type.
+.media--scrim-bottom::after,
+.media--scrim-left::after,
+.media--scrim-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+}
+
+.media--scrim-bottom::after {
+  background: linear-gradient(to top,
+    var(--scrim-a92) 0%,
+    var(--scrim-a72) 28%,
+    rgb(9 12 13 / 0) 62%);
+}
+
+.media--scrim-left::after {
+  background: linear-gradient(to right,
+    var(--scrim-a92) 0%,
+    var(--scrim-a40) 45%,
+    rgb(9 12 13 / 0) 78%);
+}
+
+.media--scrim-right::after {
+  background: linear-gradient(to left,
+    var(--scrim-a92) 0%,
+    var(--scrim-a40) 45%,
+    rgb(9 12 13 / 0) 78%);
+}
+
+// Two directions in one layer, for type sitting in a photograph's lower-left
+// corner while the subject holds the right of the frame. Two separate scrim
+// classes cannot be combined — they would both write ::after and the last one
+// would win — so the corner case is its own variant.
+.media--scrim-corner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background:
+    linear-gradient(to top, var(--scrim-a92) 0%, var(--scrim-a72) 26%, rgb(9 12 13 / 0) 68%),
+    linear-gradient(to right, var(--scrim-a92) 0%, var(--scrim-a72) 26%, var(--scrim-a40) 50%, rgb(9 12 13 / 0) 82%);
+}
+
+// A hairline framing a square fragment so it reads as a hung module rather than
+// a floating cut-out.
+.media--module {
+  border: var(--rule) solid var(--ink-a12);
+}
+
+// A flat tonal wash for the one or two frames whose own exposure runs lighter
+// than the rest of the set. Grading, not decoration: it keeps the page's tonal
+// structure intact so no single image jumps out of the sequence.
+.media--tone > img {
+  filter: brightness(0.82) saturate(0.88);
+}
+
+.media__caption {
+  position: absolute;
+  z-index: var(--z-content);
+  inset-block-end: var(--space-5);
+  inset-inline-start: var(--space-5);
+  color: var(--ink-a72);
+}
+
+// ── Slow scale ──────────────────────────────────────────────────────────────
+// The single ambient moment on the page: the hero photograph settles over 1.2s
+// on first load. Nothing else moves on its own.
+.media--settle > img {
+  animation: media-settle var(--dur-4) var(--ease-out) both;
+}
+
+@keyframes media-settle {
+  from { opacity: 0; scale: 1.04; }
+  to   { opacity: 1; scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media--settle > img {
+    animation: none;
+    opacity: 1;
+    scale: 1;
+  }
+}
