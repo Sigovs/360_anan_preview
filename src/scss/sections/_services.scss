@@ -2,15 +2,20 @@
 // 03 · Indexed service directory
 //
 // Not six cards. A numbered index on the left against one dominant square image
-// field on the right — an editorial project index, where hovering or focusing a
-// row changes the image and the row's own marker, and where every description,
-// related-service line and request action is readable with no interaction at
-// all.
+// field on the right — an editorial project index. Six titles is the resting
+// state: hovering or focusing a row opens it, revealing its description, its
+// related-service line and its request action, and swaps the photograph on the
+// right at the same time.
 //
-// Structure is a list of <details>, open by default. Script closes all but the
-// first below 62rem and gives them a shared `name`, which makes the mobile
-// accordion native and exclusive; with script absent, every item is simply
-// open and nothing is lost.
+// The list used to ship every row fully expanded, which made the section roughly
+// 1,900px of simultaneous reading and buried the image stage under it. One row
+// open at a time is the same content in a fifth of the height, and it gives the
+// stage something to do.
+//
+// Structure is a list of <details> sharing one `name`, so exclusivity is the
+// platform's rather than the script's. Only the first ships `open`. With script
+// absent the rows still open on click, because that is what <summary> does — the
+// script only adds hover and drives the image stage.
 // ─────────────────────────────────────────────────────────────────────────────
 
 .services {
@@ -29,15 +34,20 @@
 }
 
 // ── Row ─────────────────────────────────────────────────────────────────────
+// Deliberately NOT `position: relative`. It was, for the accent bar below, and that
+// made the row the containing block for the absolutely-positioned detail on wide
+// formats — so the detail anchored to whichever row was open instead of to the
+// list, and `calc(100% - reserve)` resolved to -116px, laying the paragraph across
+// the last two titles. The bar lives on the summary now, which needs a positioned
+// ancestor no less and is the box the bar visually belongs to anyway.
 .svc {
-  position: relative;
   border-block-end: var(--rule) solid var(--color-line);
 }
 
 // The active row is marked three ways at once — an accent bar growing down its
-// inline edge, its ground lifting one tonal step, and its numeral and title
-// brightening. Colour alone would be a hue-only signal.
-.svc::before {
+// inline edge, its numeral warming to accent, and its title brightening. Colour
+// alone would be a hue-only signal.
+.svc__head::before {
   content: "";
   position: absolute;
   inset-block: 0;
@@ -49,9 +59,9 @@
   transition: scale var(--dur-3) var(--ease-out);
 }
 
-.svc:hover::before,
-.svc:focus-within::before,
-.svc[data-active="true"]::before {
+.svc:hover .svc__head::before,
+.svc:focus-within .svc__head::before,
+.svc[data-active="true"] .svc__head::before {
   scale: 1 1;
 }
 
@@ -59,16 +69,18 @@
   display: block;
 }
 
+// One row, three cells: index, title, marker. The description used to sit here as
+// a second grid row, which is why the rows could never collapse — content inside
+// <summary> stays visible when a <details> is shut.
 .svc__head {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: baseline;
   column-gap: var(--space-5);
-  row-gap: var(--space-4);
   padding-block: var(--space-5);
   cursor: pointer;
   list-style: none;
-  transition: background-color var(--dur-3) var(--ease-out);
 }
 
 .svc__head::-webkit-details-marker {
@@ -97,11 +109,7 @@
               translate var(--dur-1) var(--ease-out);
 }
 
-// A span rather than a paragraph: <summary> takes phrasing and heading content
-// only, so a <p> in there is invalid markup.
 .svc__desc {
-  display: block;
-  grid-column: 2 / -1;
   font-size: var(--text-body);
   line-height: 1.55;
   color: var(--color-text-body);
@@ -113,6 +121,32 @@
   display: grid;
   gap: var(--space-5);
   padding-block: 0 var(--space-6);
+  // No inline indent here. Indenting the body to the title's text column looks
+  // right and costs 46px of measure, which at 320px pushed the request button two
+  // pixels past the viewport edge. The indent is applied from 48rem up, where the
+  // room exists.
+}
+
+@media (min-width: 48rem) {
+  .svc__body {
+    padding-inline-start: calc(var(--text-xs) * 2 + var(--space-5));
+  }
+}
+
+// The body arrives rather than appearing. A <details> has no transition of its own
+// — the content is simply in or out of the box — so this is an animation on the
+// element becoming visible, which needs no state tracking and cannot desync.
+.svc__disc[open] .svc__body {
+  animation: svc-open var(--dur-3) var(--ease-out) both;
+}
+
+@keyframes svc-open {
+  from { opacity: 0; transform: translate3d(0, -6px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc__disc[open] .svc__body { animation: none; }
 }
 
 .svc__related {
@@ -166,13 +200,10 @@
   translate: 3px 0;
 }
 
-// The ground lifts one tonal step under the active row, fading out to the right
-// so it reads as light falling across the row rather than as a filled card.
-.svc:hover .svc__head,
-.svc:focus-within .svc__head,
-.svc[data-active="true"] .svc__head {
-  background: linear-gradient(to right, var(--ink-a06) 0%, rgb(241 240 235 / 0) 78%);
-}
+// No ground wash on the active row. There was a gradient here lifting it one tonal
+// step; with the rows collapsed, the row that is open is already the only one
+// showing a paragraph, so the wash was a fourth signal for a state that three
+// already carry — the accent bar, the accent numeral and the brightened title.
 
 // ── Stage ───────────────────────────────────────────────────────────────────
 // One square photographic field, held at the top of the viewport while the
@@ -225,13 +256,51 @@
     padding-block-start: var(--space-4);
   }
 
+  // Still a pointer, not `cursor: default` — the row opens on click as well as on
+  // hover, so it is a control at every width now.
   .svc__head {
     padding-block: var(--space-6);
-    cursor: default;
   }
 
+  // ── The open row's detail is taken OUT OF FLOW ────────────────────────────
+  // This is the fix for hover-to-open, and it is a correctness fix rather than a
+  // stylistic one. While the body was in flow, opening a row closed another and
+  // changed the height of the list ABOVE the pointer — which slid a different row
+  // under a pointer that had not moved, opened that one, and reflowed again.
+  // Hovering row six landed on row four. Every attempt to filter the spurious
+  // events failed for the same reason: a real user sweeping down the list is also
+  // moving during the reflow, so the "bad" events are indistinguishable from the
+  // good ones by anything except position, and position is exactly what the reflow
+  // invalidates.
+  //
+  // Out of flow, the six title rows never move, so a hover always selects the row
+  // the pointer is actually over. The detail is pinned just below the index and the
+  // column reserves the room for it, so nothing overlaps the band's lower edge.
+  // One value drives both the reserved room and where the detail is pinned, so the
+  // two cannot drift apart. Measured, not guessed: the longest of the six details is
+  // 219px, plus the 24px gap below the index, so 16rem leaves a little slack for a
+  // related-service line that wraps at a narrower desktop width.
+  .services__list {
+    position: relative;
+    --svc-reserve: 16rem;
+  }
+
+  // Pinned to the top of the reserved slot rather than to the bottom of the list —
+  // the list's own bottom edge is below the reserve, and pinning there would drop
+  // the detail out of the band entirely. Anchoring to the slot's top also keeps the
+  // gap under the index constant, instead of letting a short detail float down.
   .svc__body {
-    padding-block-end: var(--space-6);
+    position: absolute;
+    inset-block-start: calc(100% - var(--svc-reserve));
+    inset-inline: 0;
+    margin-block-start: var(--space-5);
+    padding-block-end: 0;
+  }
+
+  .services__reserve {
+    display: block;
+    block-size: var(--svc-reserve);
+    border-block-end: 0;
   }
 
   // With script present the stage carries the photograph, so the inline copy of

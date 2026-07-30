@@ -105,8 +105,7 @@
 .js-motion .hero[data-entered="in"] .hero__title    { transition-delay: 240ms; }
 .js-motion .hero[data-entered="in"] .hero__lead     { transition-delay: 340ms; }
 .js-motion .hero[data-entered="in"] .hero__anchor   { transition-delay: 430ms; }
-.js-motion .hero[data-entered="in"] .hero__cta,
-.js-motion .hero[data-entered="in"] .hero__cta-bar  { transition-delay: 500ms; }
+.js-motion .hero[data-entered="in"] .hero__cta      { transition-delay: 500ms; }
 
 // The disc arrives by opening rather than by sliding: it is the culmination of
 // the entrance, so it gets the one distinct gesture.

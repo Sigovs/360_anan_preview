@@ -97,8 +97,7 @@ video {
 
 // An accent fill still works on the light ground, because its ink is near-black
 // either way: 7.14:1 on the orange.
-.band--light .btn-solid,
-.band--light .cta-bar {
+.band--light .action--primary {
   background: #f47a17;
   color: var(--color-accent-ink);
 }
@@ -129,6 +128,11 @@ video {
 .sec-head > h2 + .lead,
 .sec-head > h2 + .copy         { margin-block-start: var(--space-6); }
 
+// The eyebrow, which no longer opens with a section number. Eleven bands each
+// announcing their own position in a count the visitor has no reason to track was
+// the largest single source of numbering on the page; the label alone says what the
+// band is, which is the part that was ever useful. The accent colour goes with the
+// digits — it was there for the numeral, and an eyebrow label is metadata.
 .sec-index {
   display: inline-flex;
   align-items: center;
@@ -138,8 +142,6 @@ video {
   font-weight: 500;
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--color-accent);
-  font-variant-numeric: tabular-nums;
 }
 
 // The rule grows out of the index when the band arrives — a line expanding, not

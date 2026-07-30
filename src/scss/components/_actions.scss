@@ -1,29 +1,37 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Actions
+// Actions — TWO tiers, and there is no third
 //
-// One primary action per view: the solid accent block in the hero. Everything
-// else is a mono text link with a growing rule, or a square-cornered secondary
-// button. No gradients, no radius anywhere, no shadows — the page's square-module
-// system has no round shapes in it, and the CTA no longer breaks that.
+//   .action--primary     accent fill, near-black ink. The thing to do.
+//   .action--secondary   hairline border, text ink. Everything else.
+//
+// The page previously ran five: a filled hero disc, a filled form submit, a
+// full-width filled bar, a bordered ghost button and a mono text link with a
+// growing rule. Two of the five were never used in the markup at all, and the
+// text link was doing eleven jobs — six service requests, four chapter actions
+// and the directions link — at a visual weight that read as body copy with a
+// rule under it. A reader cannot rank five levels of emphasis, and a page with
+// eleven tertiary actions does not have a tertiary tier, it has an unstyled one.
+//
+// So: one shape, one register, two levels of fill. Anything that is not the
+// single most important action in its view is secondary, and secondary is still
+// a button — square, 48px tall, with a hit area you can find on a phone.
+//
+// Contrast, measured: near-black on the accent is 7.14:1 (white would be 2.41:1
+// and is never used); text ink on the deep ground is 17.20:1; the secondary
+// border at --color-cold-detail is 4.13:1, comfortably over the 3:1 a control
+// boundary needs.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Primary CTA ─────────────────────────────────────────────────────────────
-// A solid, square-cornered block. The circular disc it replaces was a stylistic
-// tic: it read as an ornament rather than as a control, it could not hold a
-// second line of label, and a circle is the one shape this page's square-module
-// system does not contain.
-//
-// Near-black ink on the accent measures 7.14:1. White would be 2.41:1, so the
-// label is always --color-accent-ink whichever ground the button lands on.
-.cta-solid {
+.action {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-6);
-  min-block-size: 4.25rem;
-  padding: var(--space-5) var(--space-6) var(--space-5) var(--space-7);
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  justify-content: space-between;
+  gap: var(--space-5);
+  // 48px. A control this page's audience uses on a phone in a parking lot.
+  min-block-size: 3rem;
+  padding: var(--space-4) var(--space-5);
+  border: var(--rule) solid transparent;
   font-family: var(--font-mono);
   font-size: var(--text-label);
   font-weight: 500;
@@ -31,234 +39,137 @@
   line-height: 1.2;
   text-transform: uppercase;
   text-decoration: none;
-  overflow: hidden;
+  cursor: pointer;
   transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
               translate var(--dur-2) var(--ease-out);
 }
 
-.cta-solid__label {
+// The label may be one line or two; the arrow is always the last cell.
+.action__label {
   display: grid;
   gap: var(--space-1);
+  text-align: start;
 }
 
-// The second line names what happens, in the same mono register one step down in
-// ink — so the button carries the promise instead of only the verb.
-.cta-solid__sub {
-  font-size: var(--text-2xs);
-  letter-spacing: var(--ls-label);
-  color: rgb(9 12 13 / 0.62);
+.action__mark {
+  flex: none;
+  font-size: 1rem;
+  line-height: 1;
+  transition: translate var(--dur-1) var(--ease-out);
 }
 
-// The arrow sits in its own bordered square, flush with the button's inner edge —
-// the nested-icon idea executed in this page's square idiom rather than as a pill.
-.cta-solid__mark {
+// One hover language for both tiers: the button lifts 2px and the arrow moves
+// 3px along. Focus does exactly the same thing, with no exceptions anywhere.
+.action:hover,
+.action:focus-visible {
+  translate: 0 -2px;
+}
+
+.action:hover .action__mark,
+.action:focus-visible .action__mark {
+  translate: 3px 0;
+}
+
+.action:active {
+  translate: 0 0;
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+// ── Primary ─────────────────────────────────────────────────────────────────
+// One per view. Near-black ink on the accent whichever ground it lands on.
+.action--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.action--primary:hover,
+.action--primary:focus-visible {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-accent-ink);
+}
+
+// ── Secondary ───────────────────────────────────────────────────────────────
+// A hairline box that commits to the accent on hover. The border moving from
+// cold grey to orange is the same "a rule draws itself" gesture the nav uses,
+// applied to a whole boundary instead of one edge.
+.action--secondary {
+  background: transparent;
+  border-color: var(--color-cold-detail);
+  color: var(--color-text);
+}
+
+.action--secondary:hover,
+.action--secondary:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--ink-a06);
+  color: var(--color-text);
+}
+
+.action--secondary .action__mark {
+  color: var(--color-accent);
+}
+
+// ── Size and width modifiers ────────────────────────────────────────────────
+// Modifiers, not tiers: a bigger primary is still the primary. This is the hero's
+// form, where the action carries a second line naming what actually happens, so
+// the button holds the promise instead of only the verb.
+.action--lg {
+  min-block-size: 4.25rem;
+  padding: var(--space-5) var(--space-5) var(--space-5) var(--space-7);
+  gap: var(--space-6);
+}
+
+.action--lg .action__mark {
   display: grid;
   place-content: center;
   inline-size: 2.5rem;
   block-size: 2.5rem;
   border: var(--rule) solid rgb(9 12 13 / 0.28);
-  font-size: 1rem;
-  line-height: 1;
   transition: background-color var(--dur-2) var(--ease-out),
               border-color var(--dur-2) var(--ease-out),
               translate var(--dur-2) var(--ease-out);
 }
 
-.cta-solid:hover,
-.cta-solid:focus-visible {
-  background: var(--color-accent-hover);
-  color: var(--color-accent-ink);
-  translate: 0 -2px;
-}
-
-.cta-solid:hover .cta-solid__mark,
-.cta-solid:focus-visible .cta-solid__mark {
+.action--lg:hover .action__mark,
+.action--lg:focus-visible .action__mark {
   background: rgb(9 12 13 / 0.1);
   border-color: rgb(9 12 13 / 0.45);
-  translate: 3px 0;
 }
 
-.cta-solid:active {
-  translate: 0 0;
+.action__sub {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--ls-label);
+  // On the accent fill only — the sub-line is always inside a primary.
+  color: rgb(9 12 13 / 0.62);
 }
 
-.cta-solid:focus-visible {
-  outline: 2px solid var(--color-text);
-  outline-offset: 3px;
+.action--block {
+  display: flex;
+  inline-size: 100%;
 }
 
 @media (max-width: 47.9375rem) {
-  // Full width on a phone: a primary action should not be hunted for.
-  .cta-solid {
+  // A primary action should not be hunted for on a phone.
+  .action--lg {
     display: flex;
-    justify-content: space-between;
     inline-size: 100%;
     padding-inline: var(--space-5);
   }
-}
 
-// ── Rectangular alternative ─────────────────────────────────────────────────
-// The small-viewport form of the same action, in flow rather than floating.
-.cta-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  inline-size: 100%;
-  padding: var(--space-5) var(--space-5);
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background-color var(--dur-1) var(--ease-out);
-}
-
-.cta-bar:hover,
-.cta-bar:focus-visible {
-  background: var(--color-accent-hover);
-  color: var(--color-accent-ink);
-}
-
-.cta-bar__mark {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-// ── Secondary / ghost button ────────────────────────────────────────────────
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-block-size: 2.75rem;
-  padding: var(--space-4) var(--space-6);
-  border: var(--rule) solid var(--color-cold-detail);
-  background: transparent;
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  font-weight: 500;
-  letter-spacing: var(--ls-label-lg);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: border-color var(--dur-2) var(--ease-out),
-              background-color var(--dur-2) var(--ease-out),
-              translate var(--dur-2) var(--ease-out);
-}
-
-.btn-ghost:hover,
-.btn-ghost:focus-visible {
-  border-color: var(--color-accent);
-  background: var(--ink-a06);
-  color: var(--color-text);
-  translate: 0 -2px;
-}
-
-.btn-ghost:active { translate: 0 0; }
-
-// The page's one submit. Sized as a decision point rather than as a control:
-// 13px label, generous padding, 48px minimum height for a thumb.
-.btn-solid {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  min-block-size: 3rem;
-  padding: var(--space-4) var(--space-8);
-  border: 0;
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  font-weight: 500;
-  letter-spacing: var(--ls-label-lg);
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color var(--dur-2) var(--ease-out),
-              translate var(--dur-2) var(--ease-out);
-}
-
-.btn-solid:hover,
-.btn-solid:focus-visible {
-  background: var(--color-accent-hover);
-  color: var(--color-accent-ink);
-  translate: 0 -2px;
-}
-
-.btn-solid:active {
-  translate: 0 0;
-}
-
-// ── Text action ─────────────────────────────────────────────────────────────
-// Mono, uppercase, with a rule that extends on hover. Not underlined: the rule
-// carries the affordance, and the arrow carries direction.
-//
-// The visible rule stays tight against the text, but the touch target does not:
-// an invisible ::before extends the hit area to 44px without moving the rule
-// away from the words it belongs to. An 11px label is a 21px tall target
-// otherwise, which is a miss on a phone.
-.link-action {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding-block-end: var(--space-3);
-  border-block-end: var(--rule) solid var(--color-line);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  font-weight: 500;
-  letter-spacing: var(--ls-label-lg);
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color var(--dur-2) var(--ease-out);
-}
-
-// The affordance is a rule that grows, not a colour that changes: an accent line
-// wipes across the resting hairline from the left. It reads as the link
-// committing rather than as a state toggling.
-.link-action::after {
-  content: "";
-  position: absolute;
-  inset-block-end: -1px;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  block-size: 2px;
-  background: var(--color-accent);
-  transform-origin: left center;
-  scale: 0 1;
-  transition: scale var(--dur-3) var(--ease-out);
-}
-
-.link-action:hover::after,
-.link-action:focus-visible::after {
-  scale: 1 1;
-}
-
-.link-action::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: 50%;
-  block-size: 44px;
-  translate: 0 -50%;
-}
-
-.link-action__mark {
-  color: var(--color-accent);
-  transition: translate var(--dur-1) var(--ease-out);
-}
-
-.link-action:hover,
-.link-action:focus-visible {
-  color: var(--color-text);
-}
-
-.link-action:hover .link-action__mark,
-.link-action:focus-visible .link-action__mark {
-  translate: 4px 0;
+  // Secondary actions go full width too. Two reasons, and neither is taste: a
+  // 13px tracked label plus padding plus the arrow measures about 230px, which at
+  // 320px inside a padded column has no margin left and overflowed; and a
+  // full-width control is the easier thumb target of the two.
+  .action--secondary {
+    display: flex;
+    inline-size: 100%;
+  }
 }

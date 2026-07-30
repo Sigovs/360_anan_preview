@@ -33,15 +33,8 @@
   border-block-start: 0;
 }
 
-.rail__index {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
-}
-
-.rail__index .num {
-  font-size: var(--text-xs);
-}
+// No index line. Four parallel facts in no particular order were being numbered
+// 01–04, which told the reader there was a sequence to follow when there was not.
 
 .rail__title {
   font-family: var(--font-display);

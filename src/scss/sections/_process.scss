@@ -51,21 +51,36 @@
   border-color: var(--color-accent);
 }
 
-.process__numeral {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: var(--text-h3);
-  line-height: 1;
-  font-variant-numeric: tabular-nums lining-nums;
+// Icons rather than 01–04. The numerals were carrying the sequence twice over: the
+// rail above the steps already draws the order left to right, and the copy is
+// explicitly ordered ("before anything is ordered", "before work starts"). What the
+// numerals were not doing is telling you what happens at each step, which is what a
+// pictogram of the actual equipment does at a glance.
+//
+// Drawn inline, not from an icon set: four shapes is not a dependency, and a
+// borrowed set would be the one thing on this page from another design system. Each
+// names the equipment or the artefact — a phone, a scan trace, a signed estimate, a
+// returned key — rather than illustrating an abstraction.
+.process__icon {
+  display: block;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  margin: 0;
   color: var(--color-cold-detail);
   transition: color var(--dur-3) var(--ease-out);
 }
 
-.process__step--first .process__numeral {
+.process__icon svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.process__step--first .process__icon {
   color: var(--color-accent);
 }
 
-// Hovering or tabbing into a step brings it forward: its numeral warms to accent
+// Hovering or tabbing into a step brings it forward: its icon warms to accent
 // and its marker fills. The step is not interactive, so this is orientation
 // rather than affordance — it answers "which one am I reading" without implying
 // that anything can be clicked.
@@ -73,8 +88,8 @@
   transition: opacity var(--dur-3) var(--ease-out);
 }
 
-.process__step:hover .process__numeral,
-.process__step:focus-within .process__numeral {
+.process__step:hover .process__icon,
+.process__step:focus-within .process__icon {
   color: var(--color-accent);
 }
 

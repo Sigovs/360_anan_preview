@@ -11,18 +11,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Chapter index ───────────────────────────────────────────────────────────
-// One numbering system on the page, in two weights: the small mono `.sec-index`
-// opens an ordinary band, and this large numeral opens a chapter. Both carry the
-// same section number, so a reader never has to reconcile two counts.
-.chapter__numeral {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: var(--text-index);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-accent);
-}
-
+// There is no numeral here any more. It used to be the loud half of a two-weight
+// numbering system — small mono index for an ordinary band, large numeral for a
+// chapter, both carrying the same section number. Once the small indices lost their
+// digits the large ones were orphaned: three chapters reading 06, 07, 08 with no
+// 01–05 anywhere on the page is a count the reader cannot complete. The eyebrow
+// label and the rule carry the chapter opening on their own.
 .chapter__label {
   display: flex;
   align-items: center;

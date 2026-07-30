@@ -9,9 +9,9 @@
      three seconds regardless.
    · Only opacity, transform, clip-path and colour are animated. Never layout.
    · Every hover behaviour has a focus equivalent.
-   · The service directory works with no script at all: every <details> ships
-     open, so all copy, related services and request links are readable. Script
-     adds the desktop image stage and the mobile accordion.
+   · The service directory works with no script at all: it is a list of <details>,
+     and opening one is what <summary> does. Script adds hover-to-open, the shared
+     `name` that makes the accordion exclusive, and the image stage.
    · Scroll work is rAF-coalesced and writes one custom property.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -20,7 +20,6 @@
 
   const root = document.documentElement;
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const wide = window.matchMedia('(min-width: 62rem)');
   let motionOK = !motionQuery.matches;
 
   root.classList.add('js');
@@ -261,49 +260,64 @@
       if (stageIndex) stageIndex.textContent = `${services[index].id} / 06`;
     };
 
-    services.forEach((service, index) => {
-      const details = service.item.querySelector('details');
-      const summary = service.item.querySelector('summary');
+    /* One shared `name` makes the list an exclusive accordion natively: opening any
+       row closes whichever was open, with no bookkeeping here that could desync
+       from what is on screen. Set at every width — the desktop and mobile
+       behaviours are the same behaviour now. */
+    const discs = items.map((item) => item.querySelector('details'));
+    discs.forEach((d) => { d.name = 'services-360'; });
 
-      /* Pointer and keyboard drive the same state. */
-      service.item.addEventListener('pointerenter', () => {
-        if (wide.matches) setActive(index);
-      });
-      service.item.addEventListener('focusin', () => setActive(index));
-
-      summary.addEventListener('click', (event) => {
-        if (wide.matches) {
-          /* On wide formats every row stays open — the row's own copy is always
-             readable and the click only moves the image stage. */
-          event.preventDefault();
-          setActive(index);
-        }
-      });
-
+    /* Opening a row is the only way a row becomes active, whatever triggered it —
+       hover, click, tap or a keyboard reaching <summary>. Listening to `toggle`
+       rather than to each input means every route lands in the same place. */
+    discs.forEach((details, index) => {
       details.addEventListener('toggle', () => {
         if (details.open) setActive(index);
       });
     });
 
-    /* Below 62rem the same markup becomes a native exclusive accordion; above
-       it, every row is open. */
-    const applyFormat = () => {
-      const details = items.map((item) => item.querySelector('details'));
+    /* Hover opens, on pointers that actually hover. Nothing closes on leave: moving
+       down the list opens the next row and the platform closes the last one, and
+       leaving the list entirely keeps the row you stopped on — a section that
+       collapsed itself the moment the pointer left would flicker on the way past
+       and lose what you were reading on the way out.
 
-      if (wide.matches) {
-        details.forEach((d) => {
-          d.removeAttribute('name');
-          d.open = true;
-        });
-      } else {
-        details.forEach((d) => { d.open = false; });
-        details.forEach((d) => { d.name = 'services-360'; });
-        details[activeIndex].open = true;
-      }
-    };
+       The coordinate check is not a nicety, it is what makes hover-to-open work in a
+       list at all. Opening a row closes another, which changes the height of the
+       list above the pointer, which slides a *different* row under a pointer that
+       never moved — and the browser correctly reports that as pointerenter. That row
+       opens, reflowing again: hovering row four used to settle on row two after a
+       visible oscillation, and the section was unusable.
 
-    applyFormat();
-    wide.addEventListener('change', applyFormat);
+       The discriminator is the pointer's own position. A physical movement always
+       changes clientX/clientY; a row arriving under a stationary pointer never does.
+       Measured on the real page, one hover produced four pointerenter events all
+       reporting the identical x=331 y=494 — so acting only when the coordinates
+       differ from the last event acted on separates intent from artefact exactly.
+
+       Gating on pointermove instead does NOT work, and the reason is worth keeping:
+       Chromium dispatches the boundary events BEFORE the pointermove that caused
+       them, so "ignore an enter with no preceding move" throws away the real hover
+       and keeps nothing. */
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    let lastX = null;
+    let lastY = null;
+
+    services.forEach((service, index) => {
+      service.item.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch' || !canHover.matches) return;
+        if (event.clientX === lastX && event.clientY === lastY) return;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        discs[index].open = true;
+      });
+
+      /* Keyboard: reaching any control inside the row opens it, so tabbing through
+         the section reveals the same content hovering does. */
+      service.item.addEventListener('focusin', () => {
+        discs[index].open = true;
+      });
+    });
   }
 
   /* ── Service request links prime the form ───────────────────────────────── */
@@ -465,9 +479,9 @@
          <span class="reviews__count">Across ${summary.count} reviews on</span>
          <span class="reviews__source-name">${summary.source || 'Google'}</span>
        </p>
-       <a class="link-action" href="${profile}" target="_blank" rel="noopener">
+       <a class="action action--secondary" href="${profile}" target="_blank" rel="noopener">
          View on ${summary.source || 'Google'}
-         <span class="link-action__mark" aria-hidden="true">→</span>
+         <span class="action__mark" aria-hidden="true">→</span>
        </a>`;
   }
 
