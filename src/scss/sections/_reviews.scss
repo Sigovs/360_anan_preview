@@ -16,8 +16,9 @@
 // is emitted, so nothing on this page can claim to be live Google data.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Ground comes from .band--light — this is the page's one inverted field.
 .reviews {
-  background: var(--color-bg);
+  position: relative;
 }
 
 // ── Summary ─────────────────────────────────────────────────────────────────

@@ -4971,6 +4971,9 @@ textarea.form-control-lg {
   --color-bg-soft: #101617;
   --color-surface: #151d1f;
   --color-surface-raised: #1b2528;
+  --ground-deep: #090c0d;
+  --ground-mid: #232e31;
+  --ground-light: #e9e7e1;
   --color-text: #f1f0eb;
   --color-text-body: #b4bfc1;
   --color-text-muted: #929d9f;
@@ -4979,6 +4982,7 @@ textarea.form-control-lg {
   --color-accent: #f47a17;
   --color-accent-hover: #ff8a24;
   --color-accent-ink: #090c0d;
+  --color-accent-deep: #8a4205;
   --ink-a72: rgb(241 240 235 / 0.72);
   --ink-a40: rgb(241 240 235 / 0.4);
   --ink-a12: rgb(241 240 235 / 0.12);
@@ -5000,8 +5004,8 @@ textarea.form-control-lg {
   --shell: 1560px;
   --gutter: clamp(1.5rem, 4vw, 4.5rem);
   --rule: 1px;
-  --band-top: clamp(4rem, 9vw, 6rem);
-  --band-bottom: clamp(6rem, 14vw, 12rem);
+  --band-top: clamp(3rem, 6vw, 4.5rem);
+  --band-bottom: clamp(4rem, 8vw, 7rem);
   --font-display: "Archivo", "Archivo Narrow", "Helvetica Neue", sans-serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
@@ -5111,6 +5115,31 @@ video {
 
 .band--panel {
   background-color: var(--color-surface);
+}
+
+.band--mid {
+  background-color: var(--ground-mid);
+}
+
+.band--light {
+  background-color: var(--ground-light);
+  --color-text: #0d1214;
+  --color-text-body: #3d4a4d;
+  --color-text-muted: #546366;
+  --color-line: #c9c5bc;
+  --color-cold-detail: #8d887e;
+  --color-accent: var(--color-accent-deep);
+  --ink-a06: rgb(13 18 20 / 0.05);
+  --ink-a12: rgb(13 18 20 / 0.12);
+  --ink-a40: rgb(13 18 20 / 0.4);
+  --ink-a72: rgb(13 18 20 / 0.72);
+  color: var(--color-text);
+}
+
+.band--light .btn-solid,
+.band--light .cta-bar {
+  background: #f47a17;
+  color: var(--color-accent-ink);
 }
 
 .band__rule {
@@ -5348,6 +5377,7 @@ h4,
   text-transform: uppercase;
   text-wrap: balance;
   margin: 0;
+  color: var(--color-text);
 }
 
 h1, .h1 {
@@ -6352,7 +6382,7 @@ textarea.form-control {
   block-size: 116%;
   margin-block-start: -8%;
   object-fit: cover;
-  object-position: 46% 42%;
+  object-position: 44% 46%;
   transform: translate3d(0, var(--hero-shift, 0px), 0);
 }
 
@@ -6371,7 +6401,7 @@ textarea.form-control {
   inset: 0;
   z-index: var(--z-scrim);
   pointer-events: none;
-  background: linear-gradient(to top, var(--scrim-a92) 0%, rgba(9, 12, 13, 0.9) 48%, rgba(9, 12, 13, 0.78) 64%, rgba(9, 12, 13, 0) 88%), linear-gradient(to bottom, var(--scrim-a72) 0%, rgba(9, 12, 13, 0) 24%);
+  background: linear-gradient(to top, var(--scrim-a92) 0%, rgba(9, 12, 13, 0.86) 46%, rgba(9, 12, 13, 0.68) 62%, rgba(9, 12, 13, 0) 86%), linear-gradient(to bottom, var(--scrim-a72) 0%, rgba(9, 12, 13, 0) 22%);
 }
 
 .js-motion .hero[data-entered=pending] .hero__statement > *,
@@ -6567,16 +6597,16 @@ textarea.form-control {
 
 @media (min-width: 62rem) {
   .hero__layout {
-    grid-template-rows: minmax(var(--space-10), 0.9fr) auto minmax(var(--space-9), 1fr) auto;
+    grid-template-rows: var(--space-9) auto minmax(var(--space-9), 1fr) auto;
     padding-block: 0 var(--space-9);
   }
   .hero__scrim {
-    background: linear-gradient(to top, var(--scrim-a92) 0%, rgba(9, 12, 13, 0.82) 26%, rgba(9, 12, 13, 0) 60%), linear-gradient(to left, var(--scrim-a72) 0%, var(--scrim-a40) 40%, rgba(9, 12, 13, 0) 74%), linear-gradient(to bottom, var(--scrim-a72) 0%, rgba(9, 12, 13, 0) 26%);
+    background: radial-gradient(72% 46% at 74% 26%, rgba(9, 12, 13, 0.62) 0%, rgba(9, 12, 13, 0.38) 46%, rgba(9, 12, 13, 0) 76%), linear-gradient(to top, var(--scrim-a92) 0%, rgba(9, 12, 13, 0.78) 24%, rgba(9, 12, 13, 0) 56%), linear-gradient(to left, var(--scrim-a40) 0%, rgba(9, 12, 13, 0.18) 38%, rgba(9, 12, 13, 0) 68%), linear-gradient(to bottom, var(--scrim-a72) 0%, rgba(9, 12, 13, 0) 24%);
   }
   .hero__statement {
     grid-column: 6/13;
     grid-row: 2;
-    align-self: center;
+    align-self: start;
     max-inline-size: none;
   }
   .hero__anchor {
@@ -6945,7 +6975,6 @@ textarea.form-control {
   }
 }
 .shop {
-  background: var(--color-bg-soft);
   overflow: hidden;
 }
 
@@ -7230,7 +7259,7 @@ textarea.form-control {
   }
 }
 .warranty {
-  background: var(--color-surface);
+  background: var(--ground-deep);
 }
 
 .warranty__mosaic {
@@ -7333,7 +7362,7 @@ textarea.form-control {
   }
 }
 .process {
-  background: var(--color-bg-soft);
+  background: var(--ground-deep);
 }
 
 .process__track {
@@ -7464,7 +7493,7 @@ textarea.form-control {
   }
 }
 .reviews {
-  background: var(--color-bg);
+  position: relative;
 }
 
 .reviews__summary {
@@ -7683,7 +7712,7 @@ textarea.form-control {
   }
 }
 .contact {
-  background: var(--color-bg-soft);
+  position: relative;
 }
 
 .contact__direct {

@@ -63,6 +63,46 @@ video {
 .band--soft  { background-color: var(--color-bg-soft); }
 .band--panel { background-color: var(--color-surface); }
 
+// ── Band grounds ────────────────────────────────────────────────────────────
+// The page's tonal rhythm: deep → deep → mid → deep → deep(photo) → LIGHT →
+// mid → deep. Every band declares its ground here rather than in its own
+// partial, so the sequence can be read in one place and re-ordered in one edit.
+.band--mid {
+  background-color: var(--ground-mid);
+}
+
+// ── The inverted band ───────────────────────────────────────────────────────
+// One light field, once. Everything inside it re-points its ink rather than
+// overriding component by component: the tokens are redefined on the band, so
+// every child that already draws from --color-text, --color-text-body,
+// --color-text-muted, --color-line and --color-accent lands correctly with no
+// section-level exceptions at all.
+//
+// Measured on #e9e7e1:  ink 15.25 · body 7.43 · muted 5.06 · accent-deep 5.93
+// The plain accent is deliberately absent — it measures 2.22 here.
+.band--light {
+  background-color: var(--ground-light);
+  --color-text:        #0d1214;
+  --color-text-body:   #3d4a4d;
+  --color-text-muted:  #546366;
+  --color-line:        #c9c5bc;
+  --color-cold-detail: #8d887e;
+  --color-accent:      var(--color-accent-deep);
+  --ink-a06:           rgb(13 18 20 / 0.05);
+  --ink-a12:           rgb(13 18 20 / 0.12);
+  --ink-a40:           rgb(13 18 20 / 0.4);
+  --ink-a72:           rgb(13 18 20 / 0.72);
+  color: var(--color-text);
+}
+
+// An accent fill still works on the light ground, because its ink is near-black
+// either way: 7.14:1 on the orange.
+.band--light .btn-solid,
+.band--light .cta-bar {
+  background: #f47a17;
+  color: var(--color-accent-ink);
+}
+
 // A hairline that carries the eye across a band boundary instead of letting the
 // section merely stop.
 .band__rule {

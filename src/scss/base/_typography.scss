@@ -22,6 +22,10 @@ h4 {
   text-transform: uppercase;
   text-wrap: balance;
   margin: 0;
+  // Drawn from the token, not from Bootstrap's $headings-color, which compiles to
+  // a literal near-white. Without this a heading inside .band--light stayed at
+  // #f1f0eb on a bone ground — about 1.1:1, and invisible.
+  color: var(--color-text);
 }
 
 h1 { font-size: var(--text-hero); }

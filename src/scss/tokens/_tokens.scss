@@ -19,11 +19,30 @@
 
 :root {
   // ── Ground ────────────────────────────────────────────────────────────────
-  // Four dark steps, not one flat black. Depth comes from moving between them.
+  // The first four steps are for surfaces *within* a band — a field, a panel, an
+  // input. Measured as perceived luminance they are 1, 2, 3 and 4 out of 255,
+  // which is to say they are the same colour. That was fine for layering a
+  // control against its field and useless for separating one band from the next:
+  // twelve bands built from them read as one continuous grey smear at page scale.
   --color-bg:              #090c0d;
   --color-bg-soft:         #101617;
   --color-surface:         #151d1f;
   --color-surface-raised:  #1b2528;
+
+  // ── Band grounds ──────────────────────────────────────────────────────────
+  // These are the steps that actually carry the page's rhythm, and they are far
+  // enough apart to survive a thumbnail.
+  //
+  //   deep   #090c0d   L8   1   photography, the hero, the footer
+  //   mid    #232e31   L8   6   a band that has to separate from its neighbours
+  //   light  #e9e7e1   L8 204   ONE band, once, as the page's tonal peak
+  //
+  // The light band is punctuation, not a theme: a single inverted field roughly
+  // three quarters down, where the flatness was worst. Two of them would start
+  // reading as a light site, which the brief rules out.
+  --ground-deep:           #090c0d;
+  --ground-mid:            #232e31;
+  --ground-light:          #e9e7e1;
 
   // ── Ink ───────────────────────────────────────────────────────────────────
   // Three ranks, not two. Metadata sits dimmer than reading copy on purpose, but
@@ -46,6 +65,10 @@
   --color-accent:          #f47a17;
   --color-accent-hover:    #ff8a24;
   --color-accent-ink:      #090c0d;  // label colour on an accent fill
+  // The same orange fails on a light ground — #f47a17 on bone is 2.22:1, under
+  // the 3:1 a meaningful graphic needs, let alone text. The inverted band uses
+  // this deepened cut instead: 5.93:1 on bone.
+  --color-accent-deep:     #8a4205;
 
   // Translucent inks, for type and scrims over photography.
   --ink-a72:               rgb(241 240 235 / 0.72);
@@ -76,10 +99,12 @@
   --gutter:   clamp(1.5rem, 4vw, 4.5rem);
   --rule:     1px;
 
-  // Section rhythm: bottom-heavy, 1 : 1.6 → each band ends before the next
-  // begins instead of being shoved into it.
-  --band-top:     clamp(4rem, 9vw, 6rem);
-  --band-bottom:  clamp(6rem, 14vw, 12rem);
+  // Section rhythm: still bottom-heavy at 1 : 1.55, but tightened hard. The
+  // previous 6–12rem bottom read as confidence inside one section and as dead
+  // space at page length — it was contributing roughly a thousand pixels of
+  // nothing across the page.
+  --band-top:     clamp(3rem, 6vw, 4.5rem);
+  --band-bottom:  clamp(4rem, 8vw, 7rem);
 
   // ── Type families ─────────────────────────────────────────────────────────
   --font-display: "Archivo", "Archivo Narrow", "Helvetica Neue", sans-serif;

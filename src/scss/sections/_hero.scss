@@ -40,7 +40,7 @@
   margin-block-start: -8%;
   object-fit: cover;
   // The technician and the lifted vehicle stay in frame as the format narrows.
-  object-position: 46% 42%;
+  object-position: 44% 46%;
   // Scroll drift: script writes --hero-shift as the hero leaves the viewport, to
   // a maximum of 6% of its height. Far under the 15%-of-scroll-distance ceiling,
   // scroll-linked rather than looping — so nothing moves while the first screen
@@ -73,10 +73,10 @@
   background:
     linear-gradient(to top,
       var(--scrim-a92) 0%,
-      rgb(9 12 13 / 0.9) 48%,
-      rgb(9 12 13 / 0.78) 64%,
-      rgb(9 12 13 / 0) 88%),
-    linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 24%);
+      rgb(9 12 13 / 0.86) 46%,
+      rgb(9 12 13 / 0.68) 62%,
+      rgb(9 12 13 / 0) 86%),
+    linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 22%);
 }
 
 // ── Entrance ────────────────────────────────────────────────────────────────
@@ -307,7 +307,7 @@
   // height, the wordmark field, then the anchor row along the bottom edge.
   .hero__layout {
     grid-template-rows:
-      minmax(var(--space-10), 0.9fr)
+      var(--space-9)
       auto
       minmax(var(--space-9), 1fr)
       auto;
@@ -318,17 +318,27 @@
   // photograph's weight rather than sitting on top of it. With the mass beside
   // the subject rather than below it, the deep lower scrim is no longer needed
   // and the right field carries the legibility instead.
+  // Wide formats, measured against this photograph: the upper right where the
+  // headline sits runs at 0.002–0.005 luminance unaided, so the right-hand scrim
+  // is now a whisper rather than a veil — the frame no longer needs protecting
+  // there, and holding it back lets the picture read. The lower band still does
+  // real work: the brightest part of the frame is the lit floor at bottom-left,
+  // exactly under the phone and address.
   .hero__scrim {
     background:
-      linear-gradient(to top, var(--scrim-a92) 0%, rgb(9 12 13 / 0.82) 26%, rgb(9 12 13 / 0) 60%),
-      linear-gradient(to left, var(--scrim-a72) 0%, var(--scrim-a40) 40%, rgb(9 12 13 / 0) 74%),
-      linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 26%);
+      radial-gradient(72% 46% at 74% 26%,
+        rgb(9 12 13 / 0.62) 0%,
+        rgb(9 12 13 / 0.38) 46%,
+        rgb(9 12 13 / 0) 76%),
+      linear-gradient(to top, var(--scrim-a92) 0%, rgb(9 12 13 / 0.78) 24%, rgb(9 12 13 / 0) 56%),
+      linear-gradient(to left, var(--scrim-a40) 0%, rgb(9 12 13 / 0.18) 38%, rgb(9 12 13 / 0) 68%),
+      linear-gradient(to bottom, var(--scrim-a72) 0%, rgb(9 12 13 / 0) 24%);
   }
 
   .hero__statement {
     grid-column: 6 / 13;
     grid-row: 2;
-    align-self: center;
+    align-self: start;
     max-inline-size: none;
   }
 

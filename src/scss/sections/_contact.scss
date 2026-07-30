@@ -8,8 +8,9 @@
 // a wide image strip and the directions line close the block.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Ground comes from .band--mid.
 .contact {
-  background: var(--color-bg-soft);
+  position: relative;
 }
 
 // ── Left field ──────────────────────────────────────────────────────────────
