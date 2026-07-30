@@ -1,0 +1,1122 @@
+// ═════════════════════════════════════════════════════════════════════════════
+// 360 AUTO CARE INC — ALTERNATIVE DIRECTION (index2.html)
+//
+// A second visual treatment of the SAME content as index.html. Nothing here is
+// imported by main.scss and nothing in main.scss is imported here: the two pages
+// are independent so that either can be changed without touching the other.
+//
+// The register is taken from a reference direction: dark techno-industrial
+// dealership. Where that differs from index.html:
+//
+//   index.html          editorial. Mixed-case heavy grotesque, safety orange,
+//                       hairline rules, no cards, photography as full masses.
+//   index2.html         technical. ALL-CAPS squared display, electric indigo,
+//                       hairline-bordered cards, numbered image grid, panels.
+//
+// Two things from the reference were NOT copied, both because they were measured
+// and found wanting:
+//
+//   · Its accent blue is used for small text and marks on the dark ground. That
+//     is #313add on #0d0d14 = 2.56:1, which fails even the 3:1 a graphic mark
+//     needs. Here the vivid blue is a FILL ONLY (white on it is 7.55:1) and a
+//     brightened cut carries any blue that has to be read.
+//   · Its card surface sits 1.11:1 from the page ground, so the cards are
+//     defined entirely by their hairlines and the page has no tonal range at
+//     all. The panels here are pushed further apart and one band is inverted, so
+//     the page still has a shape at thumbnail size.
+//
+// No business fact on this page is invented. The reference's stats block
+// (25+ years, 600+ mechanics, 9.9K+ vehicles) has no equivalent here because
+// those numbers are not known for this shop — see docs/CONTENT-TODO.md.
+// ═════════════════════════════════════════════════════════════════════════════
+
+@import "bootstrap/scss/functions";
+@import "config/bootstrap-config";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/helpers";
+@import "config/utilities-trim";
+@import "bootstrap/scss/utilities/api";
+
+// ── Tokens ──────────────────────────────────────────────────────────────────
+:root {
+  // Grounds. Four steps, and the top one is an inverted band used exactly once,
+  // because twelve near-identical dark steps read as one grey smear at page
+  // length — which is the fault the reference has.
+  --g-deep:   #08080d;
+  --g-base:   #0d0d14;
+  --g-panel:  #16161f;
+  --g-raised: #1e1e2a;
+  --g-light:  #edeef2;
+
+  --line:       #26262f;
+  --line-bright:#33333f;
+
+  // Ink. Three ranks, measured on --g-base: 17.46 / 8.67 / 5.21.
+  --ink:       #f2f3f7;
+  --ink-body:  #a9adbe;
+  --ink-muted: #7f8497;
+
+  // Accent, in two cuts with different jobs and no overlap.
+  //   --accent        fills and blocks only. White on it is 7.55:1.
+  //   --accent-read   anything that has to be READ or resolved as a shape on the
+  //                   dark ground: 6.14:1 there, 5.55:1 on a panel.
+  //   --accent-deep   the same idea for the one inverted band: 5.9:1 on bone.
+  --accent:       #313add;
+  --accent-hover: #4750f0;
+  --accent-read:  #7c85ff;
+  --accent-deep:  #2a2ea8;
+  --on-accent:    #ffffff;
+
+  --space-1: .25rem; --space-2: .5rem;  --space-3: .75rem; --space-4: 1rem;
+  --space-5: 1.5rem; --space-6: 2rem;   --space-7: 3rem;   --space-8: 4rem;
+  --space-9: 6rem;   --space-10: 8rem;
+
+  --shell:  1440px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --rule:   1px;
+
+  --band-top:    clamp(3.5rem, 6vw, 6rem);
+  --band-bottom: clamp(3.5rem, 6vw, 6rem);
+
+  // Display is a squared techno grotesque, set in caps — the reference's voice.
+  // It has no thin strokes at any size, so the failure that killed a didone here
+  // cannot happen; verified anyway on "4.8" and on the hyphen in 820-0360.
+  --f-display: "Chakra Petch", "Saira Condensed", "Arial Narrow", sans-serif;
+  --f-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --f-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --t-2xs:   .6875rem;
+  --t-xs:    .75rem;
+  --t-label: .8125rem;
+  --t-sm:    clamp(.875rem, .3vw + .8rem, .9375rem);
+  --t-body:  clamp(1rem, .2vw + .95rem, 1.0625rem);
+  --t-lead:  clamp(1.0625rem, .5vw + .95rem, 1.25rem);
+  --t-h4:    clamp(1.0625rem, .5vw + .9rem, 1.25rem);
+  --t-h3:    clamp(1.25rem, 1vw + 1rem, 1.75rem);
+  --t-h2:    clamp(1.75rem, 2.4vw + 1rem, 2.875rem);
+  --t-h1:    clamp(2rem, 3.4vw + .8rem, 4.25rem);
+  --t-stat:  clamp(1.75rem, 2vw + 1rem, 2.5rem);
+
+  --lh-display: 1.04;
+  --lh-body:    1.65;
+  --ls-display: .01em;   // caps want opening up, not closing down
+  --ls-label:   .16em;
+  --ls-mono:    .06em;
+
+  --measure-copy: 60ch;
+  --measure-lead: 46ch;
+
+  --dur-1: .15s; --dur-2: .25s; --dur-3: .4s; --dur-4: .7s; --dur-6: 1.4s;
+  --stagger: 60ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-mask: cubic-bezier(.16, 1, .3, 1);
+  --rise: 14px;
+  --parallax: 26px;
+
+  --z-media: 0; --z-scrim: 1; --z-content: 2; --z-header: 50;
+}
+
+// ── Base ────────────────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--g-base);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-inline-size: 100%; }
+
+::selection { background: var(--accent); color: var(--on-accent); }
+
+.shell {
+  inline-size: 100%;
+  max-inline-size: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.band {
+  position: relative;
+  padding-block: var(--band-top) var(--band-bottom);
+}
+
+.band--panel  { background: var(--g-panel); }
+.band--deep   { background: var(--g-deep); }
+
+// The one inverted band, three quarters down. Re-points the ink and the accent
+// rather than overriding each element, so nothing inside needs to know.
+.band--light {
+  background: var(--g-light);
+  --ink:        #10111a;
+  --ink-body:   #3d4152;
+  --ink-muted:  #5c6172;
+  --line:       #cfd0d8;
+  --line-bright:#b9bac4;
+  --accent-read: var(--accent-deep);
+  color: var(--ink);
+}
+
+// ── Typography ──────────────────────────────────────────────────────────────
+h1, h2, h3, .display {
+  font-family: var(--f-display);
+  font-weight: 700;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--t-h1); }
+h2 { font-size: var(--t-h2); }
+h3 { font-size: var(--t-h3); }
+
+h4 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: var(--t-h4);
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.lead {
+  font-size: var(--t-lead);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink-body);
+  max-inline-size: var(--measure-lead);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.copy {
+  font-size: var(--t-body);
+  color: var(--ink-body);
+  max-inline-size: var(--measure-copy);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.copy--sm { font-size: var(--t-sm); }
+.copy + .copy { margin-block-start: var(--space-5); }
+
+// The reference's signature eyebrow: a short accent bar, then a tracked mono
+// label. The bar is a fill, so it may use the vivid cut.
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 0 0 var(--space-5);
+}
+
+.eyebrow::before {
+  content: "";
+  flex: none;
+  inline-size: 3px;
+  block-size: 1em;
+  background: var(--accent);
+}
+
+.eyebrow--center { justify-content: center; }
+
+.mono {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--ls-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.sec-head { margin-block-end: var(--space-8); }
+.sec-head--center { text-align: center; }
+.sec-head--center .lead { margin-inline: auto; }
+.sec-head > h2 + .lead { margin-block-start: var(--space-5); }
+
+.sr-only {
+  position: absolute !important;
+  inline-size: 1px; block-size: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%);
+  white-space: nowrap; border: 0;
+}
+
+// ── Actions · two tiers, no third ───────────────────────────────────────────
+// Same discipline as index.html, different skin.
+.btn2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-block-size: 3rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--rule) solid transparent;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out),
+              color var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
+}
+
+.btn2__mark { flex: none; transition: translate var(--dur-1) var(--ease-out); }
+
+.btn2:hover, .btn2:focus-visible { translate: 0 -2px; }
+.btn2:hover .btn2__mark, .btn2:focus-visible .btn2__mark { translate: 3px 0; }
+.btn2:active { translate: 0 0; }
+.btn2:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.btn2--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn2--primary:hover, .btn2--primary:focus-visible {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--on-accent);
+}
+
+.btn2--secondary {
+  background: transparent;
+  border-color: var(--line-bright);
+  color: var(--ink);
+}
+
+.btn2--secondary:hover, .btn2--secondary:focus-visible {
+  border-color: var(--accent-read);
+  background: rgb(124 133 255 / .08);
+  color: var(--ink);
+}
+
+.btn2--secondary .btn2__mark { color: var(--accent-read); }
+.btn2--block { display: flex; inline-size: 100%; }
+
+@media (max-width: 47.9375rem) {
+  .btn2 { inline-size: 100%; display: flex; }
+}
+
+// ── Card, the reference's basic unit ────────────────────────────────────────
+.card2 {
+  position: relative;
+  background: var(--g-panel);
+  border: var(--rule) solid var(--line);
+  padding: var(--space-6);
+  transition: border-color var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out);
+}
+
+.card2:hover { border-color: var(--line-bright); background: var(--g-raised); }
+.card2 > * + * { margin-block-start: var(--space-4); }
+
+// A faint number in the corner, as the reference does on its spec cards.
+.card2__index {
+  font-family: var(--f-mono);
+  font-size: var(--t-2xs);
+  letter-spacing: var(--ls-mono);
+  color: var(--accent-read);
+  font-variant-numeric: tabular-nums;
+}
+
+// ── Masthead ────────────────────────────────────────────────────────────────
+.mh {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-header);
+  border-block-end: var(--rule) solid transparent;
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out);
+}
+
+.mh::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgb(8 8 13 / .92), rgb(8 8 13 / 0));
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+
+.mh[data-scrolled="true"] { background: var(--g-deep); border-block-end-color: var(--line); }
+.mh[data-scrolled="true"]::before { opacity: 0; }
+
+.mh__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding-block: var(--space-4);
+}
+
+.wm2 {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .3em;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wm2__num { color: var(--accent-read); font-variant-numeric: tabular-nums; }
+.wm2__name { font-size: .78em; letter-spacing: .1em; }
+
+.mh__nav { display: none; justify-self: center; gap: var(--space-6); }
+
+@media (min-width: 62rem) { .mh__nav { display: flex; } }
+
+.mh__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.5rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.mh__link::after {
+  content: "";
+  position: absolute;
+  inset-block-end: .4rem;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 2px;
+  background: var(--accent);
+  transform-origin: left center;
+  scale: 0 1;
+  transition: scale var(--dur-2) var(--ease-out);
+}
+
+.mh__link:hover, .mh__link:focus-visible { color: var(--ink); }
+.mh__link:hover::after, .mh__link:focus-visible::after { scale: 1 1; }
+
+.mh__end { display: flex; align-items: center; gap: var(--space-4); }
+.mh__cta { display: none; }
+@media (min-width: 48rem) { .mh__cta { display: inline-flex; } }
+
+.mh__phone {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.mh__phone:hover, .mh__phone:focus-visible { color: var(--accent-read); }
+
+// Extends each header control to a 44px touch target without moving its label off
+// the baseline. Vertical only: an earlier version also bled 8px to each side, which
+// is what a hit area wants and which cost 8px of horizontal document scroll —
+// these sit inside a `position: fixed` header, and a fixed element is not clipped
+// by body's overflow, so the bleed escaped to the document. The block-size is the
+// part WCAG 2.5.8 cares about, and every one of these is already wider than 24px.
+.wm2::before, .mh__phone::before, .navt::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: 44px;
+  translate: 0 -50%;
+}
+
+.navt {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.navt__bars { display: grid; gap: 4px; inline-size: 1.125rem; }
+.navt__bars span { display: block; block-size: 2px; background: var(--accent-read); }
+
+@media (min-width: 62rem) { .navt { display: none; } }
+
+.navp { border-block-start: var(--rule) solid var(--line); background: var(--g-deep); }
+.navp__inner { padding-block: var(--space-4) var(--space-6); }
+
+.navp__link {
+  display: block;
+  padding-block: var(--space-4);
+  border-block-end: var(--rule) solid var(--line);
+  font-family: var(--f-display);
+  font-size: var(--t-h4);
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.navp__link:hover, .navp__link:focus-visible { color: var(--accent-read); }
+
+.navp__phone {
+  display: block;
+  margin-block-start: var(--space-5);
+  font-family: var(--f-mono);
+  font-size: var(--t-h4);
+  font-weight: 500;
+  color: var(--accent-read);
+  text-decoration: none;
+}
+
+// ── Hero ────────────────────────────────────────────────────────────────────
+// The reference's split: a dark type panel on the left, the photograph bleeding
+// off the right edge, and one small card straddling the seam.
+.hero2 { position: relative; background: var(--g-deep); overflow: hidden; }
+
+.hero2__grid {
+  display: grid;
+  gap: 0;
+  min-block-size: min(92svh, 46rem);
+}
+
+.hero2__panel {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 9rem var(--space-9);
+  padding-inline-end: var(--space-6);
+}
+
+.hero2__title { margin-block-end: var(--space-5); }
+.hero2__lead { margin-block-end: var(--space-7); }
+
+.hero2__actions { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+
+.hero2__media { position: relative; min-block-size: 18rem; }
+
+.hero2__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 46% 46%;
+}
+
+// A scrim on the media's inner edge only, so the photograph keeps its own
+// contrast and the type panel still reads as one mass.
+.hero2__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--g-deep) 0%, rgb(8 8 13 / .35) 34%, rgb(8 8 13 / 0) 70%);
+}
+
+.hero2__note {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--g-panel);
+  border: var(--rule) solid var(--line);
+}
+
+.hero2__note-phone {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-h4);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hero2__note-phone:hover, .hero2__note-phone:focus-visible { color: var(--accent-read); }
+
+@media (min-width: 62rem) {
+  .hero2__grid { grid-template-columns: 1fr 1fr; }
+  .hero2__panel { padding-block: 10rem var(--space-9); }
+  .hero2__note {
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    z-index: var(--z-content);
+  }
+}
+
+// ── Rail · four hairline spec cards ─────────────────────────────────────────
+.rail2 { background: var(--g-base); border-block: var(--rule) solid var(--line); }
+
+.rail2__set {
+  display: grid;
+  gap: var(--rule);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--line);
+}
+
+.rail2__item {
+  background: var(--g-base);
+  padding: var(--space-6) var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.rail2__item:hover { background: var(--g-panel); }
+
+@media (min-width: 48rem)  { .rail2__set { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem)  { .rail2__set { grid-template-columns: repeat(4, 1fr); } }
+
+// ── Services · the reference's numbered image grid ──────────────────────────
+.svc2__grid {
+  display: grid;
+  gap: var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 40rem) { .svc2__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem) { .svc2__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.svc2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--g-panel);
+  border: var(--rule) solid var(--line);
+  overflow: hidden;
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.svc2:hover, .svc2:focus-within { border-color: var(--accent-read); }
+
+.svc2__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+
+.svc2__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: scale var(--dur-6) var(--ease-out);
+}
+
+.svc2:hover .svc2__media img, .svc2:focus-within .svc2__media img { scale: 1.04; }
+
+// The badge is a fill, so the vivid cut is legitimate here — white on it is
+// 7.55:1. It is the one place the strong blue appears in the grid.
+.svc2__badge {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--z-content);
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--f-mono);
+  font-size: var(--t-2xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.svc2__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  flex: 1 1 auto;
+}
+
+.svc2__title { font-size: var(--t-h4); }
+.svc2__note { font-size: var(--t-sm); color: var(--ink-body); margin: 0; }
+
+.svc2__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-2xs);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.svc2__tags li:not(:last-child)::after { content: " ·"; color: var(--line-bright); }
+
+.svc2__action { margin-block-start: auto; padding-block-start: var(--space-4); }
+
+// ── Split block · image one side, copy the other ────────────────────────────
+.split2__media { position: relative; overflow: hidden; aspect-ratio: 4 / 3; }
+
+.split2__media img {
+  inline-size: 100%;
+  block-size: calc(100% + var(--parallax) * 2);
+  margin-block-start: calc(var(--parallax) * -1);
+  object-fit: cover;
+  transform: translate3d(0, var(--shift, 0px), 0);
+}
+
+.split2__subs { display: grid; gap: var(--space-5); margin-block-start: var(--space-6); }
+
+// A small title rank, set by class rather than by tag: these sit under the
+// section's h2 and so have to BE h3s, whatever size they are drawn at.
+.subhead {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: var(--t-h4);
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 var(--space-2);
+}
+
+// ── Plate · facts as a record ───────────────────────────────────────────────
+.plate2 { display: grid; margin: 0; }
+
+.plate2 > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 10rem) 1fr;
+  gap: var(--space-5);
+  padding-block: var(--space-4);
+  border-block-start: var(--rule) solid var(--line);
+}
+
+.plate2 dt {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.plate2 dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 40rem) {
+  .plate2 > div { grid-template-columns: 1fr; gap: var(--space-1); }
+}
+
+// ── Process · icon cards ────────────────────────────────────────────────────
+.proc2__grid {
+  display: grid;
+  gap: var(--rule);
+  background: var(--line);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 40rem) { .proc2__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 62rem) { .proc2__grid { grid-template-columns: repeat(4, 1fr); } }
+
+.proc2__step {
+  background: var(--g-panel);
+  padding: var(--space-6) var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  transition: background-color var(--dur-2) var(--ease-out);
+}
+
+.proc2__step:hover { background: var(--g-raised); }
+
+.proc2__icon {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  color: var(--accent-read);
+}
+
+.proc2__icon svg { inline-size: 100%; block-size: 100%; }
+
+// ── Reviews ─────────────────────────────────────────────────────────────────
+// These class names are NOT this page's own. Both pages share one renderer
+// (src/js/main.js), which emits index.html's markup, so index2 styles the same
+// contract rather than inventing names the script never writes. Getting this wrong
+// was visible rather than subtle: unstyled inline star SVGs have no intrinsic size
+// bound, and ten of them took the page to 28,965px.
+//
+// Anything added to that renderer's output has to be styled here too.
+.reviews__score { display: flex; align-items: baseline; gap: var(--space-4); }
+
+.reviews__score-figure {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: var(--t-stat);
+  line-height: 1;
+  letter-spacing: .01em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--ink);
+}
+
+.reviews__score-of {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.stars { display: inline-flex; gap: 3px; margin-block-start: var(--space-3); }
+
+.stars svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  flex: none;
+}
+
+.stars--lg svg { inline-size: 1.125rem; block-size: 1.125rem; }
+
+// Filled and empty are different shapes of the same mark, so a rating never
+// depends on hue alone: the empty ones keep an outline.
+.stars__on  { fill: var(--accent-read); }
+.stars__off { fill: none; stroke: var(--line-bright); stroke-width: 1.5; }
+
+.reviews__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-block: var(--space-4) var(--space-5);
+  font-size: var(--t-sm);
+  color: var(--ink-muted);
+}
+
+.reviews__source-name { font-weight: 500; color: var(--ink); }
+
+.reviews__set {
+  display: grid;
+  gap: var(--space-5);
+  list-style: none;
+  margin: var(--space-8) 0 0;
+  padding: 0;
+}
+
+@media (min-width: 48rem) { .reviews__set { grid-template-columns: repeat(3, 1fr); } }
+
+.review {
+  border: var(--rule) solid var(--line);
+  padding: var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.review__quote { margin: 0; color: var(--ink-body); }
+.review__meta { display: grid; gap: var(--space-1); }
+.review__author { font-size: var(--t-sm); font-weight: 500; color: var(--ink); }
+
+.review__where {
+  font-family: var(--f-mono);
+  font-size: var(--t-2xs);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.reviews__foot { margin-block-start: var(--space-6); }
+
+.reviews__disclosure {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--ink-muted);
+  max-inline-size: 46ch;
+}
+
+// The renderer also writes the shared action classes for the "view on Google"
+// link. Mapped onto this page's secondary button rather than restyled twice.
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-block-size: 3rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--rule) solid var(--line-bright);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color var(--dur-2) var(--ease-out),
+              background-color var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
+}
+
+.action__mark { flex: none; color: var(--accent-read); transition: translate var(--dur-1) var(--ease-out); }
+
+.action:hover, .action:focus-visible {
+  border-color: var(--accent-read);
+  background: rgb(124 133 255 / .08);
+  color: var(--ink);
+  translate: 0 -2px;
+}
+
+.action:hover .action__mark, .action:focus-visible .action__mark { translate: 3px 0; }
+.action:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+// ── Contact ─────────────────────────────────────────────────────────────────
+.ct2__phone-block { padding-block-start: var(--space-5); border-block-start: 2px solid var(--accent); }
+
+.ct2__phone {
+  display: inline-block;
+  margin-block-start: var(--space-3);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 2.6vw + .8rem, 3rem);
+  line-height: 1;
+  letter-spacing: .01em;
+  font-variant-numeric: lining-nums;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.ct2__phone:hover, .ct2__phone:focus-visible { color: var(--accent-read); }
+
+.form2 { display: grid; gap: var(--rule); background: var(--line); }
+
+.form2__row { display: grid; gap: var(--rule); }
+@media (min-width: 48rem) { .form2__row { grid-template-columns: repeat(2, 1fr); } }
+
+.field2 { background: var(--g-base); padding: var(--space-5); display: grid; gap: var(--space-3); }
+
+.field2 > label {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.field2 .req { color: var(--accent-read); }
+
+.field2 input,
+.field2 select,
+.field2 textarea {
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: var(--space-3);
+  background: var(--g-deep);
+  border: var(--rule) solid var(--line-bright);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field2 textarea { min-block-size: 7rem; resize: vertical; }
+
+.field2 input::placeholder, .field2 textarea::placeholder { color: var(--ink-muted); }
+
+.field2 input:focus-visible,
+.field2 select:focus-visible,
+.field2 textarea:focus-visible {
+  outline: 2px solid var(--accent-read);
+  outline-offset: 1px;
+  border-color: var(--accent-read);
+}
+
+.form2__foot {
+  background: var(--g-base);
+  padding: var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.consent2 { display: flex; align-items: flex-start; gap: var(--space-3); max-inline-size: 34rem; }
+
+// 24px, not 20. WCAG 2.5.8 wants a 24px minimum on any target, and a checkbox is
+// the easiest control on the page to miss with a thumb.
+.consent2 input {
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  accent-color: var(--accent);
+}
+
+.consent2 label { font-size: var(--t-sm); color: var(--ink-body); }
+
+.form-notice2 {
+  margin-block-start: var(--space-5);
+  font-size: var(--t-sm);
+  color: var(--accent-read);
+  min-block-size: 1.5rem;
+}
+
+// ── Footer ──────────────────────────────────────────────────────────────────
+.ft2 { background: var(--g-deep); border-block-start: var(--rule) solid var(--line); padding-block: var(--space-8) var(--space-6); }
+.ft2__grid { display: grid; gap: var(--space-8); }
+@media (min-width: 62rem) { .ft2__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+
+.ft2__links { list-style: none; margin: 0; padding: 0; display: grid; }
+
+// Each link is its own 44px row rather than a 17px line of text. The gap between
+// them is gone because the rows themselves now provide the spacing — a list of
+// six 17px targets separated by air is the classic unreachable footer.
+.ft2__links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-label);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color var(--dur-1) var(--ease-out);
+}
+
+.ft2__links a:hover, .ft2__links a:focus-visible { color: var(--ink); }
+
+.ft2__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: space-between;
+  margin-block-start: var(--space-8);
+  padding-block-start: var(--space-5);
+  border-block-start: var(--rule) solid var(--line);
+  font-family: var(--f-mono);
+  font-size: var(--t-2xs);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+// ── Motion ──────────────────────────────────────────────────────────────────
+// Same contract as index.html: nothing is hidden in the markup, only under
+// .js-motion, and a watchdog in the script clears it regardless.
+.js-motion [data-reveal="pending"],
+.js-motion [data-reveal-group="pending"] > * {
+  opacity: 0;
+  transform: translate3d(0, var(--rise), 0);
+}
+
+.js-motion [data-reveal="in"],
+.js-motion [data-reveal-group="in"] > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+}
+
+.js-motion [data-reveal-group="in"] > *:nth-child(2) { transition-delay: calc(var(--stagger) * 1); }
+.js-motion [data-reveal-group="in"] > *:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
+.js-motion [data-reveal-group="in"] > *:nth-child(4) { transition-delay: calc(var(--stagger) * 3); }
+.js-motion [data-reveal-group="in"] > *:nth-child(5) { transition-delay: calc(var(--stagger) * 4); }
+.js-motion [data-reveal-group="in"] > *:nth-child(6) { transition-delay: calc(var(--stagger) * 5); }
+
+.js-motion [data-reveal-media="pending"] { clip-path: inset(0 0 100% 0); }
+.js-motion [data-reveal-media="in"] { clip-path: inset(0 0 0 0); transition: clip-path var(--dur-6) var(--ease-mask); }
+
+.js-motion .hero2[data-entered="pending"] .hero2__panel > *,
+.js-motion .hero2[data-entered="pending"] .hero2__note {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+
+.js-motion .hero2[data-entered="in"] .hero2__panel > *,
+.js-motion .hero2[data-entered="in"] .hero2__note {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
+}
+
+.js-motion .hero2[data-entered="in"] .hero2__title   { transition-delay: 160ms; }
+.js-motion .hero2[data-entered="in"] .hero2__lead    { transition-delay: 240ms; }
+.js-motion .hero2[data-entered="in"] .hero2__actions { transition-delay: 320ms; }
+.js-motion .hero2[data-entered="in"] .hero2__note    { transition-delay: 420ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-reveal],
+  .js-motion [data-reveal-group] > *,
+  .js-motion [data-reveal-media],
+  .js-motion .hero2 .hero2__panel > *,
+  .js-motion .hero2 .hero2__note {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .split2__media img { transform: none; }
+  .svc2__media img { transition: none; scale: 1; }
+}
+
+// ── Placeholder marking, as index.html does ─────────────────────────────────
+.show-todo [data-placeholder="true"] {
+  outline: 2px dashed var(--accent-read);
+  outline-offset: 3px;
+}

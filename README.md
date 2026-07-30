@@ -1,8 +1,29 @@
 # 360 Auto Care Inc — one-page site
 
-Dark industrial-editorial one-pager for a foreign & domestic repair shop in
-Lynbrook, New York. Built on **Bootstrap 5.3** (SCSS source, twelve-column grid,
-forms, collapse) with a project token layer on top.
+One-pager for a foreign & domestic repair shop in Lynbrook, New York, built on
+**Bootstrap 5.3** (SCSS source, twelve-column grid, forms, collapse) with a
+project token layer on top.
+
+**Two directions, same content.** Both pages carry identical copy, the same
+photographs and the same real phone and address; they differ only in treatment,
+so they can be compared side by side rather than argued about in the abstract.
+
+| | `index.html` | `index2.html` |
+|---|---|---|
+| Register | industrial-**editorial** | industrial-**technical** |
+| Display | Archivo 900, mixed case | Chakra Petch 700, all caps |
+| Accent | safety orange `#f47a17` | electric indigo `#313add` |
+| Structure | hairline rules, no cards, photography as full-width masses | hairline-bordered cards, numbered image grid, panels |
+| Services | collapsible index, one row open, sticky image stage | six numbered image cards |
+| Stylesheet | `src/scss/main.scss` | `src/scss/main2.scss` |
+| Height at 1440 | ~11,000px | ~7,300px |
+
+Neither imports the other. They share `src/js/main.js` and
+`src/js/reviews.data.js` — every hook in the script is guarded, so the sections
+one page does not have are simply skipped. One consequence worth knowing before
+editing: the reviews renderer writes `index.html`'s class names, so **`main2.scss`
+styles that same contract** rather than inventing its own. Anything added to that
+renderer's output has to be styled in both stylesheets.
 
 **Preview build.** The phone and address are the shop's real details. What is
 still placeholder: the opening hours, the Google reviews and rating, and the
@@ -26,7 +47,9 @@ committed, so no build step is needed just to look at it.
 |---|---|
 | `npm run css` | `src/scss/main.scss` → `assets/css/main.css` (expanded) |
 | `npm run css:min` | → `assets/css/main.min.css` (compressed) |
-| `npm run watch` | recompile on save |
+| `npm run css2` | `src/scss/main2.scss` → `assets/css/main2.css` (expanded) |
+| `npm run css2:min` | → `assets/css/main2.min.css` (compressed) |
+| `npm run watch` | recompile `main.scss` on save |
 | `npm run js` | copy `src/js/*.js` → `assets/js/` |
 | `npm run vendor` | copy Bootstrap's JS bundle → `assets/js/vendor/` |
 | `npm run build` | all of the above |
