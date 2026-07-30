@@ -53,8 +53,7 @@
 
 .process__numeral {
   font-family: var(--font-display);
-  font-optical-sizing: auto;
-  font-weight: 700;
+  font-weight: 900;
   font-size: var(--text-h3);
   line-height: 1;
   font-variant-numeric: tabular-nums lining-nums;
@@ -91,9 +90,9 @@
 }
 
 .process__step-title {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: var(--text-h4);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: var(--ls-body-tight);
   text-transform: none;

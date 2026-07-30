@@ -150,13 +150,12 @@
   inset-inline: 0;
   inset-block-end: clamp(3.5rem, 9vh, 8rem);
   font-family: var(--font-display);
-  font-optical-sizing: auto;
-  // 400, not the display rank's 700. At 176px a bold text serif is a mass rather
-  // than a mark: it read as a grey smear across the hero's lower half and started
-  // competing with the car and the CTA. The light weight at this size gives thin
-  // stems and open counters, which is what lets it sit behind the photograph and
-  // still be a wordmark. Weight is the variable here because the size is fixed by
-  // the composition — it has to span the viewport.
+  // 400, against the display rank's 900. At 150px the heavy weight is a mass
+  // rather than a mark: it read as a grey smear across the hero's lower half and
+  // started competing with the car and the CTA. The light weight at this size
+  // gives thin stems and open counters, which is what lets it sit behind the
+  // photograph and still be a wordmark. Weight is the variable here because the
+  // size is fixed by the composition — it has to span the viewport.
   font-weight: 400;
   font-size: var(--text-mega);
   line-height: 0.78;
@@ -238,9 +237,14 @@
 
 // At the narrowest format the fluid floor is still one step too large for the
 // authored two-line break to hold, so it steps down once. Chosen by measuring
-// where the line actually breaks, not by picking a round breakpoint.
+// where the line actually breaks, not by picking a round breakpoint: at 320px the
+// title has 257px to work in, and "Complete care for" goes to three lines at 32px
+// and holds at 30px. 29px is the value with a pixel of margin, because a boundary
+// that exact will tip on a different font build. Retuned when the display face
+// changed to a 900-weight grotesque, which sets appreciably wider than the serif
+// this figure was first measured against.
 @media (max-width: 22.5rem) {
-  .hero__title { font-size: 2rem; }
+  .hero__title { font-size: 1.8125rem; }
 }
 
 // The full text ink, not the body rank the leads elsewhere on the page use. This

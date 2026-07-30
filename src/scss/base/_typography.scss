@@ -1,45 +1,43 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Typography — three voices, ONE of them expressive
 //
-//   Display · Newsreader     headlines, chapter numerals, the phone, the rating
-//   Body    · Inter          leads, paragraphs, service titles, form copy
-//   Mono    · IBM Plex Mono  indices, labels, plates, actions
+//   Display · Archivo 900   headlines, service titles, numerals, phone, rating
+//   Body    · Inter 400     leads, paragraphs, form copy
+//   Mono    · IBM Plex Mono indices, labels, plates, actions
 //
-// The original stack was Archivo condensed + Inter + Plex Mono — three neutral
-// technical grotesques. Every rank on the page was therefore built out of size
-// alone, which is exactly what makes typography read cheap however carefully the
-// scale is tuned. A serif does register work no grotesque does at any weight.
+// One expressive voice, and here it is expressive by WEIGHT. Archivo at 900 beside
+// Inter at 400 is a five-step separation: nothing on the page can be mistaken for
+// "the body font, larger", which is the failure this system exists to prevent. The
+// first build had Archivo at a middling weight and a narrowed width, which put
+// three interchangeable grotesques on the page and left every rank leaning on size
+// alone. Same family, wrong setting.
 //
-// Two consequences worth stating, because both were impossible before:
-//   · the italic accent word is available, since this face has a true italic;
-//   · the optical size and tracking have to ramp with the rank, because a face at
-//     26px and the same face at 68px want opposite treatment. One value for both
-//     is what made the old display flat.
+// Two things follow from committing to weight as the axis:
+//   · the stress word cannot be an italic — a grotesque italic is a slant, and a
+//     slanted word inside a 900-weight line reads as a mistake. It is a LIGHT word
+//     instead, which is the same gesture performed on the axis this page owns.
+//   · tracking has to ramp with the rank, because a bold face at 68px and the same
+//     face at 26px want opposite treatment. See the ramp in tokens.
 //
-// On why this is Newsreader and not the didone that was here in between, see
-// --font-display in tokens: the short version is that Bodoni Moda's hairlines fall
-// below a device pixel at 26px and it rendered the review score as 1.8.
+// The two serifs tried in between are recorded in --font-display; the short version
+// is that the didone rendered the review score as "1.8" at 26px, and the text serif
+// that replaced it was correct on every measurement and still gave a repair shop a
+// literary voice it has no use for.
 // ─────────────────────────────────────────────────────────────────────────────
 
 .display,
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: 700;
+  // The top of the axis, not a step below it. 800 is a bold weight; 900 is a
+  // statement, and the whole hierarchy is built on the distance from Inter's 400.
+  font-weight: 900;
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
   text-transform: none;
   text-wrap: balance;
   margin: 0;
   font-variant-numeric: lining-nums;
-  // The optical size axis is left to the browser rather than pinned per rank.
-  // Pinning it was an error worth recording: the hero renders at 58px and was
-  // being told "opsz" 72, which asks the face for *finer* strokes than its own
-  // size wants — the same direction that made the previous display face fail. Auto
-  // feeds the used font size into the axis, so every rank gets the drawing its
-  // size was designed for, and it keeps working through the fluid clamp() range
-  // instead of only at the two ends.
-  font-optical-sizing: auto;
   // Drawn from the token, not from Bootstrap's $headings-color, which compiles to
   // a literal near-white. Without this a heading inside .band--light stayed at
   // #f1f0eb on a bone ground — about 1.1:1, and invisible.
@@ -58,16 +56,17 @@ h2 {
   letter-spacing: var(--ls-display-lg);
 }
 
-// h3 and h4 stay in the body voice, and now by choice rather than by necessity —
-// Newsreader is perfectly solid at 26px, unlike the face this replaces. The
-// display voice is reserved for section-level statements: there are more than
-// twenty service titles on this page, and setting all of them in the serif would
-// make it the page's default rather than its emphasis. Scarcity is what makes the
-// display rank register at all.
+// h3 and h4 join the display voice at 700 — every title on the page is now set in
+// one family, and the body voice is only ever used for things that are read in
+// runs. They were in Inter 600 while the display was a serif, because twenty-odd
+// service titles in a serif would have made it the page's default rather than its
+// emphasis. That worry does not transfer: a grotesque at 700 titles without
+// shouting, and it leaves a clean 900 / 700 / 400 ladder where the family tells you
+// whether something is a label, a title or a sentence.
 h3,
 h4 {
-  font-family: var(--font-body);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 700;
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-body-tight);
   text-transform: none;
@@ -79,13 +78,16 @@ h4 {
 h3 { font-size: var(--text-h3); }
 h4 { font-size: var(--text-h4); }
 
-// One italic word per headline, in the display face's true italic — the DNA's
-// signature move, finally available. Newsreader's italic is a drawn letterform
-// rather than a slant, so a single word of it puts a stress mark on the sentence
-// the way a voice would. Never two, never a whole line, and never combined with a
-// colour or weight change: the italic IS the emphasis.
+// One stressed word per headline, and on this page the stress is a DROP IN WEIGHT
+// rather than an italic. The markup is <em>, so the slant has to be turned off
+// explicitly. 400 against the line's 900 is the full span of the axis, which makes
+// the word read as spoken quietly inside a loud sentence — the same gesture the
+// serif italic performed, executed on the axis this system actually owns. Never
+// two, never a whole line, and never combined with a colour change: the accent has
+// four named roles and headline emphasis is not one of them.
 .display__stress {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 400;
   color: var(--color-text);
 }
 
@@ -93,6 +95,15 @@ h4 { font-size: var(--text-h4); }
 // the metadata grey they used to share.
 .lead {
   font-size: var(--text-lead);
+  // Stated explicitly because Bootstrap's own .lead ships font-weight: 300, and
+  // this page loads Inter at 400/500/600 only — so the leads were declaring a
+  // weight that does not exist here. It renders as 400 today because there is
+  // nothing lighter to pick, which is a latent bug rather than a working default:
+  // the day the stack serves a wider variable range, every lead on a near-black
+  // ground would quietly go light, which is the classic dark-mode legibility
+  // failure. Not inherited from the rule below either — same specificity, and this
+  // one has to win on purpose rather than on file order.
+  font-weight: 400;
   line-height: var(--lh-lead);
   color: var(--color-text-body);
   max-inline-size: var(--measure-lead);

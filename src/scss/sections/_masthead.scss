@@ -67,8 +67,7 @@
   white-space: nowrap;
   gap: 0.35em;
   font-family: var(--font-display);
-  font-optical-sizing: auto;
-  font-weight: 700;
+  font-weight: 900;
   font-size: 1.3125rem;
   letter-spacing: 0.005em;
   line-height: 1;
@@ -282,9 +281,11 @@
   gap: var(--space-5);
   padding-block: var(--space-4);
   border-block-end: var(--rule) solid var(--color-line);
-  font-family: var(--font-body);
+  // The display voice, like every other title rank — these are navigation
+  // headings, not sentences.
+  font-family: var(--font-display);
   font-size: var(--text-h4);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--ls-body-tight);
   color: var(--color-text);
   text-decoration: none;

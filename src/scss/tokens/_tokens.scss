@@ -107,23 +107,26 @@
   --band-bottom:  clamp(4rem, 8vw, 7rem);
 
   // ── Type families ─────────────────────────────────────────────────────────
-  // Three voices, and only ONE of them is expressive — which is the whole point
-  // of the system and the thing this page was missing. Archivo, Inter and Plex
-  // Mono are all neutral technical grotesques: the page had three quiet voices
-  // and was building every rank out of size alone. A serif carries print
-  // associations no grotesque produces at any weight, so the display voice is now
-  // doing register work instead of just being bigger.
+  // Three voices with three jobs: Archivo titles, Inter reads, Plex Mono files.
   //
-  // Newsreader and not a didone, and the reason is measured rather than tasteful.
-  // Bodoni Moda was here first and its stroke contrast is too high for the sizes
-  // this page actually sets: at 26px its hairlines fall below one device pixel and
-  // antialias to roughly 15% grey, so parts of letters drop out. The rating
-  // rendered as "1.8" — the 4 loses its diagonal and crossbar — and "820-0360"
-  // rendered as "820 0360", hyphen gone. A page cannot misstate its own review
-  // score in service of a typeface. Newsreader is the same editorial register with
-  // moderate contrast: every stroke survives 26px on both grounds, the lining
-  // numerals are solid, and it still has the true italic the stress accent needs.
-  --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  // The display voice is a grotesque, and its expressiveness comes from MASS
+  // rather than from style. This is the point that took three attempts to get
+  // right. The first build set Archivo at width 82 and a middling weight, which
+  // put three near-identical grotesques on the page and left every rank built out
+  // of size alone — the mechanical reason type reads cheap. The fix is not a
+  // different category of face, it is a violent weight separation: 900 against
+  // Inter's 400 is a gap you cannot mistake for "the same font, bigger", and it
+  // holds at 26px as readily as at 68px.
+  //
+  // Two serifs were tried in between and are recorded because the second failure
+  // was expensive. Bodoni Moda's stroke contrast is too high for the sizes this
+  // page sets: at 26px its hairlines fall below one device pixel, so the review
+  // score rendered as "1.8" — the 4 loses its diagonal and crossbar — and
+  // "820-0360" rendered as "820 0360". Newsreader fixed that and was correct on
+  // every measurement, and was still the wrong answer here: an editorial serif
+  // gives a repair shop a literary voice it has no use for. A grotesque at 900 is
+  // what a workshop sounds like. Weight is the axis that carries this page.
+  --font-display: "Archivo", "Helvetica Neue", "Arial Black", sans-serif;
   --font-body:    "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
 
@@ -147,28 +150,35 @@
   // 66 / 52 / 34 / 26 — steps of 1.27, 1.53, 1.31.
   --text-h2:      clamp(1.875rem, 2.6vw + 1.05rem, 3rem);
   --text-hero:    clamp(2.125rem, 3.1vw + 0.85rem, 4.25rem);
-  // Sized so "(516) 555-0100" holds one line inside a five-column field at
-  // every width — a phone number broken across two lines is not a phone number.
-  --text-phone:   clamp(1.875rem, 4.1vw + 0.4rem, 4.25rem);
+  // Sized so "(516) 820-0360" holds one line inside a five-column field at every
+  // width — a phone number broken across two lines is not a phone number.
+  //
+  // The ramp is gentler than the hero's on purpose. It used to be steeper, which
+  // meant that although both tokens capped at 4.25rem the phone got there first and
+  // outran the headline everywhere above roughly 700px: 65px against 58px at 1440.
+  // The h1 is the page's dominant type rank and nothing else may exceed it, however
+  // much the business wants the phone read.
+  --text-phone:   clamp(1.875rem, 3.1vw + 0.6rem, 3.75rem);
   --text-index:   clamp(2rem, 3vw + 1rem, 3.5rem);              // chapter numerals
   --text-mega:    clamp(2.75rem, 10.5vw, 11rem);                // wordmark texture band
 
   // ── Type mechanics ────────────────────────────────────────────────────────
-  // Newsreader has a tall x-height, so its ascenders and descenders are short and
-  // a display line can be set tighter than the mixed-case default would suggest —
-  // but not as tight as 1.02, which clipped the descender on "say".
-  --lh-display:   1.05;
+  // A 900-weight grotesque wants its lines close: the letterforms are so heavy that
+  // ordinary leading opens a visible gap between them and the block stops reading
+  // as one mass. 1.0 is as tight as mixed case goes here before the descender on
+  // "say" starts touching the line below.
+  --lh-display:   1.0;
   --lh-tight:     1.12;
   --lh-body:      1.65;   // one notch looser: muted ink on a dark ground needs it
   --lh-lead:      1.45;
-  // Optical tracking ramp. A serif at 68px wants to be pulled tight; the same face
-  // at 26px wants to be left alone, and pulling it tight is what makes type look
-  // cramped and cheap. One value cannot serve both, and one value is what this
-  // page had. Firmer than the didone ramp it replaces: Newsreader sets wider, so
-  // the display ranks need a real pull to read as set rather than as typed.
-  --ls-display-xl: -0.022em;   // hero, phone, the big numerals
-  --ls-display-lg: -0.016em;   // section headings
-  --ls-display:    -0.016em;   // default when a rank does not say
+  // Optical tracking ramp. A heavy grotesque at 68px wants to be pulled hard —
+  // the counters are already small, so the space between letters is what makes it
+  // look loose — while the same face at 26px wants far less, because pulling a
+  // bold small size tight closes the counters and turns words into blocks. One
+  // value cannot serve both, and one value is what this page started with.
+  --ls-display-xl: -0.036em;   // hero, phone, the big numerals
+  --ls-display-lg: -0.028em;   // section headings
+  --ls-display:    -0.028em;   // default when a rank does not say
   // The body voice's display rank — h3, h4, service titles, the mobile nav. Inter
   // needs far less pull than the serif does, and this was hand-written as -0.011em
   // in three separate partials before it had a name.
@@ -178,11 +188,10 @@
   --ls-label:     0.12em;
   --ls-label-lg:  0.08em;
   --ls-mono:      0.06em;
-  // There are deliberately no optical-size tokens. Every display rank uses
-  // `font-optical-sizing: auto`, which feeds the *used* font size into the axis —
-  // correct at every step of a clamp() range rather than at the two ends, and
-  // impossible to get backwards. Pinning the values by hand is what had the 58px
-  // hero asking for opsz 72, i.e. for finer strokes than its size wants.
+  // There are deliberately no optical-size tokens. Archivo has no opsz axis, so
+  // the pinned values a previous display face used are gone rather than ported —
+  // and they were wrong even then: they had the 58px hero asking for opsz 72, i.e.
+  // for finer strokes than its own size wants. Weight is this page's axis.
 
   // ── Measures ──────────────────────────────────────────────────────────────
   // Named, so a line length is a decision. Shorter than a light-mode equivalent:

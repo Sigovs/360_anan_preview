@@ -78,19 +78,27 @@ inside a shipped stylesheet is past the point a variable can change it.
   the primary action, active state, index numerals, technical markers and the
   focus ring. Nothing else. Near-black ink on orange fills, never white
   (white on this orange measures 2.41:1).
-- **Three type voices, one of them expressive** — Newsreader for display, Inter
-  for reading, IBM Plex Mono for indices and labels. Only the display voice has
-  character; the other two are deliberately quiet, and one italic word per
-  headline is the page's only typographic flourish. The optical-size axis is left
-  to `font-optical-sizing: auto` at every rank, so a fluid size gets the drawing
-  its size was designed for; only tracking is pinned per rank, because tracking is
-  a compositional decision and no font can make it.
+- **Three type voices with three jobs** — Archivo titles, Inter reads, IBM Plex
+  Mono files. The display voice is expressive by **mass**: Archivo at 900 beside
+  Inter at 400 is a five-step separation, so nothing on the page can be mistaken
+  for "the body font, larger". Every title rank is Archivo (900 for sections and
+  above, 700 for titles inside them); the body voice is only ever used for text
+  read in runs. One word per headline drops to 400 as the stress accent — the same
+  gesture an italic would make, on the axis this page actually owns. Tracking is
+  pinned per rank because how tightly a line is set is a compositional decision.
 
-  Two earlier stacks failed, and both failures were the same shape. Archivo
-  condensed + Inter + Plex Mono were three neutral technical grotesques, so every
-  rank was built from size alone. Bodoni Moda fixed the register and broke the
-  rendering: its hairlines fall below one device pixel at 26px, which made the
-  review score read as "1.8" and dropped the hyphen out of the phone number.
+  Three earlier stacks failed and the record is worth keeping. Archivo at a
+  *middling* weight with a narrowed width put three interchangeable grotesques on
+  the page, so every rank leaned on size alone — right family, wrong setting.
+  Bodoni Moda fixed the register and broke the rendering: its hairlines fall below
+  one device pixel at 26px, which made the review score read as "1.8" and dropped
+  the hyphen out of the phone number. Newsreader was correct on every measurement
+  and still wrong — an editorial serif gives a repair shop a literary voice it has
+  no use for.
+- **Nothing outranks the h1** — the hero headline is the dominant type rank at
+  every width, and the review figure and the contact phone are both capped below
+  it. Both used to overtake it: steeper `clamp()` slopes meant they reached their
+  maximum first, so the phone rendered at 65px against the headline's 58.
 - **Three ink ranks, three mono steps** — ink is ranked `text` → `body` → `muted`
   so paragraphs are never set in the metadata grey; mono runs 11 / 12 / 13px
   depending on whether a label is glanced at or read. The one exception is the

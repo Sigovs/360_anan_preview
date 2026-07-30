@@ -16,8 +16,7 @@
 // same section number, so a reader never has to reconcile two counts.
 .chapter__numeral {
   font-family: var(--font-display);
-  font-optical-sizing: auto;
-  font-weight: 700;
+  font-weight: 900;
   font-size: var(--text-index);
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -232,9 +231,9 @@
 }
 
 .ppi__step-title {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: var(--text-body);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.35;
   color: var(--color-text);
   text-transform: none;
