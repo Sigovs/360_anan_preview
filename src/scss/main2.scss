@@ -106,7 +106,12 @@
   --t-h4:    clamp(1.0625rem, .5vw + .9rem, 1.25rem);
   --t-h3:    clamp(1.25rem, 1vw + 1rem, 1.75rem);
   --t-h2:    clamp(1.75rem, 2.4vw + 1rem, 2.875rem);
-  --t-h1:    clamp(2rem, 3.4vw + .8rem, 4.25rem);
+  // The display rank was raised against a full-screen photographic hero: at the
+  // old 3.4vw + .8rem ceiling of 4.25rem the headline read as a caption on the
+  // photograph rather than as the thing the photograph is under. The small end
+  // is unchanged on purpose — at 320x568 a larger minimum turns the headline
+  // from three lines into four and takes the hero past its own fold.
+  --t-h1:    clamp(2rem, 4.4vw + .5rem, 5rem);
   --t-stat:  clamp(1.75rem, 2vw + 1rem, 2.5rem);
 
   --lh-display: 1.04;
@@ -124,6 +129,18 @@
   --ease-mask: cubic-bezier(.16, 1, .3, 1);
   --rise: 14px;
   --parallax: 26px;
+
+  // The masthead's geometry, declared once and read by the masthead itself AND
+  // by the hero's top clearance. They were two independent numbers before and
+  // drifted apart the first time the header changed size.
+  //
+  // Both figures are the LESSER of a width-derived and a height-derived value,
+  // the same rule the hero runs on: fixed chrome is a much larger fraction of a
+  // short viewport, and a header that grows on a 1280x600 laptop takes the room
+  // straight out of the hero it sits on.
+  --mh-pad: clamp(var(--space-4), min(.9vw + .55rem, 2.6svh), var(--space-5));
+  --mh-row: clamp(2.75rem, min(1.4vw + 2.2rem, 6.4svh), 3.5rem);
+  --mh-h:   calc(var(--mh-pad) * 2 + var(--mh-row) + var(--rule));
 
   --z-media: 0; --z-scrim: 1; --z-content: 2; --z-header: 50;
 }
@@ -157,8 +174,31 @@ img, svg, video { display: block; max-inline-size: 100%; }
   padding-block: var(--band-top) var(--band-bottom);
 }
 
-.band--panel  { background: var(--g-panel); }
-.band--deep   { background: var(--g-deep); }
+// Six near-identical dark surfaces in a row read as one long surface. A radial
+// lift in the accent's own hue gives three of them a light source and a
+// direction, without turning any of them into a colour block.
+//
+// Held at or under 5.5% alpha deliberately: every flat text pair on this page
+// is measured against the FLAT token, and a wash that moved the ground would
+// invalidate the table in docs/CONTENT-TODO.md. At this alpha the ground's
+// luminance moves in the fourth decimal — the ratios are unchanged.
+.band--panel {
+  background:
+    radial-gradient(120% 90% at 12% 0%, rgb(49 58 221 / .055), rgb(49 58 221 / 0) 62%),
+    var(--g-panel);
+}
+
+.band--deep {
+  background:
+    radial-gradient(100% 80% at 88% 100%, rgb(49 58 221 / .05), rgb(49 58 221 / 0) 58%),
+    var(--g-deep);
+}
+
+.rail2 {
+  background:
+    radial-gradient(90% 150% at 50% 0%, rgb(226 232 255 / .035), rgb(226 232 255 / 0) 70%),
+    var(--g-base);
+}
 
 // The one inverted band, three quarters down. Re-points the ink and the accent
 // rather than overriding each element, so nothing inside needs to know.
@@ -282,6 +322,9 @@ h4 {
   letter-spacing: .1em;
   text-transform: uppercase;
   text-decoration: none;
+  // A two-word action must never become a two-line action: in the masthead the
+  // available width shrinks as the wordmark grows, and "Get started" broke.
+  white-space: nowrap;
   cursor: pointer;
   transition: background-color var(--dur-2) var(--ease-out),
               border-color var(--dur-2) var(--ease-out),
@@ -337,8 +380,26 @@ h4 {
               background-color var(--dur-2) var(--ease-out);
 }
 
+// The three titles are a set and are drawn as one: two of them wrap to two
+// lines, so the box is held at two lines and the copy under all three starts on
+// a common baseline. 2.08em is two lines of --lh-display, not a chosen number —
+// the same rule the capability rail runs on.
+.card2 h3 { min-block-size: 2.08em; }
+
 .card2:hover { border-color: var(--line-bright); background: var(--g-raised); }
 .card2 > * + * { margin-block-start: var(--space-4); }
+
+// The three cards' actions land on one line because the card is a column and the
+// action is pushed to its foot — not because the copy happens to come out the
+// same length. It doesn't: the coverage card runs two lines longer than the
+// detailing one, and matching them by editing would be writing to fit a grid.
+// Specificity, not source order: `.card2 > * + *` above is a class too.
+.card2 { display: flex; flex-direction: column; }
+
+.card2 > .card2__action {
+  margin-block-start: auto;
+  padding-block-start: var(--space-5);
+}
 
 // A faint number in the corner, as the reference does on its spec cards.
 .card2__index {
@@ -360,12 +421,24 @@ h4 {
               border-color var(--dur-2) var(--ease-out);
 }
 
+// The header is transparent until it is scrolled, so on the first screen its
+// ground is whatever the hero photograph is doing underneath it. With the frame
+// re-shot the ceiling strips and one bay lamp now sit directly behind the row:
+// the nav labels measured 3.88:1 and the phone 3.91:1 against the 4.5 they owe.
+//
+// Fixed at the background layer rather than by lifting the type, which is this
+// project's standing preference — and the scrim is bled 4rem BELOW the header so
+// it falls off as a vignette instead of ending on the header's own edge, where
+// it would read as a bar and give away that the header is not transparent.
 .mh::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 0 -4rem;
   z-index: -1;
-  background: linear-gradient(to bottom, rgb(8 8 13 / .92), rgb(8 8 13 / 0));
+  background: linear-gradient(to bottom,
+    rgb(8 8 13 / .95) 0%,
+    rgb(8 8 13 / .72) 55%,
+    rgb(8 8 13 / 0) 100%);
   transition: opacity var(--dur-2) var(--ease-out);
 }
 
@@ -377,8 +450,13 @@ h4 {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
-  padding-block: var(--space-4);
+  padding-block: var(--mh-pad);
 }
+
+// Below the nav breakpoint the middle track is empty but its two gaps are not:
+// at 320px the wordmark, the gaps and the menu came to 288px against 280px of
+// shell, and the menu button was the part that went off the edge.
+@media (max-width: 61.99rem) { .mh__inner { gap: var(--space-4); } }
 
 .wm2 {
   display: inline-flex;
@@ -386,7 +464,10 @@ h4 {
   gap: .3em;
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: 1.375rem;
+  // Fluid, because this is the mark the header's weight is carried by. It has to
+  // grow with the format without ever exceeding --mh-row, which is what keeps
+  // the header's height a known quantity.
+  font-size: clamp(1.25rem, .85vw + 1rem, 2rem);
   letter-spacing: .04em;
   line-height: 1;
   text-transform: uppercase;
@@ -398,7 +479,15 @@ h4 {
 .wm2__num { color: var(--accent-read); font-variant-numeric: tabular-nums; }
 .wm2__name { font-size: .78em; letter-spacing: .1em; }
 
-.mh__nav { display: none; justify-self: center; gap: var(--space-6); }
+.mh__nav {
+  display: none;
+  justify-self: center;
+  // The shell caps at 1440, so the header's usable width stops growing there
+  // while the wordmark and the CTA keep growing to the viewport. At 1920 that
+  // left the six links exactly 1px short of their track and "The Shop" and
+  // "Vehicle Care" broke over two lines. The interval gives that back.
+  gap: clamp(var(--space-4), 1.5vw, var(--space-6));
+}
 
 @media (min-width: 62rem) { .mh__nav { display: flex; } }
 
@@ -406,9 +495,15 @@ h4 {
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-block-size: 2.5rem;
+  // Every control in the row is exactly --mh-row tall, which is what makes the
+  // header's height calculable rather than emergent.
+  min-block-size: var(--mh-row);
+  // A nav label is a single mark; it may overflow its track and be dealt with,
+  // but it may never quietly become two lines inside a one-line row.
+  flex: none;
+  white-space: nowrap;
   font-family: var(--f-mono);
-  font-size: var(--t-xs);
+  font-size: clamp(var(--t-xs), .16vw + .69rem, .875rem);
   font-weight: 500;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -433,16 +528,26 @@ h4 {
 .mh__link:hover, .mh__link:focus-visible { color: var(--ink); }
 .mh__link:hover::after, .mh__link:focus-visible::after { scale: 1 1; }
 
-.mh__end { display: flex; align-items: center; gap: var(--space-4); }
+.mh__end { display: flex; align-items: center; gap: var(--space-5); }
+
 .mh__cta { display: none; }
-@media (min-width: 48rem) { .mh__cta { display: inline-flex; } }
+
+@media (min-width: 48rem) {
+  .mh__cta {
+    display: inline-flex;
+    min-block-size: var(--mh-row);
+    padding-inline: clamp(var(--space-5), 1.4vw, var(--space-6));
+    font-size: clamp(var(--t-label), .16vw + .72rem, .9375rem);
+  }
+}
 
 .mh__phone {
   position: relative;
   display: inline-flex;
   align-items: center;
+  min-block-size: var(--mh-row);
   font-family: var(--f-mono);
-  font-size: var(--t-label);
+  font-size: clamp(var(--t-label), .2vw + .74rem, 1rem);
   font-weight: 500;
   letter-spacing: var(--ls-mono);
   font-variant-numeric: tabular-nums;
@@ -453,6 +558,13 @@ h4 {
 }
 
 .mh__phone:hover, .mh__phone:focus-visible { color: var(--accent-read); }
+
+// Under 30rem the row cannot hold all three marks: the wordmark, the number and
+// the menu came to 421px against 280px of shell, and the menu — the only way to
+// reach the rest of the page — was what went off the edge. The number is the one
+// of the three that is repeated, in the hero's card and in the menu panel, so it
+// is the one that goes.
+@media (max-width: 29.99rem) { .mh__phone { display: none; } }
 
 // Extends each header control to a 44px touch target without moving its label off
 // the baseline. Vertical only: an earlier version also bled 8px to each side, which
@@ -474,7 +586,7 @@ h4 {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  min-block-size: 2.75rem;
+  min-block-size: var(--mh-row);
   padding: 0;
   border: 0;
   background: none;
@@ -522,32 +634,68 @@ h4 {
 }
 
 // ── Hero ────────────────────────────────────────────────────────────────────
-// The reference's split: a dark type panel on the left, the photograph bleeding
-// off the right edge, and one small card straddling the seam.
-.hero2 { position: relative; background: var(--g-deep); overflow: hidden; }
+// One full screen at every format, with the fold falling on the hero's own
+// bottom edge — the capability rail is the first thing a scroll reveals.
+//
+// The photograph is the GROUND, not a column: it fills the viewport at every
+// width, and the type mass sits on it. That replaces the earlier split panel,
+// where the image held one half of a 46rem band. The dominant is the same in
+// both — the workshop — but here it is made by area and depth instead of by
+// occupying a cell, and the type is made dominant by contrast and isolation
+// against it, which is what a photograph this dark can carry.
+//
+// Two arrangements of that one idea, not one squeezed:
+//   ≥62rem  type mass held left, above centre, in the scrimmed left third;
+//           the lifted vehicle keeps the open right field; note card anchored
+//           to the bottom-right corner as the counterweight.
+//   <62rem  horizontal isolation does not exist at 390px, so the type mass
+//           moves to the lower field and is carried by tonal depth instead;
+//           the note becomes the bottom rule of that mass.
+//
+// Every vertical interval below is the LESSER of a width-derived and a
+// height-derived figure. Width-only clamps fit tall viewports and overflow
+// short ones, and a hero that promises a full screen has to hold on a 1280x600
+// laptop and a landscape phone, not only on the design's own artboard.
+.hero2 {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  overflow: hidden;
+
+  // svh, not vh: on arrival a mobile browser's URL bar is expanded and vh
+  // measures the COLLAPSED viewport, so a 100vh hero opens one bar-height too
+  // tall and drops its own bottom edge — and the phone card on it — under the
+  // browser chrome. Exactly the fold this section exists to remove.
+  --hero-screen: 100svh;
+  // Masthead clearance, taken from the masthead's own declared height rather
+  // than restated here. Restating it is how the two came apart last time.
+  --hero-clear: var(--mh-h);
+  // Both ends measured, not guessed: at the 3.4svh / 2.4svh they started on, a
+  // 320x568 phone came out 8px past the fold. These are the values at which the
+  // smallest portrait format in use closes exactly on the viewport.
+  --hero-pad:   clamp(var(--space-3), 3svh, var(--space-6));
+  --hero-gap:   clamp(var(--space-3), 2.1svh, var(--space-5));
+  // Distance from the viewport edge to the shell's edge. The photograph bleeds
+  // to the viewport; the type is anchored to the shell. Anything that has to
+  // line up with the TYPE has to be measured from here, not from the viewport.
+  --shell-inset: max(0px, (100vw - var(--shell)) / 2);
+}
 
 .hero2__grid {
   display: grid;
   gap: 0;
-  min-block-size: min(92svh, 46rem);
+  grid-template-rows: 1fr auto;
+  min-block-size: var(--hero-screen);
 }
 
-.hero2__panel {
-  position: relative;
-  z-index: var(--z-content);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: 9rem var(--space-9);
-  padding-inline-end: var(--space-6);
+// ── Photographic ground ─────────────────────────────────────────────────────
+// Absolute against .hero2, so it escapes the shell's gutter and bleeds to all
+// four viewport edges at every width. The shell still governs the type.
+.hero2__media {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
 }
-
-.hero2__title { margin-block-end: var(--space-5); }
-.hero2__lead { margin-block-end: var(--space-7); }
-
-.hero2__actions { display: flex; flex-wrap: wrap; gap: var(--space-4); }
-
-.hero2__media { position: relative; min-block-size: 18rem; }
 
 .hero2__media img {
   position: absolute;
@@ -555,16 +703,87 @@ h4 {
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  object-position: 46% 46%;
+  // Portrait: the type mass is the lower field, so the crop is pulled up and
+  // right to keep the vehicle and the technician in the open upper half.
+  object-position: 62% 30%;
 }
 
-// A scrim on the media's inner edge only, so the photograph keeps its own
-// contrast and the type panel still reads as one mass.
+// ── Scrim ───────────────────────────────────────────────────────────────────
+// Small formats: the type mass is the lower two-fifths, so the lower two-fifths
+// is carried deep and the upper field keeps the photograph's own contrast. The
+// short top pass is for the masthead, which is transparent until scrolled.
+// Figures measured on the composited render — see the project record.
 .hero2__media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, var(--g-deep) 0%, rgb(8 8 13 / .35) 34%, rgb(8 8 13 / 0) 70%);
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  // Re-tuned to the replacement frame. The old photograph had a dark underbody
+  // where the type mass starts; this one has a lit rear wheel and floor there,
+  // and the eyebrow — the topmost line of the mass — measured 3.27:1 against the
+  // 4.5 it owes. The deep band is carried ~0.14 further up; above 52% the
+  // gradient is untouched, so the vehicle keeps its own contrast.
+  background:
+    linear-gradient(to top,
+      rgb(8 8 13 / .95) 0%,
+      rgb(8 8 13 / .93) 36%,
+      rgb(8 8 13 / .82) 52%,
+      rgb(8 8 13 / .55) 66%,
+      rgb(8 8 13 / 0) 86%),
+    linear-gradient(to bottom, rgb(8 8 13 / .78) 0%, rgb(8 8 13 / 0) 22%);
+}
+
+.hero2__panel {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  // The type mass is carried low, under the open photographic field. On one
+  // column the fold is shallow enough that only one mass arrives first, and it
+  // should be the one the visitor's task runs through.
+  justify-content: flex-end;
+  gap: var(--hero-gap);
+  padding-block: calc(var(--hero-clear) + var(--hero-pad)) var(--hero-pad);
+}
+
+// The intervals belong to the panel now, so nothing inside carries its own.
+.hero2__panel > * { margin-block: 0; }
+
+// Over the photograph the eyebrow's rank cannot be carried by tone. Measured on
+// the composited 390x844 render, --ink-muted came out 3.76:1 at its worst pixel
+// against the 4.5:1 a 12px label owes; one rank up it is 6.3:1. The rank stays
+// unambiguous either way — a 12px mono label tracked .16em is not going to be
+// confused with an 18px sans lead whatever tone it is in. Deepening the scrim
+// was the alternative, and it cost the vehicle's lower body, which is the
+// subject the whole hero is built on.
+.hero2 .eyebrow { color: var(--ink-body); }
+
+.hero2__title {
+  // Capped against the viewport's HEIGHT as well as its width. Two lines at
+  // --lh-display is 19.6svh, which still leaves the lead, the two actions and
+  // the phone card their room on a 600px-tall laptop.
+  font-size: min(var(--t-h1), 9.4svh);
+  // A ceiling for the wide-portrait formats, where the panel is the full shell
+  // and a display line would otherwise run past 30ch. On desktop the panel's own
+  // width governs and this never binds.
+  max-inline-size: 26ch;
+}
+
+.hero2__lead {
+  // Floored at --t-sm, so a short viewport tightens the lead rather than
+  // deleting it. Deleting it would take the only sentence that names the
+  // service taxonomy before the visitor has scrolled.
+  font-size: max(var(--t-sm), min(var(--t-lead), 3.1svh));
+}
+
+// The one larger interval in the stack: it ranks the actions apart from the
+// sentence that explains them.
+.hero2__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block-start: var(--hero-gap);
 }
 
 .hero2__note {
@@ -573,7 +792,7 @@ h4 {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-5);
   background: var(--g-panel);
   border: var(--rule) solid var(--line);
 }
@@ -594,15 +813,82 @@ h4 {
 .hero2__note-phone:hover, .hero2__note-phone:focus-visible { color: var(--accent-read); }
 
 @media (min-width: 62rem) {
-  .hero2__grid { grid-template-columns: 1fr 1fr; }
-  .hero2__panel { padding-block: 10rem var(--space-9); }
+  // Landscape crop for the replacement frame, which is SQUARE. Cover on a 16:10
+  // window throws away 540px of height, so the vertical figure is what chooses
+  // the band: 34% holds the vehicle and the technician and drops the empty
+  // ceiling. Horizontally it stays centred — the frame already has its subject
+  // right of centre and its empty field left, which is where the type sits.
+  .hero2__media img { object-position: 50% 34%; }
+
+  // Horizontal isolation exists again, so the scrim becomes one: deep on the
+  // left where the type sits, gone by the vehicle. The short bottom pass is
+  // the note card's ground, and the top pass is still the masthead's.
+  // The horizontal pass is measured from the SHELL, not from the viewport. In
+  // viewport percentages it tracked the window while the type tracked the
+  // centred shell, so the two drifted apart as the format widened: at 2560 the
+  // lead sat where the gradient had already fallen to .55 and measured 2.80:1
+  // against the 4.5 it owes, while the identical layout passed at 1440. Stated
+  // against --shell-inset the type keeps the same ground at every width.
+  .hero2__media::after {
+    background:
+      linear-gradient(to right,
+        rgb(8 8 13 / .95) 0,
+        rgb(8 8 13 / .90) calc(var(--shell-inset) + 30rem),
+        rgb(8 8 13 / .72) calc(var(--shell-inset) + 44rem),
+        rgb(8 8 13 / 0)   calc(var(--shell-inset) + 62rem)),
+      linear-gradient(to top, rgb(8 8 13 / .60) 0%, rgb(8 8 13 / 0) 26%),
+      linear-gradient(to bottom, rgb(8 8 13 / .55) 0%, rgb(8 8 13 / 0) 18%);
+  }
+
+  .hero2__panel {
+    // Above centre, with the deeper field of space below — the type mass has
+    // the photograph's floor and reflections under it rather than an even
+    // split, which is what stops a full-screen hero reading as a centred slab.
+    justify-content: center;
+    // Sized to the headline, not chosen: at the display rank's 5rem ceiling
+    // "Complete care" measures 650px, so anything under 42rem breaks the first
+    // line in two and turns a three-line headline into four.
+    inline-size: min(100%, 42rem);
+    // The bottom figure is the asymmetry, not clearance — the panel is 34rem on
+    // the left and the phone card is pinned right, so they never meet. It is
+    // height-derived for the same reason everything else here is: a fixed 8rem
+    // put a 1280x600 laptop 21px past the fold.
+    padding-block: calc(var(--hero-clear) + var(--hero-pad))
+                   calc(var(--hero-pad) + clamp(var(--space-6), 9svh, var(--space-10)));
+  }
+
+  // Bottom-right, as the counterweight to a type mass held hard left. It sits
+  // over the wet floor, which is the darkest quarter of the frame and the one
+  // place a panel can land without covering the subject.
+  // The card is positioned against .hero2, which is full-bleed and has no
+  // gutter, so it re-derives the shell's own inset instead of sitting on the
+  // viewport edge.
   .hero2__note {
     position: absolute;
     inset-block-end: 0;
-    inset-inline-start: 50%;
-    translate: -50% 0;
-    z-index: var(--z-content);
+    inset-inline-end: calc(max(0px, (100vw - var(--shell)) / 2) + var(--gutter));
+    padding: var(--space-4) var(--space-5);
   }
+}
+
+// At the 320px reflow floor the card cannot hold both of its parts on one line:
+// the label is 103px, the number 157px, and 232px is what the padding leaves.
+// The number is the part that does the work, so the label goes. Wrapping the two
+// instead would cost 20px of height, and at 568px tall the fold has none to give.
+@media (max-width: 22.5rem) {
+  .hero2__note { justify-content: center; }
+  .hero2__note .mono { display: none; }
+}
+
+// Under 32rem of height — landscape phones, and the shortest laptop windows —
+// the full screen the hero owes is 390px, and the stack overruns it by 42. The
+// first thing to cut is the only element here that is a duplicate: the phone
+// card repeats a number the masthead is already showing, fixed, 4.8rem above
+// it, at every width where this rule can apply. Nothing that is said only here
+// is cut, and the means of the visitor's task — call, schedule, see the
+// services — all survive.
+@media (max-height: 32rem) {
+  .hero2__note { display: none; }
 }
 
 // ── Rail · four hairline spec cards ─────────────────────────────────────────
@@ -626,6 +912,12 @@ h4 {
 }
 
 .rail2__item:hover { background: var(--g-panel); }
+
+// The four titles are a set, so they are drawn as a set: each is written to two
+// lines at the four-up width, and the box is held at two lines everywhere else
+// so the descriptions start on one line whatever the format does to the wrap.
+// 2.08em is two lines of --lh-display, not a number chosen to look right.
+.rail2__item h3 { min-block-size: 2.08em; }
 
 @media (min-width: 48rem)  { .rail2__set { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 62rem)  { .rail2__set { grid-template-columns: repeat(4, 1fr); } }
@@ -713,6 +1005,29 @@ h4 {
 
 // ── Split block · image one side, copy the other ────────────────────────────
 .split2__media { position: relative; overflow: hidden; aspect-ratio: 4 / 3; }
+
+// Where the photograph is paired with a text block, it is measured against that
+// block instead of against its own 4:3 — the two share a top and a bottom edge,
+// which is what makes the pair read as one band rather than as an image with a
+// column of notes beside it. Only from the breakpoint where they are actually
+// side by side; stacked, the ratio is what gives the image its shape.
+@media (min-width: 62rem) {
+  .split2__media--fill { flex: 1; aspect-ratio: auto; }
+
+  // The TEXT sets the height and the photograph takes it, not the other way
+  // round. Left in flow the image contributes its own intrinsic height, the row
+  // grows to the taller of the two, and the text column ends up with 150px of
+  // dead space under its button — aligned, but aligned to nothing. Out of flow
+  // the wrapper has no height of its own, so the row is the text's height and
+  // the crop follows it.
+  .split2__media--fill img {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(var(--parallax) * -1);
+    block-size: calc(100% + var(--parallax) * 2);
+    margin-block-start: 0;
+  }
+}
 
 .split2__media img {
   inline-size: 100%;
@@ -1017,6 +1332,94 @@ h4 {
   min-block-size: 1.5rem;
 }
 
+// ── Map · full-bleed band under the contact section ─────────────────────────
+// The last mass before the footer, and the only one on the page that bleeds to
+// both edges without a photograph in it. It closes the contact section the way
+// the hero opens the page: one field, edge to edge, with one card on it.
+.map2 {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  border-block-start: var(--rule) solid var(--line);
+}
+
+.map2__frame {
+  position: relative;
+  block-size: clamp(20rem, 52svh, 32rem);
+  overflow: hidden;
+}
+
+.map2__canvas {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+  // The tile server serves one light style and has no styling API. Inverting and
+  // rotating the hue through 180 degrees is what returns land, water and roads
+  // to something near their own hues on a dark ground instead of a photographic
+  // negative. The saturation and brightness cuts then sit it in this palette
+  // rather than leaving a blue-grey rectangle in a near-black page.
+  filter: invert(1) hue-rotate(180deg) saturate(.5) brightness(.82) contrast(1.06);
+}
+
+// Tiles are a flat field with no focal point, so the band is given one the same
+// way the hero's photograph is: carried deep at the edges, open in the middle.
+.map2__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(8 8 13 / .55) 0%, rgb(8 8 13 / 0) 26%),
+    linear-gradient(to top,    rgb(8 8 13 / .80) 0%, rgb(8 8 13 / 0) 44%);
+}
+
+// The bar is an opaque panel, not type laid on the tiles. That is deliberate: a
+// map is the one surface on this page whose pixels change without anyone here
+// deciding to change them, so nothing on it is allowed to depend on measuring
+// them. On --g-panel the figures are the ones already in the flat table.
+.map2__overlay {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: var(--z-content);
+  padding-block-end: clamp(var(--space-5), 4svh, var(--space-7));
+  pointer-events: none;
+}
+
+.map2__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  padding: var(--space-5) var(--space-6);
+  background: var(--g-panel);
+  border: var(--rule) solid var(--line);
+  pointer-events: auto;
+}
+
+// On one column the card covers two thirds of the map and lands on the tile
+// attribution, which has to stay legible under OpenStreetMap's terms. So below
+// the two-column breakpoint the card leaves the map and sits under it: the same
+// relationship — field, then the one thing to do about it — made by stacking
+// instead of by depth, which is what a single column has to spend.
+@media (max-width: 47.99rem) {
+  .map2__overlay {
+    position: static;
+    padding-block: var(--space-5) 0;
+  }
+  .map2__bar { inline-size: 100%; }
+}
+
+.map2__addr { display: grid; gap: var(--space-2); margin: 0; }
+.map2__addr .mono { color: var(--ink-muted); }
+.map2__street { font-size: var(--t-h4); font-family: var(--f-display); font-weight: 600; letter-spacing: .02em; }
+
 // ── Footer ──────────────────────────────────────────────────────────────────
 .ft2 { background: var(--g-deep); border-block-start: var(--rule) solid var(--line); padding-block: var(--space-8) var(--space-6); }
 .ft2__grid { display: grid; gap: var(--space-8); }
@@ -1058,8 +1461,45 @@ h4 {
 }
 
 // ── Motion ──────────────────────────────────────────────────────────────────
-// Same contract as index.html: nothing is hidden in the markup, only under
-// .js-motion, and a watchdog in the script clears it regardless.
+// DARK-VARIANT MOTION DIRECTION — "precision under low light".
+//
+// This page is dark from the masthead to the footer, so the separator most
+// pages lean on — a background-colour change between bands — does not exist
+// here. Rhythm has to come from the motion itself, and it is built from three
+// devices and no others:
+//
+//   LIGHT is the reveal device. Things arrive by being EXPOSED, not by fading
+//         up out of nothing: masks open, exposure ramps, one pass of light
+//         crosses the hero. The dark already supplies the atmosphere; motion
+//         must not add more of it.
+//   BLUE  is the interaction signal, never decoration. It moves on rules,
+//         index markers, button sweeps, arrows, the nav underline, focus lines
+//         and the live process step. One small blue response per interaction.
+//         No glow, no lit borders around whole cards.
+//   MASKS are the transition language — hard rectangular edges, because the
+//         subject is a workshop and the register is technical.
+//
+// Three intensities, deliberately unequal, so the page has a shape over time:
+//   1 · HERO              cinematic and layered
+//   2 · SERVICE CONTENT   crisp, technical, restrained
+//   3 · FEATURE / REVIEW  slower breaths
+//
+// Contract, unchanged from index.html: nothing is hidden in the markup, only
+// under .js-motion, and a watchdog in the script clears every pending state
+// after three seconds regardless of what failed.
+:root {
+  // The motion scale. Every duration and interval below resolves to one of
+  // these; the two staggers are the figures the direction names.
+  --dur-mask:      .82s;   // a mask opening across a headline or an image
+  --dur-expose:    1.1s;   // an exposure ramp — the "work light" reveal
+  --dur-sweep:     .45s;   // a blue rule or fill crossing a control
+  --stagger-line:  80ms;   // headline lines
+  --stagger-field: 50ms;   // form field groups
+  --stagger-step: 110ms;   // process steps, and cards within a row
+  --drift:          1.5%;  // half of the 3% internal image movement allowed
+  --ease-tech: cubic-bezier(.32, .72, .24, 1);  // mechanical: quick out, settled
+}
+
 .js-motion [data-reveal="pending"],
 .js-motion [data-reveal-group="pending"] > * {
   opacity: 0;
@@ -1082,37 +1522,628 @@ h4 {
 .js-motion [data-reveal-media="pending"] { clip-path: inset(0 0 100% 0); }
 .js-motion [data-reveal-media="in"] { clip-path: inset(0 0 0 0); transition: clip-path var(--dur-6) var(--ease-mask); }
 
-.js-motion .hero2[data-entered="pending"] .hero2__panel > *,
+// ═══ 1 · HERO — cinematic and layered ═══════════════════════════════════════
+// The photograph is on screen at low exposure from the first paint. Nothing
+// here starts from black and nothing waits for a loader: what happens is that
+// the shop lights come up on a frame that was already there.
+
+.js-motion .hero2[data-entered="pending"] .hero2__media img {
+  opacity: .62;
+  scale: 1.025;
+}
+
+.js-motion .hero2[data-entered="in"] .hero2__media img {
+  opacity: 1;
+  scale: 1;
+  // The settle is longer and softer than the exposure, so the frame arrives
+  // and then comes to rest, rather than the two reading as one move.
+  transition: opacity var(--dur-expose) var(--ease-out),
+              scale 1.6s var(--ease-mask);
+}
+
+// One horizontal pass of light across the vehicle and the lift. It runs once —
+// a workshop lamp swinging past, not a shimmer — and it is behind the type.
+.hero2__pass {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 46%;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(104deg,
+    rgb(226 232 255 / 0) 0%,
+    rgb(226 232 255 / .07) 42%,
+    rgb(226 232 255 / .13) 54%,
+    rgb(226 232 255 / 0) 100%);
+}
+
+// Released by motion2 at the end of the hero timeline (`.is-open`), so the
+// sweep is the last beat of the choreography rather than something running
+// alongside it. The legacy attribute selector is kept for the no-GSAP path.
+.hero2.is-open .hero2__pass,
+.js-motion .hero2[data-entered="in"] .hero2__pass {
+  animation: hero-pass 1.6s var(--ease-out) 1;
+}
+
+@keyframes hero-pass {
+  0%   { opacity: 0; translate: -70% 0; }
+  20%  { opacity: 1; }
+  74%  { opacity: 1; }
+  100% { opacity: 0; translate: 200% 0; }
+}
+
+// The headline comes through a hard-edged vertical mask, left to right, one
+// authored line at a time. It does NOT also fade: a mask and a fade together
+// read as a soft dissolve, which is the opposite of the register.
+.hero2__line { display: block; }
+
+.js-motion .hero2[data-entered="pending"] .hero2__line { clip-path: inset(0 100% 0 0); }
+
+.js-motion .hero2[data-entered="in"] .hero2__line {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--dur-mask) var(--ease-mask);
+}
+
+.js-motion .hero2[data-entered="in"] .hero2__line:first-child { transition-delay: 220ms; }
+.js-motion .hero2[data-entered="in"] .hero2__line:last-child  { transition-delay: calc(220ms + var(--stagger-line)); }
+
+// Everything that is not the headline arrives the quiet way, after it.
+.js-motion .hero2[data-entered="pending"] .hero2__panel > *:not(.hero2__title),
 .js-motion .hero2[data-entered="pending"] .hero2__note {
   opacity: 0;
   transform: translate3d(0, 16px, 0);
 }
 
-.js-motion .hero2[data-entered="in"] .hero2__panel > *,
+.js-motion .hero2[data-entered="in"] .hero2__panel > *:not(.hero2__title),
 .js-motion .hero2[data-entered="in"] .hero2__note {
   opacity: 1;
   transform: none;
   transition: opacity var(--dur-4) var(--ease-out), transform var(--dur-4) var(--ease-out);
 }
 
-.js-motion .hero2[data-entered="in"] .hero2__title   { transition-delay: 160ms; }
-.js-motion .hero2[data-entered="in"] .hero2__lead    { transition-delay: 240ms; }
-.js-motion .hero2[data-entered="in"] .hero2__actions { transition-delay: 320ms; }
-.js-motion .hero2[data-entered="in"] .hero2__note    { transition-delay: 420ms; }
+.js-motion .hero2[data-entered="in"] .eyebrow       { transition-delay: 120ms; }
+.js-motion .hero2[data-entered="in"] .hero2__lead    { transition-delay: 520ms; }
+.js-motion .hero2[data-entered="in"] .hero2__actions { transition-delay: 620ms; }
+.js-motion .hero2[data-entered="in"] .hero2__note    { transition-delay: 720ms; }
 
+// ── Hero depth ──────────────────────────────────────────────────────────────
+// Four layers exist in this hero: the photographic ground, the scrim, the type
+// and the pinned card. The mechanic and the vehicle are inside a single flat
+// photograph and are NOT separated artificially — there is no clean layer to
+// isolate, and faking one would show. What separates the layers instead is
+// rate: the frame drifts, the type drifts less, the card not at all.
+//
+// Total internal movement is 3% of the frame, split evenly about the resting
+// crop, so the composited pixels the contrast figures were measured on are the
+// pixels at rest. Scroll-linked, never looping — nothing moves while the first
+// screen is being read.
+// The scroll-linked drift used to live here as a view() timeline at 1.5%. It
+// has moved into motion2.js: 1.5% of a hero is about 13px over an entire
+// screen of scrolling, which is not a depth cue, it is a rounding error. GSAP
+// scrubs the frame and the type at 4% and 2.2% respectively, in opposite
+// directions, which is what actually separates them.
+
+// ═══ MOTION COMPONENTS — the parts motion2.js builds and drives ═════════════
+// Every element in this block is created by script and inserted at runtime, so
+// a page with no JavaScript never has a panel sitting on top of its content.
+// Nothing here hides anything on its own.
+
+// ── Armed state ─────────────────────────────────────────────────────────────
+// Written by motion2 in the same task that parses the document and removed the
+// moment the opening timeline is built — plus a 2.5s failsafe that removes it
+// whatever happens. It exists because the timelines wait for the fonts, and
+// without it the hero would be seen finished and then covered up.
+//
+// This is a JS-applied class, never base CSS: with no script, nothing here
+// applies and the page is simply visible.
+.m2-arm .hero2__panel > *,
+.m2-arm .hero2__note { opacity: 0; }
+.m2-arm .proc2__track { scale: 0 1; }
+
+// ── Curtain ─────────────────────────────────────────────────────────────────
+// The reveal device, and the reason the reveals are visible at all. A clip-path
+// edge between one near-black region and another has no luminance either side
+// of it: on this page it dissolves rather than moves. A PANEL in a different
+// near-black tone, with a thin blue leading edge, reads as a physical thing
+// travelling off the frame — which is what the direction asks for.
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: var(--g-raised);
+  will-change: transform;
+}
+
+// The leading edge. Two pixels of accent on the side the panel travels toward,
+// so the eye has something to follow across the frame.
+.curtain::after {
+  content: "";
+  position: absolute;
+  background: var(--accent);
+}
+
+.curtain--right::after { inset-block: 0; inset-inline-end: 0; inline-size: 2px; }
+.curtain--left::after  { inset-block: 0; inset-inline-start: 0; inline-size: 2px; }
+.curtain--up::after    { inset-inline: 0; inset-block-start: 0; block-size: 2px; }
+.curtain--down::after  { inset-inline: 0; inset-block-end: 0; block-size: 2px; }
+
+// ── Masked heading line ─────────────────────────────────────────────────────
+// One rendered line per box. The box clips; the line inside it rises from below.
+// The text is unchanged — the accessible name of the heading is what it always
+// was, because splitting only wraps, never rewrites.
+.ml { display: block; overflow: hidden; }
+.ml__i { display: block; will-change: transform; }
+
+// ── Technical rule ──────────────────────────────────────────────────────────
+// The page's punctuation. On a page this dark a new section cannot announce
+// itself with a background change, so a blue rule draws across the measure
+// instead. One per section, and one per service card.
+.trule {
+  display: block;
+  block-size: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+.trule--hero { inline-size: 7rem; margin-block-end: var(--space-5); order: -1; }
+.trule--sec  { inline-size: min(100%, 9rem); margin-block-start: var(--space-5); }
+
+.trule--card {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+}
+
+// Stands where the form's label row used to. It is the full measure of the
+// column, because it is now the only thing marking that break.
+.trule--form {
+  inline-size: 100%;
+  margin-block-end: var(--space-6);
+}
+
+// ── Reviews summary ─────────────────────────────────────────────────────────
+// Set to the right edge from the two-column breakpoint up, so the rating stacks
+// against the measure it shares with the heading instead of floating in the
+// middle of its column. Left-aligned below that, where it is the only thing in
+// the column and a right edge would have nothing to align to.
+@media (min-width: 62rem) {
+  [data-reviews-summary] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+  }
+}
+
+// ── Phone mark ──────────────────────────────────────────────────────────────
+// Sized in em so it tracks whatever number it sits beside, from the 13px
+// masthead to the 48px contact figure. Decorative: every one of these links
+// already reads its number out, so the glyph is aria-hidden and adds nothing
+// for a screen reader to repeat.
+.ico {
+  // The base rule sets every svg to display:block, which pushed the mark onto
+  // its own line inside the contact block's inline-block link. It sits beside
+  // the number, not above it.
+  display: inline-block;
+  inline-size: .92em;
+  block-size: .92em;
+  flex: none;
+  margin-inline-end: .5em;
+  vertical-align: -.06em;
+  color: var(--accent-read);
+}
+
+.ct2__phone .ico { margin-inline-end: .34em; }
+
+// In the masthead the number is set small, so an em-sized mark comes out at
+// 13px and reads as a speck. Given its own figure there, and the accent's full
+// weight rather than the read-cut, so it holds at that size.
+.mh__phone .ico {
+  inline-size: 1.2em;
+  block-size: 1.2em;
+  margin-inline-end: .55em;
+  color: var(--accent-read);
+}
+
+// ── Social ──────────────────────────────────────────────────────────────────
+// Hairline squares, 44px, in the same technical register as the rest of the
+// footer. The mark carries the colour on hover, not a glow.
+.soc2 {
+  display: flex;
+  gap: var(--space-3);
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+}
+
+.soc2__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: var(--rule) solid var(--line);
+  color: var(--ink-body);
+  transition: color var(--dur-2) var(--ease-tech),
+              background-color var(--dur-2) var(--ease-tech),
+              border-color var(--dur-2) var(--ease-tech);
+}
+
+.soc2__link svg { inline-size: 1.125rem; block-size: 1.125rem; }
+
+.soc2__link:hover,
+.soc2__link:focus-visible {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+// ── Panel wipe ──────────────────────────────────────────────────────────────
+// The reviews band's own curtain, in the light surface's tone so the band
+// arrives as a surface rather than flashing on.
+.panel-wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: var(--g-deep);
+  will-change: transform;
+}
+
+// ── Process rule, and the live step ─────────────────────────────────────────
+.proc2__track--v {
+  inline-size: 2px;
+  block-size: 100%;
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  transform-origin: 50% 0;
+  margin: 0;
+}
+
+.proc2__step { transition: color var(--dur-2) var(--ease-tech); }
+
+// The number and icon go from muted to accent as the rule reaches them. Colour
+// and weight only — no glow, per the accent's standing rules.
+.proc2__icon { color: var(--ink-muted); transition: color var(--dur-2) var(--ease-tech); }
+.proc2__step.is-live .proc2__icon { color: var(--accent-read); }
+
+.proc2__step.is-live h3 { color: var(--ink); }
+
+// ── Shared vocabulary ───────────────────────────────────────────────────────
+// Three devices the rest of the page composes from. Everything below is one of
+// these, timed differently — which is what keeps six dark sections legible as
+// six sections without any of them inventing its own language.
+
+// A hard rectangular mask opening. Images open upward, as if a work light had
+// swept across them; headlines open left to right, in the reading direction.
+.js-motion [data-reveal-mask="pending"] { clip-path: inset(0 0 100% 0); }
+
+.js-motion [data-reveal-mask="in"] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--dur-mask) var(--ease-mask);
+}
+
+.js-motion .mask-line[data-reveal-mask="pending"] { clip-path: inset(0 100% 0 0); }
+
+// A technical rule drawn into place. Blue, because a rule arriving is the page
+// reporting that something is now active.
+.rule-draw {
+  display: block;
+  inline-size: min(100%, 8rem);
+  block-size: 2px;
+  margin-block-start: var(--space-5);
+  background: var(--accent);
+  transform-origin: 0 50%;
+}
+
+.js-motion [data-reveal-rule="pending"] { scale: 0 1; }
+.js-motion [data-reveal-rule="in"] { scale: 1 1; transition: scale var(--dur-mask) var(--ease-tech); }
+
+// An internal sequence: the children of one block arriving in reading order.
+.js-motion [data-reveal-seq="pending"] > * { opacity: 0; transform: translate3d(0, 10px, 0); }
+
+.js-motion [data-reveal-seq="in"] > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+
+.js-motion [data-reveal-seq="in"] > *:nth-child(2) { transition-delay: calc(var(--stagger-field) * 1); }
+.js-motion [data-reveal-seq="in"] > *:nth-child(3) { transition-delay: calc(var(--stagger-field) * 2); }
+.js-motion [data-reveal-seq="in"] > *:nth-child(4) { transition-delay: calc(var(--stagger-field) * 3); }
+.js-motion [data-reveal-seq="in"] > *:nth-child(5) { transition-delay: calc(var(--stagger-field) * 4); }
+.js-motion [data-reveal-seq="in"] > *:nth-child(6) { transition-delay: calc(var(--stagger-field) * 5); }
+
+// ═══ 2 · SERVICE CONTENT — crisp, technical, restrained ═════════════════════
+// An inspection sequence, run identically on all six: the frame is exposed, the
+// index marker comes live, the title reveals, the copy and the action follow.
+// One direction for all of them — a different direction per card would be
+// decoration, and this section is a list of what the shop does.
+//
+// The cards are observed individually, so cards sharing a row arrive together
+// and rows arrive as you reach them. That is the row stagger, and it costs no
+// script: the viewport does the grouping.
+.js-motion .svc2[data-reveal-seq="pending"] .svc2__body > * {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+}
+
+.js-motion .svc2[data-reveal-seq="in"] .svc2__body > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+
+.js-motion .svc2[data-reveal-seq="in"] .svc2__title  { transition-delay: 180ms; }
+.js-motion .svc2[data-reveal-seq="in"] .svc2__note   { transition-delay: 260ms; }
+.js-motion .svc2[data-reveal-seq="in"] .svc2__tags   { transition-delay: 320ms; }
+.js-motion .svc2[data-reveal-seq="in"] .svc2__action { transition-delay: 380ms; }
+
+// The blue index marker is the first thing to come live — before the title, so
+// it reads as the frame being identified rather than as a label on it.
+.js-motion .svc2[data-reveal-seq="pending"] .svc2__badge { opacity: 0; scale: .9 1; }
+
+.js-motion .svc2[data-reveal-seq="in"] .svc2__badge {
+  opacity: 1;
+  scale: 1 1;
+  transition: opacity var(--dur-2) var(--ease-tech) 120ms, scale var(--dur-2) var(--ease-tech) 120ms;
+}
+
+// Hover. The container never moves and never lifts: what responds is the light
+// on the frame, one blue rule, and the arrow.
+.svc2__media img {
+  transition: scale var(--dur-3) var(--ease-out), filter var(--dur-3) var(--ease-out);
+}
+
+// ── Tonal unifier ───────────────────────────────────────────────────────────
+// The six frames did not come from one shoot: 01 is the original warm, crushed,
+// shallow-focus exposure and 02–06 were generated later and run brighter and
+// cooler. Regrading five files would still leave the set at the mercy of the
+// next replacement, so the grade is applied at the PAGE instead — desaturate
+// the source, then flood it toward one blue-black. Whatever goes in the frame
+// from now on comes out in this register.
+//
+// The gradient is heavier at the foot, where the card's text begins, so the
+// join between photograph and copy is a tone rather than a hard edge.
+.svc2__media img,
+.split2__media img {
+  filter: saturate(.6) brightness(.88) contrast(1.06);
+}
+
+.svc2__media::after,
+.split2__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(16 22 52 / .34) 0%, rgb(8 10 24 / .60) 100%);
+}
+
+// The index marker and the curtain both live above the wash.
+.svc2__badge { position: relative; z-index: 2; }
+
+// Hover, at the strength the direction asks for: the frame brightens and comes
+// forward, the arrow and the title move, one blue rule grows along the bottom
+// edge, the index marker changes state. The CARD never moves and never lifts —
+// no float, no shadow. What responds is the light on the photograph.
+// Hover lifts the frame OUT of the wash a little — same grade, more exposure —
+// rather than resetting the filter, which would have snapped the colour back to
+// the source and broken the set every time a pointer crossed a card.
+.svc2:hover .svc2__media img,
+.svc2:focus-within .svc2__media img {
+  scale: 1.045;
+  filter: saturate(.78) brightness(1.08) contrast(1.06);
+}
+
+.svc2 { position: relative; }
+.svc2__body { position: relative; }
+
+// The hover rule sits on the card's bottom edge. The entrance rule (.trule--card,
+// built by motion2) sits at the top of the body, where the frame meets the text —
+// two different jobs, two different places, so neither is mistaken for the other.
+.svc2::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  scale: 0 1;
+  transition: scale var(--dur-sweep) var(--ease-tech);
+  pointer-events: none;
+}
+
+.svc2:hover::after, .svc2:focus-within::after { scale: 1 1; }
+
+.svc2__title { transition: translate var(--dur-sweep) var(--ease-out); }
+.svc2:hover .svc2__title, .svc2:focus-within .svc2__title { translate: 7px 0; }
+
+.svc2 .btn2__mark { transition: translate var(--dur-sweep) var(--ease-out); }
+.svc2:hover .btn2__mark, .svc2:focus-within .btn2__mark { translate: 8px 0; }
+
+.svc2__badge {
+  transition: background-color var(--dur-2) var(--ease-tech),
+              scale var(--dur-2) var(--ease-tech);
+}
+
+.svc2:hover .svc2__badge, .svc2:focus-within .svc2__badge {
+  background: var(--accent-hover);
+  scale: 1.08;
+}
+
+// ═══ 3 · FEATURE BAND — a visual breath ═════════════════════════════════════
+// The one stronger cinematic transition on the page, and it is spent here
+// rather than spread thin: the frame is exposed out of the dark, the headline
+// opens through a clipped horizontal mask, and the rule is drawn after it.
+// Deliberately calmer than the grids either side.
+.js-motion #shop [data-reveal-media="pending"] img { opacity: .5; }
+
+.js-motion #shop [data-reveal-media="in"] img {
+  opacity: 1;
+  transition: opacity var(--dur-expose) var(--ease-out);
+}
+
+.js-motion #shop .mask-line[data-reveal-mask="in"] { transition-delay: 160ms; }
+.js-motion #shop [data-reveal-rule="in"] { transition-delay: 520ms; }
+
+// ═══ PROCESS — a mechanical sequence ════════════════════════════════════════
+// A rule runs across the four steps and each number comes live behind it.
+.proc2__track {
+  display: block;
+  block-size: 2px;
+  inline-size: 100%;
+  margin-block-end: var(--space-6);
+  background: var(--accent);
+  transform-origin: 0 50%;
+}
+
+.js-motion .proc2__grid[data-reveal-seq="pending"] > * { opacity: 0; transform: translate3d(0, 10px, 0); }
+
+.js-motion .proc2__grid[data-reveal-seq="in"] > *:nth-child(1) { transition-delay: calc(var(--stagger-step) * 1); }
+.js-motion .proc2__grid[data-reveal-seq="in"] > *:nth-child(2) { transition-delay: calc(var(--stagger-step) * 2); }
+.js-motion .proc2__grid[data-reveal-seq="in"] > *:nth-child(3) { transition-delay: calc(var(--stagger-step) * 3); }
+.js-motion .proc2__grid[data-reveal-seq="in"] > *:nth-child(4) { transition-delay: calc(var(--stagger-step) * 4); }
+
+// On one column there is no line to run along, so the steps simply arrive as
+// they are scrolled to. Forcing a horizontal progress bar into a vertical list
+// would be an animation describing a layout that is not there.
+@media (max-width: 47.99rem) {
+  .proc2__track { display: none; }
+  .js-motion .proc2__grid[data-reveal-seq="in"] > * { transition-delay: 0s; }
+}
+
+// ═══ REVIEWS — the page's one tonal break ═══════════════════════════════════
+// The light band is the largest change on the page, so it is revealed as a
+// surface arriving with a clean edge rather than as a flash. The rating and its
+// stars move as one group: counting stars in one at a time would turn a fact
+// into a performance.
+// The bone surface arrives as a surface: a clean bottom edge travelling up,
+// which is the same mask the images use, at the scale of a whole band. Not a
+// fade — a light ground fading in over a dark page reads as a flash.
+.js-motion #reviews[data-reveal-mask="pending"] { clip-path: inset(100% 0 0 0); }
+
+.js-motion #reviews[data-reveal-mask="in"] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--dur-expose) var(--ease-mask);
+}
+
+// The heading first, then the rating. The rating block is one element, so its
+// figure and its stars arrive as one group — there is nothing here that could
+// count the stars in one at a time, which is the point.
+.js-motion #reviews [data-reveal="in"] { transition-delay: 220ms; }
+
+// ═══ FORM — precise and immediate ═══════════════════════════════════════════
+// The panel arrives as one thing; the field groups follow in a short stagger.
+// Focus is a blue line expanding under the control — the one blue response.
+.field2 input, .field2 select, .field2 textarea { position: relative; }
+
+.field2 { position: relative; }
+
+.field2::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  scale: 0 1;
+  transition: scale var(--dur-sweep) var(--ease-tech);
+  pointer-events: none;
+}
+
+.field2:focus-within::after { scale: 1 1; }
+
+// The submit button fills left to right. On the primary action only — a sweep
+// on every button would make the page busy and tell the visitor nothing.
+.btn2--primary { position: relative; overflow: hidden; isolation: isolate; }
+
+.btn2--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent-hover);
+  transform-origin: 0 50%;
+  scale: 0 1;
+  transition: scale var(--dur-sweep) var(--ease-tech);
+}
+
+.btn2--primary:hover::before,
+.btn2--primary:focus-visible::before { scale: 1 1; }
+
+// The label and the arrow ride above the fill, and the arrow travels with it.
+.btn2 > * { position: relative; z-index: 1; }
+.btn2__mark { transition: translate var(--dur-sweep) var(--ease-out); }
+.btn2:hover .btn2__mark, .btn2:focus-visible .btn2__mark { translate: 8px 0; }
+
+// ═══ MAP — revealed, never scaled ═══════════════════════════════════════════
+// The tiles come up out of the dark overlay; the address card follows, its
+// action last. No parallax at all: a map that drifts under the pointer is a map
+// that cannot be used.
+.js-motion .map2__frame[data-reveal-mask="pending"] { clip-path: inset(0 0 0 0); }
+
+.js-motion .map2__frame[data-reveal-mask="pending"] .map2__canvas { opacity: .12; }
+
+.js-motion .map2__frame[data-reveal-mask="in"] .map2__canvas {
+  opacity: 1;
+  transition: opacity var(--dur-expose) var(--ease-out);
+}
+
+.js-motion .map2__bar[data-reveal-seq="in"] > *:last-child { transition-delay: 260ms; }
+
+// ── Reduced motion ──────────────────────────────────────────────────────────
+// The complete static equivalent. Every reveal state above resolves to the
+// finished page, the one-shot light pass is removed outright, and the two
+// scroll-linked drifts are cancelled at the timeline rather than at the
+// transform, so nothing is left mid-keyframe.
 @media (prefers-reduced-motion: reduce) {
   .js-motion [data-reveal],
   .js-motion [data-reveal-group] > *,
   .js-motion [data-reveal-media],
+  .js-motion [data-reveal-mask],
+  .js-motion [data-reveal-rule],
+  .js-motion [data-reveal-seq] > *,
+  .js-motion .svc2 .svc2__body > *,
+  .js-motion .svc2 .svc2__badge,
   .js-motion .hero2 .hero2__panel > *,
+  .js-motion .hero2 .hero2__line,
+  .js-motion .hero2 .hero2__media img,
   .js-motion .hero2 .hero2__note {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+    scale: none !important;
     transition: none !important;
   }
+
+  .hero2__pass { display: none; }
+
+  // motion2 builds none of these under reduced motion, but a preference change
+  // mid-session can leave one behind for a frame. Nothing may cover content.
+  .curtain, .panel-wipe { display: none !important; }
+  .ml { overflow: visible; }
+  .ml__i { transform: none !important; }
+  .trule { scale: 1 1 !important; }
+  .proc2__step { opacity: 1 !important; transform: none !important; }
+
+  .js-motion .hero2__media img,
+  .js-motion .hero2__panel {
+    animation: none !important;
+    translate: none !important;
+    block-size: 100%;
+    inset-block-start: 0;
+  }
+
   .split2__media img { transform: none; }
   .svc2__media img { transition: none; scale: 1; }
+  .svc2__body::before, .field2::after, .btn2--primary::before { transition: none; }
 }
 
 // ── Placeholder marking, as index.html does ─────────────────────────────────

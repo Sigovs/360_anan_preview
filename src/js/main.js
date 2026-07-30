@@ -38,9 +38,19 @@
      watchdog, and if the motion preference changes. Safe to call repeatedly. */
   const revealTargets = [];
 
+  /* The reveal vocabulary. `reveal`, `revealGroup` and `revealMedia` are the
+     original three, used by both pages. `revealMask`, `revealRule` and
+     `revealSeq` are index2's, where the page is dark end to end and a fade
+     cannot separate one band from the next: the character of each has to be
+     carried by masks, drawn rules and internal sequence instead. All six ride
+     the same observer and the same watchdog — only the CSS differs, so nothing
+     here changes what index.html does. */
+  const REVEAL_ATTRS = ['reveal', 'revealGroup', 'revealMedia',
+                        'revealMask', 'revealRule', 'revealSeq'];
+
   function revealAll() {
     revealTargets.forEach((el) => {
-      ['reveal', 'revealGroup', 'revealMedia'].forEach((key) => {
+      REVEAL_ATTRS.forEach((key) => {
         if (el.dataset[key] !== undefined) el.dataset[key] = 'in';
       });
     });
@@ -366,8 +376,9 @@
      Everything registered here is also registered with the watchdog below, so a
      browser without IntersectionObserver, a layout that never triggers it, or an
      error anywhere after this point still ends with the page visible. */
-  const revealSelectors = '[data-reveal], [data-reveal-group], [data-reveal-media]';
-  const REVEAL_KEYS = ['reveal', 'revealGroup', 'revealMedia'];
+  const revealSelectors = '[data-reveal], [data-reveal-group], [data-reveal-media],' +
+                          '[data-reveal-mask], [data-reveal-rule], [data-reveal-seq]';
+  const REVEAL_KEYS = REVEAL_ATTRS;
 
   const markIn = (el) => {
     REVEAL_KEYS.forEach((key) => {
