@@ -78,11 +78,24 @@ inside a shipped stylesheet is past the point a variable can change it.
   the primary action, active state, index numerals, technical markers and the
   focus ring. Nothing else. Near-black ink on orange fills, never white
   (white on this orange measures 2.41:1).
-- **Three type voices, three ink ranks, three mono steps** — Archivo at width 82
-  for display, Inter for reading, IBM Plex Mono for indices and labels. Ink is
-  ranked `text` → `body` → `muted` so paragraphs are never set in the metadata
-  grey; mono runs 11 / 12 / 13px depending on whether a label is glanced at or
-  read.
+- **Three type voices, one of them expressive** — Newsreader for display, Inter
+  for reading, IBM Plex Mono for indices and labels. Only the display voice has
+  character; the other two are deliberately quiet, and one italic word per
+  headline is the page's only typographic flourish. The optical-size axis is left
+  to `font-optical-sizing: auto` at every rank, so a fluid size gets the drawing
+  its size was designed for; only tracking is pinned per rank, because tracking is
+  a compositional decision and no font can make it.
+
+  Two earlier stacks failed, and both failures were the same shape. Archivo
+  condensed + Inter + Plex Mono were three neutral technical grotesques, so every
+  rank was built from size alone. Bodoni Moda fixed the register and broke the
+  rendering: its hairlines fall below one device pixel at 26px, which made the
+  review score read as "1.8" and dropped the hyphen out of the phone number.
+- **Three ink ranks, three mono steps** — ink is ranked `text` → `body` → `muted`
+  so paragraphs are never set in the metadata grey; mono runs 11 / 12 / 13px
+  depending on whether a label is glanced at or read. The one exception is the
+  hero lead, which takes the full `text` ink because it is the only body-size copy
+  set over a photograph.
 - **One numbering system** — a small mono index opens an ordinary band, a large
   numeral opens a chapter; both carry the same section number.
 - **Twelve-column editorial grid** — intervals between masses are grid columns

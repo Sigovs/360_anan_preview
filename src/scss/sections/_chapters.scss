@@ -16,7 +16,7 @@
 // same section number, so a reader never has to reconcile two counts.
 .chapter__numeral {
   font-family: var(--font-display);
-  font-variation-settings: "wdth" var(--wdth-display);
+  font-optical-sizing: auto;
   font-weight: 700;
   font-size: var(--text-index);
   line-height: 1;

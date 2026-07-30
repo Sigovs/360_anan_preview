@@ -9,7 +9,7 @@ The Design Read this project was built under — repeat it, do not re-derive it:
 ```
 Reading this as a one-page service site for local Lynbrook drivers choosing where to take a car they depend on, leaning industrial-editorial documentary.
 Mandate: REDESIGN — the name, the service taxonomy, the Lynbrook locality and the brief's own palette, type direction and copy carry through; composition, structure and surface craft are in scope.
-Dialect: partial — auction-editorial PRINCIPLES + brief-derived register (dark green-charcoal ground, condensed grotesk display, saturated safety-orange accent, documentary workshop photography).
+Dialect: partial — auction-editorial PRINCIPLES + brief-derived register (dark green-charcoal ground, saturated safety-orange accent, documentary workshop photography). The brief's condensed-grotesk display did not survive: it left the page with three neutral grotesques and no expressive voice, so the display rank is now an editorial serif with one italic signature word.
 Dimensionality: ABSENT — no constructed scene; depth is carried by photographic space, tonal layering and one committed image overlap.
 ```
 

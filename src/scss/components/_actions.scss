@@ -1,71 +1,100 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Actions
 //
-// One primary action per view. The circular CTA in the hero is the page's
-// action centre; every other action is a mono text link with a rule, or a
-// square-cornered secondary button. No gradients, no radius (except the one
-// deliberate circle), no shadows.
+// One primary action per view: the solid accent block in the hero. Everything
+// else is a mono text link with a growing rule, or a square-cornered secondary
+// button. No gradients, no radius anywhere, no shadows — the page's square-module
+// system has no round shapes in it, and the CTA no longer breaks that.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Circular primary CTA ────────────────────────────────────────────────────
-// A solid accent disc: near-black ink on accent measures 7.14:1. White on this
-// orange would be 2.41:1, so the label is always --color-accent-ink.
-.cta-circle {
-  --cta-size: clamp(9rem, 12vw, 13rem);
-
+// ── Primary CTA ─────────────────────────────────────────────────────────────
+// A solid, square-cornered block. The circular disc it replaces was a stylistic
+// tic: it read as an ornament rather than as a control, it could not hold a
+// second line of label, and a circle is the one shape this page's square-module
+// system does not contain.
+//
+// Near-black ink on the accent measures 7.14:1. White would be 2.41:1, so the
+// label is always --color-accent-ink whichever ground the button lands on.
+.cta-solid {
   position: relative;
-  display: grid;
-  place-content: center;
-  inline-size: var(--cta-size);
-  block-size: var(--cta-size);
-  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  min-block-size: 4.25rem;
+  padding: var(--space-5) var(--space-6) var(--space-5) var(--space-7);
   background: var(--color-accent);
   color: var(--color-accent-ink);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: var(--text-label);
   font-weight: 500;
-  letter-spacing: var(--ls-label);
-  line-height: 1.5;
-  text-align: center;
+  letter-spacing: var(--ls-label-lg);
+  line-height: 1.2;
   text-transform: uppercase;
   text-decoration: none;
-  transition: translate var(--dur-2) var(--ease-out);
+  overflow: hidden;
+  transition: background-color var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
 }
 
-.cta-circle span {
-  display: block;
+.cta-solid__label {
+  display: grid;
+  gap: var(--space-1);
 }
 
-// A 2px approach, and the inner ring opens outward to meet the cursor. Two
-// whispers rather than one, because the brief asks the disc to respond — still
-// no scale, which would resample the label.
-.cta-circle:hover {
-  translate: 0 -2px;
-  color: var(--color-accent-ink);
+// The second line names what happens, in the same mono register one step down in
+// ink — so the button carries the promise instead of only the verb.
+.cta-solid__sub {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--ls-label);
+  color: rgb(9 12 13 / 0.62);
 }
 
-.cta-circle:focus-visible {
-  outline: 2px solid var(--color-text);
-  outline-offset: 4px;
-}
-
-// A thin ring set inside the disc, echoing the technical markers elsewhere. It
-// opens outward under the pointer — scaled rather than inset, so the growth is a
-// compositor transform instead of a layout change on every frame.
-.cta-circle::after {
-  content: "";
-  position: absolute;
-  inset: 0.5rem;
+// The arrow sits in its own bordered square, flush with the button's inner edge —
+// the nested-icon idea executed in this page's square idiom rather than as a pill.
+.cta-solid__mark {
+  display: grid;
+  place-content: center;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
   border: var(--rule) solid rgb(9 12 13 / 0.28);
-  border-radius: 50%;
-  transition: scale var(--dur-3) var(--ease-out),
-              border-color var(--dur-3) var(--ease-out);
+  font-size: 1rem;
+  line-height: 1;
+  transition: background-color var(--dur-2) var(--ease-out),
+              border-color var(--dur-2) var(--ease-out),
+              translate var(--dur-2) var(--ease-out);
 }
 
-.cta-circle:hover::after,
-.cta-circle:focus-visible::after {
-  scale: 1.035;
+.cta-solid:hover,
+.cta-solid:focus-visible {
+  background: var(--color-accent-hover);
+  color: var(--color-accent-ink);
+  translate: 0 -2px;
+}
+
+.cta-solid:hover .cta-solid__mark,
+.cta-solid:focus-visible .cta-solid__mark {
+  background: rgb(9 12 13 / 0.1);
   border-color: rgb(9 12 13 / 0.45);
+  translate: 3px 0;
+}
+
+.cta-solid:active {
+  translate: 0 0;
+}
+
+.cta-solid:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+@media (max-width: 47.9375rem) {
+  // Full width on a phone: a primary action should not be hunted for.
+  .cta-solid {
+    display: flex;
+    justify-content: space-between;
+    inline-size: 100%;
+    padding-inline: var(--space-5);
+  }
 }
 
 // ── Rectangular alternative ─────────────────────────────────────────────────

@@ -25,17 +25,22 @@
   border-block-start: 2px solid var(--color-accent);
 }
 
+// The page's largest single figure, and the thing the business is actually used
+// for. It sits in the display voice: at 68px the mono cut read as a code listing,
+// and a phone number is the one piece of copy on the page that has to look like an
+// invitation. Lining rather than tabular numerals — tabular widths are for columns
+// of figures that align, and this is a headline.
 .contact__phone {
   display: inline-block;
   margin-block-start: var(--space-4);
   white-space: nowrap;
   font-family: var(--font-display);
-  font-variation-settings: "wdth" var(--wdth-display);
+  font-optical-sizing: auto;
   font-weight: 700;
   font-size: var(--text-phone);
-  line-height: 0.9;
-  letter-spacing: -0.015em;
-  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: var(--ls-display-xl);
+  font-variant-numeric: lining-nums;
   color: var(--color-text);
   text-decoration: none;
   transition: color var(--dur-1) var(--ease-out);

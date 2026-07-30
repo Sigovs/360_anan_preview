@@ -38,7 +38,7 @@
 
 .reviews__score-figure {
   font-family: var(--font-display);
-  font-variation-settings: "wdth" var(--wdth-display);
+  font-optical-sizing: auto;
   font-weight: 700;
   font-size: clamp(2.75rem, 4.4vw + 1rem, 4.5rem);
   line-height: 0.9;
@@ -158,18 +158,6 @@
   max-inline-size: 38ch;
   margin: 0;
   text-wrap: pretty;
-}
-
-// A quiet open quote in the display face, marking the excerpt as reported speech
-// without setting the whole thing in quotation marks.
-.review__quote::before {
-  content: "“";
-  display: block;
-  font-family: var(--font-display);
-  font-size: 2.75rem;
-  line-height: 0.5;
-  color: var(--color-accent);
-  margin-block-end: var(--space-3);
 }
 
 .review__meta {

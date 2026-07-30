@@ -87,16 +87,14 @@
 // composition.
 .js-motion .hero[data-entered="pending"] .hero__statement > *,
 .js-motion .hero[data-entered="pending"] .hero__anchor,
-.js-motion .hero[data-entered="pending"] .hero__cta,
-.js-motion .hero[data-entered="pending"] .hero__cta-bar {
+.js-motion .hero[data-entered="pending"] .hero__cta {
   opacity: 0;
   transform: translate3d(0, 16px, 0);
 }
 
 .js-motion .hero[data-entered="in"] .hero__statement > *,
 .js-motion .hero[data-entered="in"] .hero__anchor,
-.js-motion .hero[data-entered="in"] .hero__cta,
-.js-motion .hero[data-entered="in"] .hero__cta-bar {
+.js-motion .hero[data-entered="in"] .hero__cta {
   opacity: 1;
   transform: none;
   transition: opacity var(--dur-4) var(--ease-out),
@@ -152,11 +150,17 @@
   inset-inline: 0;
   inset-block-end: clamp(3.5rem, 9vh, 8rem);
   font-family: var(--font-display);
-  font-variation-settings: "wdth" 68;
-  font-weight: 700;
+  font-optical-sizing: auto;
+  // 400, not the display rank's 700. At 176px a bold text serif is a mass rather
+  // than a mark: it read as a grey smear across the hero's lower half and started
+  // competing with the car and the CTA. The light weight at this size gives thin
+  // stems and open counters, which is what lets it sit behind the photograph and
+  // still be a wordmark. Weight is the variable here because the size is fixed by
+  // the composition — it has to span the viewport.
+  font-weight: 400;
   font-size: var(--text-mega);
   line-height: 0.78;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
@@ -239,16 +243,26 @@
   .hero__title { font-size: 2rem; }
 }
 
+// The full text ink, not the body rank the leads elsewhere on the page use. This
+// is the only body-size copy on the page set over a photograph, and measured
+// against the composited render the body rank put four stroke pixels at 4.12:1 —
+// under the 4.5:1 body text needs. Over an image, brightness is a legibility tool
+// rather than a hierarchy one: the rank below the headline is still carried by
+// size, weight and a different typeface, which is three signals without this one.
 .hero__lead {
   margin-block-start: var(--space-6);
-  color: var(--color-text-body);
+  color: var(--color-text);
   max-inline-size: 40ch;
 }
 
 // ── Anchor row ──────────────────────────────────────────────────────────────
+// Row 4, below the action. It shared row 3 with the CTA until the CTA stopped
+// being an absolutely-positioned disc and became a block in flow — at which point
+// the button was painting directly over the phone number and the address at every
+// width under 62rem. The grid already had a fourth row; nothing needed adding.
 .hero__anchor {
   grid-column: 1 / -1;
-  grid-row: 3;
+  grid-row: 4;
   align-self: end;
   display: grid;
   gap: var(--space-2);
@@ -266,12 +280,11 @@
 // Shared by the hero anchor and the footer: a phone number set in the display
 // face, tabular, and never allowed to break across lines.
 .phone-line {
-  font-family: var(--font-display);
-  font-variation-settings: "wdth" var(--wdth-display);
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-weight: 500;
   font-size: var(--text-h4);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   color: var(--color-text);
   text-decoration: none;
@@ -283,14 +296,17 @@
 }
 
 // ── Action ──────────────────────────────────────────────────────────────────
+// In the statement, under the lead. The disc used to sit alone in the lower right
+// as a compositional counterweight, which put the page's primary action outside
+// the reading order it belongs to: headline, then promise, then act. The type mass
+// is heavier for holding it, and the photograph's own subject carries the lower
+// left, so the composition still balances without an ornament in the corner.
 .hero__cta {
-  display: none;
-}
-
-.hero__cta-bar {
   grid-column: 1 / -1;
-  grid-row: 4;
-  margin-block-start: var(--space-6);
+  grid-row: 3;
+  justify-self: start;
+  align-self: start;
+  margin-block-start: var(--space-7);
 }
 
 // ── Square modules hung across the bottom edge ──────────────────────────────
@@ -360,15 +376,11 @@
   }
 
   .hero__cta {
-    display: block;
-    grid-column: 10 / 13;
-    grid-row: 4;
-    align-self: end;
-    justify-self: end;
-  }
-
-  .hero__cta-bar {
-    display: none;
+    grid-column: 6 / 13;
+    grid-row: 3;
+    justify-self: start;
+    align-self: start;
+    margin-block-start: var(--space-7);
   }
 
   .hero__modules {

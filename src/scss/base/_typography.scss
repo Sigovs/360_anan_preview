@@ -1,43 +1,91 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Typography — three voices, each with one job
+// Typography — three voices, ONE of them expressive
 //
-//   Display · Archivo, width axis 82, 700   headlines, numerals, the phone
-//   Body    · Inter                          leads, paragraphs, form copy
-//   Mono    · IBM Plex Mono, uppercase 11px  indices, labels, plates, actions
+//   Display · Newsreader     headlines, chapter numerals, the phone, the rating
+//   Body    · Inter          leads, paragraphs, service titles, form copy
+//   Mono    · IBM Plex Mono  indices, labels, plates, actions
 //
-// Large type is tracked in and set below 1.0 leading so it holds as a shape;
-// body type is left at 1.6 with a capped measure so it holds as reading.
+// The original stack was Archivo condensed + Inter + Plex Mono — three neutral
+// technical grotesques. Every rank on the page was therefore built out of size
+// alone, which is exactly what makes typography read cheap however carefully the
+// scale is tuned. A serif does register work no grotesque does at any weight.
+//
+// Two consequences worth stating, because both were impossible before:
+//   · the italic accent word is available, since this face has a true italic;
+//   · the optical size and tracking have to ramp with the rank, because a face at
+//     26px and the same face at 68px want opposite treatment. One value for both
+//     is what made the old display flat.
+//
+// On why this is Newsreader and not the didone that was here in between, see
+// --font-display in tokens: the short version is that Bodoni Moda's hairlines fall
+// below a device pixel at 26px and it rendered the review score as 1.8.
 // ─────────────────────────────────────────────────────────────────────────────
 
 .display,
 h1,
-h2,
-h3,
-h4 {
+h2 {
   font-family: var(--font-display);
-  font-variation-settings: "wdth" var(--wdth-display);
   font-weight: 700;
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
-  text-transform: uppercase;
+  text-transform: none;
   text-wrap: balance;
   margin: 0;
+  font-variant-numeric: lining-nums;
+  // The optical size axis is left to the browser rather than pinned per rank.
+  // Pinning it was an error worth recording: the hero renders at 58px and was
+  // being told "opsz" 72, which asks the face for *finer* strokes than its own
+  // size wants — the same direction that made the previous display face fail. Auto
+  // feeds the used font size into the axis, so every rank gets the drawing its
+  // size was designed for, and it keeps working through the fluid clamp() range
+  // instead of only at the two ends.
+  font-optical-sizing: auto;
   // Drawn from the token, not from Bootstrap's $headings-color, which compiles to
   // a literal near-white. Without this a heading inside .band--light stayed at
   // #f1f0eb on a bone ground — about 1.1:1, and invisible.
   color: var(--color-text);
 }
 
-h1 { font-size: var(--text-hero); }
-h2 { font-size: var(--text-h2); }
+// Tracking, on the other hand, does stay pinned per rank: it is a compositional
+// decision about how tightly a line is set, and no font can make it.
+h1 {
+  font-size: var(--text-hero);
+  letter-spacing: var(--ls-display-xl);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  letter-spacing: var(--ls-display-lg);
+}
+
+// h3 and h4 stay in the body voice, and now by choice rather than by necessity —
+// Newsreader is perfectly solid at 26px, unlike the face this replaces. The
+// display voice is reserved for section-level statements: there are more than
+// twenty service titles on this page, and setting all of them in the serif would
+// make it the page's default rather than its emphasis. Scarcity is what makes the
+// display rank register at all.
+h3,
+h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-body-tight);
+  text-transform: none;
+  text-wrap: balance;
+  margin: 0;
+  color: var(--color-text);
+}
+
 h3 { font-size: var(--text-h3); }
 h4 { font-size: var(--text-h4); }
 
-// A display word carrying the stress of the sentence. Weight and width do the
-// work — Archivo has no true italic, so the italic signature move is skipped
-// rather than faked.
+// One italic word per headline, in the display face's true italic — the DNA's
+// signature move, finally available. Newsreader's italic is a drawn letterform
+// rather than a slant, so a single word of it puts a stress mark on the sentence
+// the way a voice would. Never two, never a whole line, and never combined with a
+// colour or weight change: the italic IS the emphasis.
 .display__stress {
-  font-variation-settings: "wdth" 100;
+  font-style: italic;
   color: var(--color-text);
 }
 
