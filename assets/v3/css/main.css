@@ -92,7 +92,19 @@
        5.82 / 5.15 / 4.54 : 1 on paper / -2 / -3. The hue is untouched — this is
        the same green scaled down to hold its floor, not a different green. */
   --signal:#426028;
-  --signal-lt:#7cb04f;   /* 7.18:1 on ink */
+
+  /* --signal-lt is gone. It was the light cut of the derived green, used in
+     fourteen places, and every one of them was measured and found to be on a dark
+     ground — so all fourteen now take the brand yellow, which reads 12.00:1 there
+     against the green's 7.18. The division that falls out of the measurements:
+
+       dark ground            -> brand yellow, text and graphics alike
+       light ground, graphic  -> brand red, 3.94:1, never a word
+       light ground, text     -> the derived green, because neither brand colour
+                                 is legible there (yellow 1.25, red 3.94 < 4.5)
+
+     So the page is the brand's colours wherever the brand's colours can be read,
+     and the derived green only where they cannot. */
 
   /* ---- the brand, lifted from the logo file rather than sampled by eye -----
        assets/img/logo.svg is drawn in exactly three values: #FEFEFE, #FECA08
@@ -166,7 +178,7 @@ img{display:block;max-width:100%;height:auto}
 /* over photography --on-ink-3 fell to 4.07:1 once the hero type widened;
    --on-ink-2 measures 10.21:1 on ink and holds over the picture */
 .on-ink .t-eyebrow{color:var(--on-ink)}
-.on-ink .t-eyebrow b{color:var(--signal-lt)}
+.on-ink .t-eyebrow b{color:var(--brand-yellow)}
 
 /* ---- the struck label ---------------------------------------------------
    Ink laid behind the words themselves rather than behind their box, cloned
@@ -213,7 +225,7 @@ img{display:block;max-width:100%;height:auto}
   padding:calc(var(--s4) - 1px) var(--s6)}
 .btn:hover{background:var(--signal);border-color:var(--signal)}
 .on-ink .btn{background:var(--on-ink);color:var(--ink);border-color:var(--on-ink)}
-.on-ink .btn:hover{background:var(--signal-lt);border-color:var(--signal-lt)}
+.on-ink .btn:hover{background:var(--brand-yellow);border-color:var(--brand-yellow)}
 
 .lnk{background:transparent;color:var(--ink);
   border:2px solid var(--ink);padding:calc(var(--s4) - 1px) var(--s6)}
@@ -505,7 +517,7 @@ img{display:block;max-width:100%;height:auto}
   border-top:1px solid var(--rule-ink)}
 .shop__pts h3{margin-bottom:var(--s3);font-size:.8125rem;letter-spacing:.16em;
   font-family:'Plex Mono',ui-monospace,monospace;font-weight:500;text-transform:uppercase;
-  color:var(--signal-lt)}
+  color:var(--brand-yellow)}
 .shop__pts p{font-size:.9375rem;line-height:1.62;color:var(--on-ink-2)}
 .shop__in .btn{grid-column:1 / span 6;justify-self:start;margin-top:var(--s7)}
 
@@ -676,7 +688,7 @@ img{display:block;max-width:100%;height:auto}
 .ct__form>header b{font-family:'Plex Mono',ui-monospace,monospace;font-weight:500;
   font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase}
 .ct__form>header span{font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--signal-lt)}
+  letter-spacing:.14em;text-transform:uppercase;color:var(--brand-yellow)}
 
 /* This is a form for people who are calling about a noise on the way to work,
    often on a phone, often with one hand. It is built solid rather than
@@ -690,7 +702,7 @@ img{display:block;max-width:100%;height:auto}
 .f--wide{grid-column:1 / -1}
 .f label{font-family:'Plex Mono',ui-monospace,monospace;font-weight:500;
   font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;color:var(--on-ink-2)}
-.f label em{font-style:normal;color:var(--signal-lt)}
+.f label em{font-style:normal;color:var(--brand-yellow)}
 .f input,.f select,.f textarea{
   background-color:rgba(0,0,0,.34);
   border:1px solid rgba(244,241,238,.34);
@@ -702,14 +714,14 @@ img{display:block;max-width:100%;height:auto}
 /* the drawn focus rule: 7.18:1 on ink, and it is the only place on the page
    where the signal appears without being asked for by a pointer */
 .f input,.f textarea{
-  background-image:linear-gradient(var(--signal-lt),var(--signal-lt));
+  background-image:linear-gradient(var(--brand-yellow),var(--brand-yellow));
   background-repeat:no-repeat;background-position:left bottom;
   background-size:0% 2px}
 .f input:focus,.f textarea:focus{background-size:100% 2px}
 .f textarea{resize:vertical;min-height:5.5rem;line-height:1.5}
 .f select{cursor:pointer;appearance:none;
   padding-right:var(--s8);
-  background-image:linear-gradient(var(--signal-lt),var(--signal-lt)),
+  background-image:linear-gradient(var(--brand-yellow),var(--brand-yellow)),
     linear-gradient(45deg,transparent 50%,var(--on-ink) 50%),
     linear-gradient(135deg,var(--on-ink) 50%,transparent 50%);
   background-position:left bottom, right 1.55rem center, right 1.2rem center;
@@ -739,16 +751,16 @@ img{display:block;max-width:100%;height:auto}
   margin-top:var(--s1);padding:var(--s4);
   background:rgba(0,0,0,.28);border:1px solid rgba(244,241,238,.20)}
 .consent input{width:1.5rem;height:1.5rem;flex:0 0 auto;
-  accent-color:var(--signal-lt);cursor:pointer}
+  accent-color:var(--brand-yellow);cursor:pointer}
 .consent label{font-size:.9375rem;line-height:1.45;color:var(--on-ink);cursor:pointer}
 
 .ct__form .btn{grid-column:1 / -1;justify-content:center;width:100%;
   margin-top:var(--s3);padding:var(--s4) var(--s6);font-size:.8125rem}
 
 .sent{grid-column:1 / -1;margin-top:var(--s5);padding:var(--s5);
-  border:1px solid var(--signal-lt);color:var(--on-ink);font-size:.9375rem;line-height:1.55}
+  border:1px solid var(--brand-yellow);color:var(--on-ink);font-size:.9375rem;line-height:1.55}
 .sent b{display:block;font-weight:600;margin-bottom:var(--s2)}
-.sent a{color:var(--signal-lt)}
+.sent a{color:var(--brand-yellow)}
 .sent[hidden]{display:none}
 
 /* ---- the location band --------------------------------------------------
@@ -795,7 +807,7 @@ img{display:block;max-width:100%;height:auto}
 .ft__nav a{display:flex;align-items:center;min-block-size:2.75rem;color:var(--on-ink-2);text-decoration:none;
   font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;letter-spacing:.18em;
   text-transform:uppercase}
-.ft__nav a:hover{color:var(--signal-lt)}
+.ft__nav a:hover{color:var(--brand-yellow)}
 .ft__meta{grid-column:10 / span 3}
 .ft__meta dt{font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;
   letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-3);margin-bottom:var(--s2)}
@@ -803,7 +815,7 @@ img{display:block;max-width:100%;height:auto}
 .ft__meta a{color:var(--on-ink);text-decoration:none;font-variant-numeric:tabular-nums}
 /* The footer's phone and email are targets too — 18px tall as plain inline text. */
 .ft__meta dd a{display:inline-flex;align-items:center;min-block-size:2.75rem}
-.ft__meta a:hover{color:var(--signal-lt)}
+.ft__meta a:hover{color:var(--brand-yellow)}
 .ft__end{grid-column:1 / -1;display:flex;justify-content:space-between;
   gap:var(--s5);flex-wrap:wrap;padding-top:var(--s5);border-top:1px solid var(--rule-ink);
   font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;letter-spacing:.16em;
@@ -1226,12 +1238,14 @@ img{display:block;max-width:100%;height:auto}
   .row:hover .row__n{transform:translateX(8px)}
   .js-motion .row::after{transition:transform var(--mo-med) var(--mo-mech) calc(var(--mo-stagger) * 4),
                                     background var(--mo-fast) var(--mo-mech)}
-  .row:hover::after{background:var(--signal)}
+  /* A graphic, not a word: red clears 3.94:1 on paper, and this is the light
+     ground's interaction mark. */
+  .row:hover::after{background:var(--brand-red)}
 
   /* the masthead underline is drawn, not switched on */
   .mh nav a{position:relative}
   .mh nav a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
-    background:var(--signal-lt);transform:scaleX(0);transform-origin:left center;
+    background:var(--brand-yellow);transform:scaleX(0);transform-origin:left center;
     transition:transform var(--mo-fast) var(--mo-mech)}
   .mh nav a:hover::after,.mh nav a[aria-current=true]::after{transform:none}
 
@@ -1240,7 +1254,7 @@ img{display:block;max-width:100%;height:auto}
   .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--signal);
     transform:scaleX(0);transform-origin:left center;
     transition:transform var(--mo-fast) var(--mo-mech)}
-  .on-ink .btn::before{background:var(--signal-lt)}
+  .on-ink .btn::before{background:var(--brand-yellow)}
   .btn:hover{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
   .on-ink .btn:hover{background:var(--on-ink);border-color:var(--on-ink);color:var(--ink)}
   .btn:hover::before{transform:none}
