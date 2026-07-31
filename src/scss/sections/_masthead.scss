@@ -63,7 +63,7 @@
 // The mark itself contracts with the bar, which is the same "the header firms up"
 // gesture the padding performs — one movement rather than two.
 .masthead[data-scrolled="true"] .wordmark img {
-  block-size: 2.25rem;
+  block-size: 2.75rem;
 }
 
 // ── Logo ────────────────────────────────────────────────────────────────────
@@ -72,8 +72,9 @@
 // It is sized by height rather than width because the readable part — "AUTO CARE"
 // — is only about a third of the artwork; the car silhouette and the speedometer
 // arc take the rest. Measured on the file: below roughly 34px of total height the
-// second line stops resolving, so this is 40px on a phone and 44 from 48rem up,
-// dropping to 36 once the bar has firmed. That is roughly twice the height of the
+// second line stops resolving, so this is 48px on a phone and 52 from 48rem up,
+// dropping to 44 once the bar has firmed — a step up from the first sizing, which
+// read correct but small against the nav. That is roughly twice the height of the
 // text lockup it replaces, and the bar's padding was cut to pay for it — a logo
 // that cannot be read is not a logo.
 //
@@ -89,7 +90,7 @@
 }
 
 .wordmark img {
-  block-size: 2.5rem;
+  block-size: 3rem;
   inline-size: auto;
   transition: block-size var(--dur-2) var(--ease-out);
 }
@@ -100,7 +101,7 @@
 }
 
 @media (min-width: 48rem) {
-  .wordmark img { block-size: 2.75rem; }
+  .wordmark img { block-size: 3.25rem; }
   .wordmark--lg img { block-size: 5.5rem; }
 }
 

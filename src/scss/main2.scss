@@ -139,7 +139,7 @@
   // short viewport, and a header that grows on a 1280x600 laptop takes the room
   // straight out of the hero it sits on.
   --mh-pad: clamp(var(--space-4), min(.9vw + .55rem, 2.6svh), var(--space-5));
-  --mh-row: clamp(2.75rem, min(1.4vw + 2.2rem, 6.4svh), 3.5rem);
+  --mh-row: clamp(3rem, min(1.4vw + 2.45rem, 7svh), 4rem);
   --mh-h:   calc(var(--mh-pad) * 2 + var(--mh-row) + var(--rule));
 
   --z-media: 0; --z-scrim: 1; --z-content: 2; --z-header: 50;
@@ -466,8 +466,9 @@ h4 {
 //
 // The height is --mh-row rather than a value of its own, so the mark is exactly as
 // tall as every other control in the bar and the header's height stays calculable
-// from --mh-h instead of becoming emergent. That range is 44px to 56px, which sits
-// comfortably above where the mark gives out.
+// from --mh-h instead of becoming emergent. The row was widened from 44–56px to
+// 48–64px to give the mark more presence against the nav; every other control in
+// the bar follows it, which is the point of tying them together.
 //
 // White-on-dark by construction. Both places it appears are dark grounds, so no
 // inverted cut is needed; on the bone reviews band the white outline and the white

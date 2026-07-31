@@ -6057,7 +6057,7 @@ textarea.form-control {
 }
 
 .masthead[data-scrolled=true] .wordmark img {
-  block-size: 2.25rem;
+  block-size: 2.75rem;
 }
 
 .wordmark {
@@ -6068,7 +6068,7 @@ textarea.form-control {
 }
 
 .wordmark img {
-  block-size: 2.5rem;
+  block-size: 3rem;
   inline-size: auto;
   transition: block-size var(--dur-2) var(--ease-out);
 }
@@ -6079,7 +6079,7 @@ textarea.form-control {
 
 @media (min-width: 48rem) {
   .wordmark img {
-    block-size: 2.75rem;
+    block-size: 3.25rem;
   }
   .wordmark--lg img {
     block-size: 5.5rem;

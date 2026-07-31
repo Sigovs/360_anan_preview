@@ -214,13 +214,13 @@ img{display:block;max-width:100%;height:auto}
 /* The supplied brand mark, in place of the text lockup that stood in for it.
    Sized by height: the readable "AUTO CARE" line is only about a third of the
    artwork — the car silhouette and the speedometer arc take the rest — and below
-   roughly 34px of total height that line stops resolving. 48px inside an 84px bar.
+   roughly 34px of total height that line stops resolving. 56px inside an 84px bar.
    The artwork is white-on-dark, which both places it appears are: the masthead is
    transparent over the hero with its own scrim and turns --ink when stuck, and the
    footer is --ink throughout. */
 .wm{display:flex;align-items:center;text-decoration:none;
   color:inherit;flex:0 0 auto}
-.wm img{block-size:3rem;inline-size:auto}
+.wm img{block-size:3.5rem;inline-size:auto}
 
 .mh nav{margin-left:auto}
 .mh nav ul{display:flex;gap:var(--s5);list-style:none}
