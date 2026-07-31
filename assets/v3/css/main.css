@@ -211,11 +211,16 @@ img{display:block;max-width:100%;height:auto}
 .mh[data-open]{background:var(--ink)}
 .mh__in{display:flex;align-items:center;gap:var(--s6);min-height:var(--mh)}
 
-.wm{display:flex;align-items:baseline;gap:var(--s3);text-decoration:none;
+/* The supplied brand mark, in place of the text lockup that stood in for it.
+   Sized by height: the readable "AUTO CARE" line is only about a third of the
+   artwork — the car silhouette and the speedometer arc take the rest — and below
+   roughly 34px of total height that line stops resolving. 48px inside an 84px bar.
+   The artwork is white-on-dark, which both places it appears are: the masthead is
+   transparent over the hero with its own scrim and turns --ink when stuck, and the
+   footer is --ink throughout. */
+.wm{display:flex;align-items:center;text-decoration:none;
   color:inherit;flex:0 0 auto}
-.wm b{font-weight:800;font-size:2rem;letter-spacing:-.05em;line-height:1}
-.wm span{font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--on-ink-3)}
+.wm img{block-size:3rem;inline-size:auto}
 
 .mh nav{margin-left:auto}
 .mh nav ul{display:flex;gap:var(--s5);list-style:none}
@@ -713,8 +718,8 @@ img{display:block;max-width:100%;height:auto}
 .ft__in{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s6) var(--s5);
   padding-block:var(--s8)}
 .ft__id{grid-column:1 / span 4}
-.ft__id .wm{color:var(--on-ink);margin-bottom:var(--s4)}
-.ft__id .wm span{color:var(--on-ink-3)}
+.ft__id .wm{margin-bottom:var(--s4)}
+.ft__id .wm img{block-size:4.5rem}
 .ft__id p{font-size:.875rem;line-height:1.62;color:var(--on-ink-3);max-width:34ch}
 .ft__nav{grid-column:6 / span 3}
 .ft__nav ul{list-style:none;display:grid;gap:var(--s3)}
