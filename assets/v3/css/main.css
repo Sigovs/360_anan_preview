@@ -275,8 +275,15 @@ img{display:block;max-width:100%;height:auto}
 
 .burger{display:none;background:none;border:0;cursor:pointer;padding:var(--s3);
   margin-left:auto;color:var(--on-ink)}
-.burger span{display:block;width:22px;height:2px;background:currentColor}
+/* Three bars that become a cross: the top and bottom rotate onto each other and
+   the middle drops out. Transform and opacity only, so it costs no layout, and
+   the control that opened the panel is the control that closes it. */
+.burger span{display:block;width:22px;height:2px;background:currentColor;
+  transition:transform .28s var(--e),opacity .18s var(--e)}
 .burger span+span{margin-top:5px}
+.mh[data-open] .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.mh[data-open] .burger span:nth-child(2){opacity:0;transform:scaleX(.4)}
+.mh[data-open] .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* =========================================================================
    HERO — the wordmark is the construction, and the photograph overlaps it
@@ -629,6 +636,8 @@ img{display:block;max-width:100%;height:auto}
 .ct__facts dt{font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;
   letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-3);padding-top:.15rem}
 .ct__facts dd{font-size:.9375rem;line-height:1.5;color:var(--on-ink)}
+/* The phone in the facts list is a real target, not a run of text. */
+.ct__facts dd a{display:inline-flex;align-items:center;min-block-size:2.75rem;color:inherit}
 .ct__side .lnk{margin-top:var(--s6)}
 
 /* the form */
@@ -757,8 +766,12 @@ img{display:block;max-width:100%;height:auto}
 .ft__id .wm img{block-size:5.5rem}
 .ft__id p{font-size:.875rem;line-height:1.62;color:var(--on-ink-3);max-width:34ch}
 .ft__nav{grid-column:6 / span 3}
-.ft__nav ul{list-style:none;display:grid;gap:var(--s3)}
-.ft__nav a{color:var(--on-ink-2);text-decoration:none;
+/* Each footer link is its own 44px row rather than a 15px line of text. The gap
+   goes with it — the rows now provide the spacing, and a column of small targets
+   separated by air is the classic unreachable footer. WCAG 2.5.8 applies at every
+   width, so this is not inside a media query. */
+.ft__nav ul{list-style:none;display:grid}
+.ft__nav a{display:flex;align-items:center;min-block-size:2.75rem;color:var(--on-ink-2);text-decoration:none;
   font-family:'Plex Mono',ui-monospace,monospace;font-size:.6875rem;letter-spacing:.18em;
   text-transform:uppercase}
 .ft__nav a:hover{color:var(--signal-lt)}
@@ -767,6 +780,8 @@ img{display:block;max-width:100%;height:auto}
   letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-3);margin-bottom:var(--s2)}
 .ft__meta dd{margin-bottom:var(--s5);font-size:.9375rem}
 .ft__meta a{color:var(--on-ink);text-decoration:none;font-variant-numeric:tabular-nums}
+/* The footer's phone and email are targets too — 18px tall as plain inline text. */
+.ft__meta dd a{display:inline-flex;align-items:center;min-block-size:2.75rem}
 .ft__meta a:hover{color:var(--signal-lt)}
 .ft__end{grid-column:1 / -1;display:flex;justify-content:space-between;
   gap:var(--s5);flex-wrap:wrap;padding-top:var(--s5);border-top:1px solid var(--rule-ink);
@@ -850,17 +865,81 @@ img{display:block;max-width:100%;height:auto}
 @media (max-width:1000px){
   .mh nav,.mh__tel{display:none}
   .burger{display:block}
-  .mh[data-open] nav{display:block;position:absolute;left:0;right:0;top:100%;
-    background:var(--ink);border-bottom:1px solid var(--rule-ink);padding:var(--s5) var(--pad)}
-  .mh[data-open] nav ul{flex-direction:column;gap:var(--s4)}
+
+  /* ---- the narrow-screen menu: a full-screen field, not a dropdown -------
+     It was an absolutely positioned panel hanging off the header, with the
+     phone pinned under it at top:calc(100% + 13rem) — a magic number that only
+     held while the list was exactly six items long. Now it is a fixed field at
+     the full height of the viewport, so nothing has to be measured against
+     anything, the items get room to be read, and the phone sits at the bottom
+     where a thumb reaches it.
+
+     100dvh, not 100vh: on iOS Safari the large viewport unit is taller than the
+     visible area while the browser chrome is showing, which would push the
+     phone off the bottom of exactly the screen it matters most on. */
+  .mh[data-open] nav{
+    display:flex;flex-direction:column;
+    position:fixed;inset:0;z-index:60;
+    block-size:100dvh;
+    background:var(--ink);
+    /* Clears the header at the top and the phone plate at the bottom, both of
+       which sit ABOVE this panel rather than inside it. */
+    padding:calc(var(--mh) + var(--s7)) var(--pad) calc(var(--s10) + env(safe-area-inset-bottom));
+    overflow-y:auto;overscroll-behavior:contain}
+
+  /* The header stays legible on top of its own panel: the mark says where you
+     are, the burger — now a cross — is how you leave. Both are lifted above the
+     field; everything else in the bar is not. */
+  .mh[data-open] .wm{position:relative;z-index:61}
+
+  /* Once the phone leaves the flex row there is nothing left to push the burger
+     to the end of the bar, and it drifted to the middle. */
+  .burger{margin-inline-start:auto}
+
+  .mh[data-open] nav ul{
+    flex-direction:column;gap:0;
+    /* The list takes the free height and distributes it, so the air inside is a
+       consequence of the screen rather than a guessed padding value. */
+    flex:1 1 auto;justify-content:center}
+
+  .mh[data-open] nav li{border-block-end:1px solid var(--rule-ink)}
+  .mh[data-open] nav li:first-child{border-block-start:1px solid var(--rule-ink)}
+
+  /* Each row is its own target, sized by a real thumb rather than by the text. */
+  .mh[data-open] nav a{
+    display:flex;align-items:center;
+    min-block-size:3.5rem;
+    font-family:'Plex Mono',ui-monospace,monospace;
+    font-size:1.0625rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--on-ink)}
+  .mh[data-open] nav a:hover,.mh[data-open] nav a:focus-visible{color:var(--brand-yellow)}
+
+  /* The phone closes the panel: full width, pinned to the bottom, unmissable and
+     inside thumb reach. Fixed rather than in flow, because it is a sibling of the
+     panel in the markup and not a child — leaving it in the header's flex row is
+     what pushed it 85px off the right edge and shoved the burger to the centre. */
+  .mh[data-open] .mh__tel{
+    display:flex;align-items:center;gap:var(--s4);
+    position:fixed;z-index:61;
+    inset-inline:var(--pad);
+    inset-block-end:calc(var(--s6) + env(safe-area-inset-bottom));
+    padding:var(--s5);
+    border:0;background:var(--paper);color:var(--ink)}
+  .mh[data-open] .mh__tel b{color:var(--ink)}
+  .mh[data-open] .mh__tel svg{fill:var(--ink)}
+
+  /* The burger has to sit ABOVE the field it opens, or it is behind it and the
+     menu cannot be closed by the control that opened it. */
+  .burger{position:relative;z-index:61}
+
   /* These items come out of display:none, and a transition cannot start from
      a box that was not being laid out — measured: every item was already at
      opacity 1 sixty milliseconds in. A keyframe runs the moment the element
      is displayed, so the sequence is written as one. */
   .js-motion .mh[data-open] nav li,
   .js-motion .mh[data-open] .mh__tel{
-    animation:mo-item 200ms var(--mo-mech) both;
-    animation-delay:calc(var(--i,0) * 40ms)}
+    animation:mo-item 320ms var(--mo-mech) both;
+    animation-delay:calc(var(--i,0) * 45ms)}
   .js-motion .mh[data-open] nav li:nth-child(1){--i:0}
   .js-motion .mh[data-open] nav li:nth-child(2){--i:1}
   .js-motion .mh[data-open] nav li:nth-child(3){--i:2}
@@ -868,8 +947,17 @@ img{display:block;max-width:100%;height:auto}
   .js-motion .mh[data-open] nav li:nth-child(5){--i:4}
   .js-motion .mh[data-open] nav li:nth-child(6){--i:5}
   .js-motion .mh[data-open] .mh__tel{--i:6}
-  .mh[data-open] .mh__tel{display:flex;position:absolute;left:var(--pad);top:calc(100% + 13rem);
-    border-left:0;padding-left:0}
+
+  /* The field itself arrives before its contents do, wiping down from the
+     header edge so the panel reads as coming out of the bar rather than
+     appearing on top of it. */
+  .js-motion .mh[data-open] nav{
+    animation:mo-panel 260ms var(--mo-mech) both}
+}
+
+@keyframes mo-panel{
+  from{clip-path:inset(0 0 100% 0)}
+  to{clip-path:inset(0 0 0 0)}
 }
 
 @media (max-width:820px){

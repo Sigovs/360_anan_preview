@@ -15,9 +15,41 @@
   /* ---- 1. the narrow-screen menu ---------------------------------------- */
   var mh = $('#mh'), burger = $('.burger', mh), nav = $('#nav');
   if (burger && nav) {
+    /* The panel covers the viewport now, so opening it has to stop the page
+       behind it scrolling — otherwise a thumb drag over the menu moves the
+       document underneath and the menu appears to drift. The scroll position is
+       held and restored, because position:fixed on the body loses it. */
+    var heldY = 0;
     var setOpen = function (on) {
-      if (on) { mh.setAttribute('data-open', ''); } else { mh.removeAttribute('data-open'); }
+      if (on === mh.hasAttribute('data-open')) return;
+
+      if (on) {
+        heldY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.insetInline = '0';
+        document.body.style.top = (-heldY) + 'px';
+        document.body.style.width = '100%';
+        mh.setAttribute('data-open', '');
+      } else {
+        mh.removeAttribute('data-open');
+        document.body.style.position = '';
+        document.body.style.insetInline = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, heldY);
+      }
       burger.setAttribute('aria-expanded', on ? 'true' : 'false');
+      burger.setAttribute('aria-label', on ? 'Close menu' : 'Menu');
+
+      /* Focus follows the panel: into the first item on open, back to the
+         control that opened it on close. Without this a keyboard lands on
+         whatever was behind the overlay. */
+      if (on) {
+        var first = nav.querySelector('a');
+        if (first) first.focus();
+      } else if (document.activeElement && nav.contains(document.activeElement)) {
+        burger.focus();
+      }
     };
     burger.addEventListener('click', function () {
       setOpen(!mh.hasAttribute('data-open'));
