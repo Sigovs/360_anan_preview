@@ -4982,6 +4982,26 @@ textarea.form-control-lg {
   --accent-read: #7c85ff;
   --accent-deep: #2a2ea8;
   --on-accent: #ffffff;
+  /* ---- two muted warms, from the logo's own hues -------------------------
+     The mark is drawn in a vivid red and a vivid yellow, neither of which can
+     carry text on this page: #E21119 measures 3.80:1 on the dark ground and
+     #FECA08 measures 1.25:1 on the light band. These are the same two hues —
+     358deg pulled to 12 so it reads as brick rather than rose, and 47deg —
+     with the saturation taken down from 86% and 99% to 38% and 42%, then the
+     lightness solved for a 4.5:1 floor.
+
+     Solved against --g-raised, the LIGHTEST of the four dark surfaces, so one
+     value is valid on all of them: 5.46 / 5.29 / 4.91 / 4.51 on deep / base /
+     panel / raised. The -deep cuts do the same job on the inverted band, where
+     the dark cuts would disappear.
+
+     They are a third voice, not a second accent: the indigo keeps every action,
+     badge, eyebrow bar and focus ring. These take four small marks between them,
+     which is what stops a cold page reading as entirely cold. */
+  --rust: #b97463;
+  --rust-deep: #a05948;
+  --amber: #9a843f;
+  --amber-deep: #7d6b33;
   --space-1: .25rem;
   --space-2: .5rem;
   --space-3: .75rem;
@@ -5093,6 +5113,8 @@ img, svg, video {
   --line: #cfd0d8;
   --line-bright:#b9bac4;
   --accent-read: var(--accent-deep);
+  --rust: var(--rust-deep);
+  --amber: var(--amber-deep);
   color: var(--ink);
 }
 
@@ -5331,7 +5353,7 @@ h4, .h4 {
   font-family: var(--f-mono);
   font-size: var(--t-2xs);
   letter-spacing: var(--ls-mono);
-  color: var(--accent-read);
+  color: var(--amber);
   font-variant-numeric: tabular-nums;
 }
 
@@ -5969,7 +5991,10 @@ h4, .h4 {
 .proc2__icon {
   inline-size: 1.75rem;
   block-size: 1.75rem;
-  color: var(--accent-read);
+  /* The process band is the one stretch with no action in it, so it takes the
+     warm rather than the accent — it reads as a different kind of information,
+     which is what it is. */
+  color: var(--rust);
 }
 
 .proc2__icon svg {
@@ -6018,8 +6043,10 @@ h4, .h4 {
   block-size: 1.125rem;
 }
 
+/* Warm, as a rating mark has always been — and it stops five stars reading as
+   five more indigo elements beside the indigo button under them. */
 .stars__on {
-  fill: var(--accent-read);
+  fill: var(--amber);
 }
 
 .stars__off {
@@ -6196,8 +6223,9 @@ h4, .h4 {
   color: var(--ink-muted);
 }
 
+/* The required mark. Not hue alone — the asterisk carries it. */
 .field2 .req {
-  color: var(--accent-read);
+  color: var(--rust);
 }
 
 .field2 input,
@@ -6719,13 +6747,13 @@ h4, .h4 {
   transition: color var(--dur-2) var(--ease-tech);
 }
 
-.proc2__icon {
+.js-motion .proc2__icon {
   color: var(--ink-muted);
   transition: color var(--dur-2) var(--ease-tech);
 }
 
-.proc2__step.is-live .proc2__icon {
-  color: var(--accent-read);
+.js-motion .proc2__step.is-live .proc2__icon {
+  color: var(--rust);
 }
 
 .proc2__step.is-live h3, .proc2__step.is-live .h3 {
