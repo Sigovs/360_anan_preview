@@ -34,14 +34,35 @@
 
   /* ---- 1b. the masthead is only solid once the page has moved ----------- */
   if (mh) {
-    var stuck = false;
+    /* Two states, because they answer different questions. `stuck` is "has the
+       page moved" and drives the bar tightening and the mark contracting — it
+       changes no ground, so it can fire immediately. `solid` is "has the header
+       left the hero", and it is the one that turns the ground opaque.
+
+       Both used to fire together at 6px, which put a hard dark edge across the
+       hero headline while the headline was still travelling under it. The
+       threshold is the hero's height less the header's, i.e. the exact scroll
+       position where the hero's bottom edge meets the header's bottom edge. */
+    var hero = document.querySelector('.hero');
+    var stuck = false, solid = false;
     var mark = function () {
-      var on = window.scrollY > 6;
-      if (on === stuck) return;
-      stuck = on;
-      if (on) mh.setAttribute('data-stuck', ''); else mh.removeAttribute('data-stuck');
+      var y = window.scrollY;
+
+      var on = y > 6;
+      if (on !== stuck) {
+        stuck = on;
+        if (on) mh.setAttribute('data-stuck', ''); else mh.removeAttribute('data-stuck');
+      }
+
+      var at = hero ? Math.max(6, hero.offsetHeight - mh.offsetHeight) : 6;
+      var op = y > at;
+      if (op !== solid) {
+        solid = op;
+        if (op) mh.setAttribute('data-solid', ''); else mh.removeAttribute('data-solid');
+      }
     };
     window.addEventListener('scroll', mark, { passive: true });
+    window.addEventListener('resize', mark, { passive: true });
     mark();                                   /* a restored scroll position */
   }
 

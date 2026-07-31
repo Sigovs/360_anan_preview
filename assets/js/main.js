@@ -75,6 +75,17 @@
   const hero = document.querySelector('[data-hero]');
   const heroMedia = hero ? hero.querySelector('.hero__media') : null;
 
+  /* The element the header's opaque ground must clear, named by the header
+     itself rather than inferred. It cannot be `[data-hero]`: on index2,
+     motion2.js strips that attribute before this file runs, on purpose, so the
+     two motion systems can never drive the same element — which silently sent
+     this threshold back to its 32px fallback and put the dark bar back across
+     the headline. A hook that belongs to the masthead is not something another
+     motion system has any reason to remove. */
+  const solidAfterEl = masthead && masthead.dataset.solidAfter
+    ? document.querySelector(masthead.dataset.solidAfter)
+    : hero;
+
   /* Parallax targets, measured directly.
      
      An earlier version gated this on an IntersectionObserver so off-screen images
@@ -101,7 +112,31 @@
     const vh = window.innerHeight || 1;
 
     if (masthead) {
+      /* Two states, not one, because they answer different questions.
+
+         `scrolled` is "has the page moved at all" and drives the bar tightening
+         and the mark contracting. It fires early, at 32px, and costs nothing
+         because it changes no ground.
+
+         `solid` is "is the header still over the hero", and it is the one that
+         turns the ground opaque. Both used to fire together at 32px, which put a
+         hard dark edge across the hero headline while the headline was still
+         travelling under it — at y=200 the h1 was sliced through the middle of a
+         letterform on both pages. It reads as a rendering fault rather than as a
+         header.
+
+         The threshold is the hero's own height less the header's, which is the
+         exact scroll position where the hero's bottom edge meets the header's
+         bottom edge. Past that the header is over the next section and an opaque
+         ground is correct. With no hero on the page it falls back to 32. */
+      /* Reads before writes: masthead.offsetHeight is measured before either
+         dataset attribute is set, because setting them changes that height. */
+      const clearH = solidAfterEl ? solidAfterEl.offsetHeight : 0;
+      const barH = masthead.offsetHeight;
+
       masthead.dataset.scrolled = y > 32 ? 'true' : 'false';
+      masthead.dataset.solid =
+        y > (clearH ? Math.max(32, clearH - barH) : 32) ? 'true' : 'false';
     }
 
     /* The hero photograph lags the page by up to 6% of its own height as the hero

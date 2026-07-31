@@ -207,8 +207,11 @@ img{display:block;max-width:100%;height:auto}
 .mh::before{content:"";position:absolute;inset:0;z-index:-1;
   background:linear-gradient(to bottom,rgba(20,20,19,.78) 0%,rgba(20,20,19,.34) 62%,
     rgba(20,20,19,0) 100%);transition:opacity .32s var(--e)}
-.mh[data-stuck]{background:var(--ink)}
-.mh[data-stuck]::before,.mh[data-open]::before{opacity:0}
+/* Opaque only once the header has left the hero — see the note in
+   assets/v3/js/main.js. Until then it keeps its own scrim, which is what carries
+   the nav over the photograph. The open menu is opaque regardless. */
+.mh[data-solid]{background:var(--ink)}
+.mh[data-solid]::before,.mh[data-open]::before{opacity:0}
 .mh[data-open]{background:var(--ink)}
 .mh__in{display:flex;align-items:center;gap:var(--s6);min-height:var(--mh);
   transition:min-height .32s var(--e)}

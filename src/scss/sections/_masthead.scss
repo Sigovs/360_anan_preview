@@ -26,12 +26,15 @@
   transition: opacity var(--dur-2) var(--ease-out);
 }
 
-.masthead[data-scrolled="true"] {
+// The opaque ground waits for the hero to clear — see the note in main.js. Until
+// then the header keeps its own scrim, which is what carries the nav over the
+// photograph; dropping that scrim early is what left the headline cut in half.
+.masthead[data-solid="true"] {
   background: var(--color-bg);
   border-block-end-color: var(--color-line);
 }
 
-.masthead[data-scrolled="true"]::before {
+.masthead[data-solid="true"]::before {
   opacity: 0;
 }
 

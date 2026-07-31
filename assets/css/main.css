@@ -6034,12 +6034,12 @@ textarea.form-control {
   transition: opacity var(--dur-2) var(--ease-out);
 }
 
-.masthead[data-scrolled=true] {
+.masthead[data-solid=true] {
   background: var(--color-bg);
   border-block-end-color: var(--color-line);
 }
 
-.masthead[data-scrolled=true]::before {
+.masthead[data-solid=true]::before {
   opacity: 0;
 }
 

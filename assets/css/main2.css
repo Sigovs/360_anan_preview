@@ -5353,14 +5353,17 @@ h4, .h4 {
   transition: opacity var(--dur-2) var(--ease-out);
 }
 
-.mh[data-scrolled=true] {
+.mh[data-solid=true] {
   background: var(--g-deep);
   border-block-end-color: var(--line);
-  --mh-row: clamp(2.5rem, min(1.1vw + 2.05rem, 5.6svh), 3.25rem);
 }
 
-.mh[data-scrolled=true]::before {
+.mh[data-solid=true]::before {
   opacity: 0;
+}
+
+.mh[data-scrolled=true] {
+  --mh-row: clamp(2.5rem, min(1.1vw + 2.05rem, 5.6svh), 3.25rem);
 }
 
 .mh__inner {
