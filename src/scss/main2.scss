@@ -458,26 +458,41 @@ h4 {
 // shell, and the menu button was the part that went off the edge.
 @media (max-width: 61.99rem) { .mh__inner { gap: var(--space-4); } }
 
+// ── Logo ────────────────────────────────────────────────────────────────────
+// The supplied brand mark, replacing the text lockup that stood in for it. It is
+// sized by height because the readable part — the "AUTO CARE" line — is only
+// about a third of the artwork; the car silhouette and the speedometer arc take
+// the rest, and below roughly 34px of total height that line stops resolving.
+//
+// The height is --mh-row rather than a value of its own, so the mark is exactly as
+// tall as every other control in the bar and the header's height stays calculable
+// from --mh-h instead of becoming emergent. That range is 44px to 56px, which sits
+// comfortably above where the mark gives out.
+//
+// White-on-dark by construction. Both places it appears are dark grounds, so no
+// inverted cut is needed; on the bone reviews band the white outline and the white
+// "360" would all but vanish.
 .wm2 {
+  position: relative;
   display: inline-flex;
-  align-items: baseline;
-  gap: .3em;
-  font-family: var(--f-display);
-  font-weight: 700;
-  // Fluid, because this is the mark the header's weight is carried by. It has to
-  // grow with the format without ever exceeding --mh-row, which is what keeps
-  // the header's height a known quantity.
-  font-size: clamp(1.25rem, .85vw + 1rem, 2rem);
-  letter-spacing: .04em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--ink);
+  align-items: center;
   text-decoration: none;
-  white-space: nowrap;
 }
 
-.wm2__num { color: var(--accent-read); font-variant-numeric: tabular-nums; }
-.wm2__name { font-size: .78em; letter-spacing: .1em; }
+.wm2 img {
+  block-size: var(--mh-row);
+  inline-size: auto;
+}
+
+// The footer is outside the header's row system, so it takes a size of its own —
+// roomier, because there it is the sign-off rather than a navigation item.
+.wm2--lg img {
+  block-size: 4.5rem;
+}
+
+@media (min-width: 48rem) {
+  .wm2--lg img { block-size: 5.5rem; }
+}
 
 .mh__nav {
   display: none;

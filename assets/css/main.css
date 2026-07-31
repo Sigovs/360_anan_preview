@@ -6048,56 +6048,41 @@ textarea.form-control {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
-  padding-block: var(--space-5);
+  padding-block: var(--space-4);
   transition: padding-block var(--dur-2) var(--ease-out);
 }
 
 .masthead[data-scrolled=true] .masthead__inner {
-  padding-block: 0.875rem;
+  padding-block: var(--space-2);
+}
+
+.masthead[data-scrolled=true] .wordmark img {
+  block-size: 2.25rem;
 }
 
 .wordmark {
   position: relative;
   display: inline-flex;
-  align-items: baseline;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  gap: 0.35em;
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.3125rem;
-  letter-spacing: 0.005em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--color-text);
+  align-items: center;
   text-decoration: none;
 }
 
-.wordmark__num {
-  color: var(--color-accent);
-  font-variant-numeric: tabular-nums;
+.wordmark img {
+  block-size: 2.5rem;
+  inline-size: auto;
+  transition: block-size var(--dur-2) var(--ease-out);
 }
 
-.wordmark__name {
-  font-size: 0.8em;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
+.wordmark--lg img {
+  block-size: 4.5rem;
 }
 
-.masthead__descriptor {
-  display: none;
-  justify-self: center;
-  padding-inline: var(--space-5);
-  transition: opacity var(--dur-3) var(--ease-out);
-}
-
-.masthead[data-scrolled=true] .masthead__descriptor {
-  opacity: 0;
-}
-
-@media (min-width: 62rem) {
-  .masthead__descriptor {
-    display: block;
+@media (min-width: 48rem) {
+  .wordmark img {
+    block-size: 2.75rem;
+  }
+  .wordmark--lg img {
+    block-size: 5.5rem;
   }
 }
 .masthead__end {
