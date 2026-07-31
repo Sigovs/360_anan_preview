@@ -63,7 +63,7 @@
 // The mark itself contracts with the bar, which is the same "the header firms up"
 // gesture the padding performs — one movement rather than two.
 .masthead[data-scrolled="true"] .wordmark img {
-  block-size: 2.75rem;
+  block-size: 2.5rem;
 }
 
 // ── Logo ────────────────────────────────────────────────────────────────────
@@ -73,8 +73,8 @@
 // — is only about a third of the artwork; the car silhouette and the speedometer
 // arc take the rest. Measured on the file: below roughly 34px of total height the
 // second line stops resolving, so this is 48px on a phone and 52 from 48rem up,
-// dropping to 44 once the bar has firmed — a step up from the first sizing, which
-// read correct but small against the nav. That is roughly twice the height of the
+// dropping to 40 once the bar has firmed. The contraction was 52->44 first, which
+// is a 15% change and too small to register as a gesture; 52->40 reads. That is roughly twice the height of the
 // text lockup it replaces, and the bar's padding was cut to pay for it — a logo
 // that cannot be read is not a logo.
 //

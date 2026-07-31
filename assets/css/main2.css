@@ -5356,6 +5356,7 @@ h4, .h4 {
 .mh[data-scrolled=true] {
   background: var(--g-deep);
   border-block-end-color: var(--line);
+  --mh-row: clamp(2.5rem, min(1.1vw + 2.05rem, 5.6svh), 3.25rem);
 }
 
 .mh[data-scrolled=true]::before {
@@ -5385,6 +5386,7 @@ h4, .h4 {
 .wm2 img {
   block-size: var(--mh-row);
   inline-size: auto;
+  transition: block-size var(--dur-2) var(--ease-out);
 }
 
 .wm2--lg img {

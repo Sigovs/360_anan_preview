@@ -79,7 +79,8 @@
 
   --pad:clamp(1.25rem,4.2vw,4rem);
   --maxw:88rem;
-  --mh:5.25rem;          /* the masthead, so the hero can take exactly the rest */
+  --mh:6rem;             /* the masthead, so the hero can take exactly the rest */
+  --mh-stuck:4.5rem;     /* the same bar once the page has moved under it */
   --bleed:calc((100vw - min(100vw, var(--maxw))) / 2 + var(--pad));
   --e:cubic-bezier(.22,.61,.36,1);
 }
@@ -209,18 +210,24 @@ img{display:block;max-width:100%;height:auto}
 .mh[data-stuck]{background:var(--ink)}
 .mh[data-stuck]::before,.mh[data-open]::before{opacity:0}
 .mh[data-open]{background:var(--ink)}
-.mh__in{display:flex;align-items:center;gap:var(--s6);min-height:var(--mh)}
+.mh__in{display:flex;align-items:center;gap:var(--s6);min-height:var(--mh);
+  transition:min-height .32s var(--e)}
+/* The bar and the mark contract together the moment the page moves, which is
+   one gesture rather than two — the same move index.html makes. */
+.mh[data-stuck] .mh__in{min-height:var(--mh-stuck)}
+.mh[data-stuck] .wm img{block-size:3.25rem}
 
 /* The supplied brand mark, in place of the text lockup that stood in for it.
    Sized by height: the readable "AUTO CARE" line is only about a third of the
    artwork — the car silhouette and the speedometer arc take the rest — and below
-   roughly 34px of total height that line stops resolving. 56px inside an 84px bar.
+   roughly 34px of total height that line stops resolving. 68px inside a 96px bar,
+   which leaves 14px of air above and below it.
    The artwork is white-on-dark, which both places it appears are: the masthead is
    transparent over the hero with its own scrim and turns --ink when stuck, and the
    footer is --ink throughout. */
 .wm{display:flex;align-items:center;text-decoration:none;
   color:inherit;flex:0 0 auto}
-.wm img{block-size:3.5rem;inline-size:auto}
+.wm img{block-size:4.25rem;inline-size:auto;transition:block-size .32s var(--e)}
 
 .mh nav{margin-left:auto}
 .mh nav ul{display:flex;gap:var(--s5);list-style:none}
@@ -719,7 +726,7 @@ img{display:block;max-width:100%;height:auto}
   padding-block:var(--s8)}
 .ft__id{grid-column:1 / span 4}
 .ft__id .wm{margin-bottom:var(--s4)}
-.ft__id .wm img{block-size:4.5rem}
+.ft__id .wm img{block-size:5.5rem}
 .ft__id p{font-size:.875rem;line-height:1.62;color:var(--on-ink-3);max-width:34ch}
 .ft__nav{grid-column:6 / span 3}
 .ft__nav ul{list-style:none;display:grid;gap:var(--s3)}

@@ -442,7 +442,16 @@ h4 {
   transition: opacity var(--dur-2) var(--ease-out);
 }
 
-.mh[data-scrolled="true"] { background: var(--g-deep); border-block-end-color: var(--line); }
+.mh[data-scrolled="true"] {
+  background: var(--g-deep);
+  border-block-end-color: var(--line);
+  // One re-pointed token contracts the whole row: the mark, the nav links, the
+  // phone and the bar are all sized from --mh-row, so they move together rather
+  // than each needing its own scrolled rule. --mh-h is resolved on elements
+  // outside .mh, so the hero's clearance does not follow — correct, since the
+  // hero is never on screen with the bar firmed.
+  --mh-row: clamp(2.5rem, min(1.1vw + 2.05rem, 5.6svh), 3.25rem);
+}
 .mh[data-scrolled="true"]::before { opacity: 0; }
 
 .mh__inner {
@@ -483,6 +492,7 @@ h4 {
 .wm2 img {
   block-size: var(--mh-row);
   inline-size: auto;
+  transition: block-size var(--dur-2) var(--ease-out);
 }
 
 // The footer is outside the header's row system, so it takes a size of its own —
