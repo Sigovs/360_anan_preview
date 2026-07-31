@@ -48,18 +48,38 @@
   src:url(../fonts/plex-mono-500.woff2) format('woff2')}
 
 :root{
-  /* ---- ground: hue 30deg, the census peak, at 14-20% chroma -------------- */
-  --paper:#f4f1ee;
-  --paper-2:#ebe7e3;
-  --paper-3:#dfdad5;
+  /* ---- ground: hue 30deg, the census peak, at 14-20% chroma --------------
+       Knocked down one full step: --paper was #f4f1ee and read as glare on a
+       bright screen. The ladder simply moved down — today's paper is yesterday's
+       --paper-2 — so the hue, the chroma and the intervals between the three are
+       exactly as they were, and only the overall level changed. Nine per cent of
+       luminance: 0.8832 -> 0.8036.
+
+       That is not a free change. Every ink on this page is dark-on-light, so
+       lowering the ground lowers every ratio with it, and four values fell
+       through their floors. They are re-solved below rather than left. */
+  --paper:#ebe7e3;
+  --paper-2:#dfdad5;
+  --paper-3:#d3cdc6;
 
   /* ---- ink: the mean of 2,126,012 pixels below L 0.055 across all nine
-       frames is rgb(19,20,17); lifted to a usable ink it is #141413 ------- */
-  --ink:#141413;         /* 16.38 / 14.99 / 13.28 : 1 on paper / -2 / -3 */
-  --ink-2:#535250;       /*  6.94 /  6.35 /  5.62 — body, safe on all three */
-  --ink-3:#6e6c6b;       /*  4.64 /  4.25 /  3.76 — ONLY on --paper */
-  --ink-4:#8d8b89;       /*  3.01 on paper — non-text only */
-  --rule:rgba(20,20,19,.46);    /* 3.01:1, structural boundaries */
+       frames is rgb(19,20,17); lifted to a usable ink it is #141413 -------
+
+       Each value below is solved against --paper-3, the DARKEST ground it can
+       land on, so one value stays valid on all three. The previous set was solved
+       against --paper instead, which is why --ink-3 was annotated "ONLY on
+       --paper", why --ink-4 measured 2.45 on --paper-3 against a 3:1 floor, and
+       why --rule measured 2.87 and 2.79 on the lower two. Those were already
+       failing before the ground moved; they are fixed here rather than inherited. */
+  --ink:#141413;         /* 14.99 / 13.28 / 11.69 : 1 on paper / -2 / -3 */
+  /* Solved against the chip ground rather than the bare one: the tag chips lay a
+     5.5% ink tint over whichever paper they sit on, which on --paper-3 took this
+     to 4.46 — four hundredths under. 6.45 / 5.71 / 5.03 bare, 5.78 / 5.13 / 4.53
+     inside a chip. */
+  --ink-2:#52514f;
+  --ink-3:#595857;       /*  5.77 /  5.11 /  4.50 — now safe on all three too */
+  --ink-4:#747371;       /*  3.85 /  3.41 /  3.00 — non-text, safe on all three */
+  --rule:rgba(20,20,19,.51);    /* 3.43 / 3.31 / 3.17, structural boundaries */
   --rule-hair:rgba(20,20,19,.16);
   --on-ink:#f4f1ee;      /* 16.38:1 reversed */
   --on-ink-2:#c3c0be;    /* 10.21:1 */
@@ -68,9 +88,10 @@
 
   /* ---- the signal: 92deg, held by 0.068% of the photography --------------
        Solved against the DARKEST ground it is ever set on, not the lightest,
-       so one value is valid everywhere: 5.60 / 5.13 / 4.54 : 1 on paper /
-       -2 / -3, and 5.60:1 as a filled block carrying paper text. */
-  --signal:#48692b;
+       so one value is valid everywhere. Re-solved for the lowered ground:
+       5.82 / 5.15 / 4.54 : 1 on paper / -2 / -3. The hue is untouched — this is
+       the same green scaled down to hold its floor, not a different green. */
+  --signal:#426028;
   --signal-lt:#7cb04f;   /* 7.18:1 on ink */
 
   /* ---- the brand, lifted from the logo file rather than sampled by eye -----
