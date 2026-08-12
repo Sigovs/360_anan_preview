@@ -416,6 +416,32 @@
         }
       }
 
+      /* ── 4b · VEHICLE PROTECTION — the same moment, mirrored ──────────────
+         Identical composition to THE SHOP: the section scene, the frame curtain
+         with its scrub, and the exposure ramp on the photograph. The one thing
+         that differs is the direction, and it is not alternated for variety — the
+         label and copy enter from the side the TEXT is on, which is the left here
+         and the right in #shop, so in both cases the type arrives from its own
+         column rather than across the picture.
+
+         `:scope > img` rather than `img`: the LoJack mark lives inside this frame
+         too, and a bare descendant selector would ramp the brand's exposure along
+         with the photograph's. */
+      const prot = document.querySelector('#protection');
+      if (prot) {
+        scene(prot, { dir: 'left' });
+        const pFrame = prot.querySelector('.split2__media');
+        if (pFrame) {
+          revealFrame(pFrame, 'up', { start: 'top 80%', scrubTo: M('scrub') });
+          if (!reduce) {
+            const pImg = pFrame.querySelector(':scope > img');
+            gsap.fromTo(pImg, { filter: 'brightness(0.45) contrast(1.05)' },
+              { filter: 'brightness(1) contrast(1)', duration: D.section, ease: E.content,
+                scrollTrigger: { trigger: pFrame, start: 'top 80%', once: true } });
+          }
+        }
+      }
+
       /* ── 5 · VEHICLE CARE ────────────────────────────────────────────────── */
       const care = document.querySelector('#care');
       if (care && !reduce) {
