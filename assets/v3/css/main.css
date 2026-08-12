@@ -133,6 +133,23 @@
   --maxw:88rem;
   --mh:6rem;             /* the masthead, so the hero can take exactly the rest */
   --mh-stuck:4.5rem;     /* the same bar once the page has moved under it */
+
+  /* The width of the two right-hand plates in the hero — the phone and the card
+     above it. One flat value rather than a clamp, and both take it as inline-size,
+     so "the same width as the phone box" is true by construction instead of by
+     approximation.
+
+     340px is what the phone measured at its own natural width: the number is
+     260px at its capped 34.4px, plus 32 and 48 of padding — which comes to exactly
+     340 and therefore wrapped, having no slack at all. 22rem gives it twelve
+     pixels. The cap is reached at 1440, so the plate never wants more than this at
+     any width above it, and below it the number only gets smaller.
+
+     An earlier attempt used a clamp that shrank with the viewport, which broke the
+     number over two lines at 1440. The number also carries white-space:nowrap now,
+     because a phone number split across two lines is not a phone number, and that
+     should not depend on a width calculation staying correct. */
+  --plate:22rem;
   --bleed:calc((100vw - min(100vw, var(--maxw))) / 2 + var(--pad));
   --e:cubic-bezier(.22,.61,.36,1);
 }
@@ -411,8 +428,25 @@ img{display:block;max-width:100%;height:auto}
 /* 7 of 12 columns held the headline inside the darkest part of the frame and
    forced the breaks; 8 gives it 14% more measure, and the display size comes
    down 9% so the two lines set with room rather than to the edge. */
-.hero__say{position:relative;z-index:2;grid-column:1 / span 8}
+/* Spans all twelve now, and repeats the parent's grid inside itself, so the card
+   below can sit in columns 9-12 on the SAME ROW as the headline. Everything that
+   was here keeps columns 1-8, so nothing moves. */
+.hero__say{position:relative;z-index:2;grid-column:1 / -1;
+  display:grid;grid-template-columns:repeat(12,1fr);gap:0 var(--s5)}
+.hero__say > *{grid-column:1 / span 8}
 .hero__say h1{margin:var(--s5) 0 var(--s5);max-width:14ch}
+
+/* The card: the phone's width, the headline's height. grid-row 2 is the headline's
+   row — eyebrow is 1 — and align-self:stretch is what makes the height exact
+   rather than approximated. */
+.hero__card{grid-column:9 / span 4;grid-row:2;
+  align-self:stretch;justify-self:end;
+  inline-size:var(--plate);
+  /* The headline's own margins, repeated. align-self:stretch fills the grid ROW,
+     and the row is the headline plus its 24px above and below — without this the
+     card ran 48px taller than the text it is supposed to line up with. */
+  margin-block:var(--s5);
+  border:1px solid var(--rule-ink);background:rgba(244,241,238,.04)}
 .hero__say .t-lead{max-width:38ch}
 .hero__act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s5);margin-top:var(--s7)}
 
@@ -421,13 +455,13 @@ img{display:block;max-width:100%;height:auto}
    this shop actually converts on. 16.38:1 wherever it lands. */
 .hero__tel{position:relative;z-index:2;grid-column:9 / span 4;justify-self:end;
   align-self:end;text-decoration:none;background:var(--paper);color:var(--ink);
-  padding:var(--s5) var(--s7) var(--s5) var(--s6);min-width:17rem;
+  padding:var(--s5) var(--s7) var(--s5) var(--s6);inline-size:var(--plate);
   transition:background .22s var(--e)}
 .hero__tel span{display:block;font-family:'Plex Mono',ui-monospace,monospace;
   font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
   margin-bottom:var(--s3)}
 .hero__tel b{font-weight:800;font-size:clamp(1.5rem,2.5vw,2.15rem);letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;line-height:1;display:block}
+  font-variant-numeric:tabular-nums;line-height:1;display:block;white-space:nowrap}
 /* The plate's label is already --ink, so the fill can go to the brand yellow
    without touching the text: 12.00:1, against 7.18 for the green it replaces. */
 .hero__tel:hover{background:var(--brand-yellow)}
@@ -834,6 +868,18 @@ img{display:block;max-width:100%;height:auto}
     min-height:100svh}
   .hero__in{flex:1 1 auto;min-height:0;grid-template-columns:1fr;
     align-content:end;padding-block:var(--s6) var(--s7)}
+
+  /* .hero__say carries a twelve-column grid of its own on wide formats, so the
+     card can share the headline's row. That grid has to be undone here or its
+     eight-column track squeezes the headline, the lead and the buttons into 168px
+     inside a 390px screen — which is exactly what it did. */
+  .hero__say{display:block}
+  /* 100%, not auto: measured, `auto` resolves to the two border pixels here
+     rather than to the parent's width. Full width is the intent anyway, so it is
+     stated rather than inferred. */
+  .hero__card{
+    inline-size:100%;margin-block:0 var(--s6);
+    min-block-size:9rem}
   /* Every vertical in the narrow hero is tied to the screen rather than to the
      width, because the block has to fit one of them. Measured at 430x900 the
      untied version stood 1109px tall against 815px of room. */
