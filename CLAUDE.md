@@ -1,8 +1,10 @@
 # CLAUDE.md — 360 Auto Care Inc
 
-Before any visual work, fetch and obey `TASTE.md` and `skills/` from
-https://github.com/Sigovs/design_dna (or the local clone at `./design_dna`
-if present).
+Before any visual work, invoke the `design-dna` skill. It routes to the live
+system at `/Users/alex/Desktop/WORK/design_dna` — the real clone, which the
+globally-installed skills symlink into. Do not use a copy inside this project:
+there was one, it went stale, and it overrode the live system for a day before
+anyone noticed. It has been deleted; do not recreate it.
 
 The Design Read this project was built under — repeat it, do not re-derive it:
 
@@ -14,7 +16,7 @@ Dimensionality: ABSENT — no constructed scene; depth is carried by photographi
 ```
 
 The full record — decisions, environment knowledge, and what went wrong — is in
-`design_dna/projects/360-auto-care-2026.md`.
+`/Users/alex/Desktop/WORK/design_dna/projects/360-auto-care-2026.md`.
 
 ## Project-specific rules
 
@@ -41,6 +43,7 @@ unconfirmed and marked as such in `docs/CONTENT-TODO.md`. The reviews array ship
 empty on purpose — do not populate it with samples, and do not replace the
 placeholder phone with anything outside the reserved 555-01xx range.
 
-**`design_dna/` is not part of this repo.** It is a local clone of a separate
-project, git-ignored here. Anything written into `design_dna/projects/` belongs to
-that repo and must be committed there.
+**The taste system is a separate repo, and edits to it get committed there.**
+Learnings from this project — a new invariant, an anti-pattern, an update to the
+project record — belong in `/Users/alex/Desktop/WORK/design_dna` and are pushed
+from that repo, never carried in this one.
