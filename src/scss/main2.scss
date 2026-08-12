@@ -1076,7 +1076,11 @@ h4 {
   // dead space under its button — aligned, but aligned to nothing. Out of flow
   // the wrapper has no height of its own, so the row is the text's height and
   // the crop follows it.
-  .split2__media--fill img {
+  // Direct child only. As a descendant selector this also caught the LoJack mark
+  // nested inside the frame, absolutely positioning it and stretching it to the
+  // full height — the plate collapsed to 34px and the logo vanished. Any image
+  // placed inside a fill frame would have hit the same thing.
+  .split2__media--fill > img {
     position: absolute;
     inset-inline: 0;
     inset-block-start: calc(var(--parallax) * -1);
@@ -1094,6 +1098,40 @@ h4 {
 }
 
 .split2__subs { display: grid; gap: var(--space-5); margin-block-start: var(--space-6); }
+
+// ── The LoJack mark on the photograph ───────────────────────────────────────
+// Straight onto the frame, no plate. Measured on the image: the top-RIGHT corner
+// is uniformly dark — its brightest pixel is luminance 0.013 — so the mark's own
+// grey reads 6.98:1 there and its orange 5.10:1, both clear of the 3:1 a graphic
+// needs. The top-left, where this first went, peaks at 0.079 and needed a plate to
+// survive; moving it to the corner the photograph actually keeps dark is the
+// better fix, because it leaves the mark untouched and the frame unobstructed.
+//
+// Sized as a percentage of the frame rather than of the viewport, so its share of
+// the photograph stays constant as the column changes width.
+.lojack {
+  position: absolute;
+  z-index: var(--z-content);
+  inset-block-start: clamp(var(--space-4), 4%, var(--space-7));
+  inset-inline-end: clamp(var(--space-4), 4%, var(--space-7));
+  inline-size: clamp(5rem, 26%, 11rem);
+  margin: 0;
+}
+
+.lojack img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+// The registered mark rides small and high rather than sitting on the baseline at
+// full size, where it crowds the word it belongs to.
+.tm {
+  font-size: 0.58em;
+  vertical-align: super;
+  line-height: 0;
+}
+
 
 // A small title rank, set by class rather than by tag: these sit under the
 // section's h2 and so have to BE h3s, whatever size they are drawn at.

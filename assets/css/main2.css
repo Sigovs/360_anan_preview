@@ -5890,7 +5890,7 @@ h4, .h4 {
     flex: 1;
     aspect-ratio: auto;
   }
-  .split2__media--fill img {
+  .split2__media--fill > img {
     position: absolute;
     inset-inline: 0;
     inset-block-start: calc(var(--parallax) * -1);
@@ -5910,6 +5910,27 @@ h4, .h4 {
   display: grid;
   gap: var(--space-5);
   margin-block-start: var(--space-6);
+}
+
+.lojack {
+  position: absolute;
+  z-index: var(--z-content);
+  inset-block-start: clamp(var(--space-4), 4%, var(--space-7));
+  inset-inline-end: clamp(var(--space-4), 4%, var(--space-7));
+  inline-size: clamp(5rem, 26%, 11rem);
+  margin: 0;
+}
+
+.lojack img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.tm {
+  font-size: 0.58em;
+  vertical-align: super;
+  line-height: 0;
 }
 
 .subhead {
