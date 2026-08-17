@@ -1,90 +1,23 @@
+<!---
+TITLE:        360 Auto Care Inc — Foreign &amp; Domestic Repair · Lynbrook, NY
+DESCRIPTION:  Complete care for the road ahead. Diagnostics, maintenance, NYS inspections, tires, major repair and vehicle care in Lynbrook, New York.
+HOME:
+HOME_LABEL:   back to top
+SOLID_AFTER:  .hero2
+NEEDS_REVIEWS: true
+ON_ABOUT:
+--->
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Preview build. The reviews, opening hours and form endpoint are unconfirmed
-     placeholders (see docs/CONTENT-TODO.md), so this page must not be indexed
-     until they are replaced with real values. -->
-<meta name="robots" content="noindex, nofollow">
-
-<title>360 Auto Care Inc — Foreign &amp; Domestic Repair · Lynbrook, NY</title>
-<meta name="description" content="Complete care for the road ahead. Diagnostics, maintenance, NYS inspections, tires, major repair and vehicle care in Lynbrook, New York.">
-
-<link rel="icon" href="assets/img/favicon-brand.svg" type="image/svg+xml">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main2.css">
+{{> head }}
 </head>
 
 <body>
 
 <a class="sr-only" href="#main">Skip to content</a>
 
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     MASTHEAD
-     ═══════════════════════════════════════════════════════════════════════ -->
-<header class="mh" data-masthead data-solid-after=".hero2">
-  <div class="shell">
-    <div class="mh__inner">
-      <a class="wm2" href="#main" aria-label="360 Auto Care Inc — back to top">
-        <img src="assets/img/logo.svg" width="830" height="474" alt="" decoding="async">
-      </a>
-
-      <!-- Four, not six. The shell stops growing at 1440 while the wordmark, the
-           number and the CTA keep growing with the viewport, so six labels plus
-           a phone mark left the primary action wrapping onto two lines. The Shop
-           and Process are the two a visitor reaches by scrolling anyway, and
-           both keep their place in the mobile menu and in the footer — nothing
-           became unreachable, the masthead just stopped carrying everything.
-
-           About is the fifth, and it is here rather than in the overflow because
-           it is the only entry that is a PAGE — a section can be reached by
-           scrolling, a page cannot, so hiding it behind the menu button is the
-           one case where the overflow route actually costs reachability. It was
-           measured back in at every width from the nav's own breakpoint up; the
-           label is short, which is why five fits where six did not. -->
-      <nav class="mh__nav" aria-label="Primary">
-        <a class="mh__link" href="#services">Services</a>
-        <a class="mh__link" href="#care">Vehicle Care</a>
-        <a class="mh__link" href="#reviews">Reviews</a>
-        <a class="mh__link" href="about.html">About</a>
-        <a class="mh__link" href="#contact">Contact</a>
-      </nav>
-
-      <div class="mh__end">
-        <a class="mh__phone" href="tel:+15168200360">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M6.2 3.6h3.1l1.5 3.9-2 1.3a12 12 0 0 0 5.4 5.4l1.3-2 3.9 1.5v3.1a1.6 1.6 0 0 1-1.7 1.6A15.9 15.9 0 0 1 4.6 5.3 1.6 1.6 0 0 1 6.2 3.6Z"/></svg><span aria-hidden="true">(516) 820-0360</span>
-          <span class="sr-only">Call the shop on 516 820 0360</span>
-        </a>
-        <a class="btn2 btn2--primary mh__cta" href="#contact">
-          Get started <span class="btn2__mark" aria-hidden="true">→</span>
-        </a>
-        <button class="navt" type="button" data-nav-toggle
-                aria-expanded="false" aria-controls="nav-panel">
-          <span class="navt__bars" aria-hidden="true"><span></span><span></span><span></span></span>
-          <span data-nav-label>Menu</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="navp collapse" id="nav-panel">
-    <div class="shell navp__inner">
-      <a class="navp__link" href="#services">Services</a>
-      <a class="navp__link" href="#shop">The Shop</a>
-      <a class="navp__link" href="#care">Vehicle Care</a>
-      <a class="navp__link" href="#process">Process</a>
-      <a class="navp__link" href="#reviews">Reviews</a>
-      <a class="navp__link" href="about.html">About</a>
-      <a class="navp__link" href="#contact">Contact</a>
-      <a class="navp__phone" href="tel:+15168200360"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor"><path d="M6.2 3.6h3.1l1.5 3.9-2 1.3a12 12 0 0 0 5.4 5.4l1.3-2 3.9 1.5v3.1a1.6 1.6 0 0 1-1.7 1.6A15.9 15.9 0 0 1 4.6 5.3 1.6 1.6 0 0 1 6.2 3.6Z"/></svg>(516) 820-0360</a>
-    </div>
-  </div>
-</header>
+{{> masthead }}
 
 <main id="main">
 
@@ -743,97 +676,8 @@
 <!-- ═══════════════════════════════════════════════════════════════════════════
      FOOTER
      ═══════════════════════════════════════════════════════════════════════ -->
-<footer class="ft2">
-  <div class="shell">
-    <div class="ft2__grid">
-      <div>
-        <a class="wm2 wm2--lg" href="#main" aria-label="360 Auto Care Inc — back to top">
-          <img src="assets/img/logo.svg" width="830" height="474" alt="" decoding="async">
-        </a>
-        <p class="copy copy--sm" style="margin-block-start: var(--space-4)">
-          Foreign and domestic repair, diagnostics, maintenance, NYS inspections
-          and vehicle care in Lynbrook, New York.
-        </p>
-      </div>
+{{> footer }}
 
-      <nav aria-label="Footer">
-        <ul class="ft2__links">
-          <li><a href="#services">Services</a></li>
-          <li><a href="#shop">The Shop</a></li>
-          <li><a href="#care">Vehicle Care</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <!-- ─────────────────────────────────────────────────────────────────
-           SOCIAL — PLACEHOLDER LINKS.
-           Nobody has confirmed that this shop has these accounts, let alone
-           their addresses, so the hrefs are dead on purpose rather than
-           invented. Marked data-placeholder so ?todo outlines them with the
-           other unconfirmed values. Replace with the real profiles or delete
-           the block — do not ship it as it stands. See docs/CONTENT-TODO.md.
-           ───────────────────────────────────────────────────────────────── -->
-      <div>
-        <p class="mono" style="color: var(--ink-muted)">Follow</p>
-        <ul class="soc2" data-placeholder="true">
-          <li>
-            <a class="soc2__link" href="#" aria-label="Facebook (link to be confirmed)">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
-                <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.63A22 22 0 0 0 14.3 3.5c-2.38 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8Z"/>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a class="soc2__link" href="#" aria-label="Instagram (link to be confirmed)">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7">
-                <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.75"/>
-                <circle cx="12" cy="12" r="3.9"/>
-                <circle cx="17.1" cy="6.9" r="1.05" fill="currentColor" stroke="none"/>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a class="soc2__link" href="#" aria-label="Google Business Profile (link to be confirmed)">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
-                <path d="M21.6 12.22c0-.7-.06-1.37-.18-2.02H12v3.82h5.38a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.9-1.74 2.98-4.3 2.98-7.32Z"/>
-                <path d="M12 22c2.7 0 4.96-.9 6.62-2.44l-3.24-2.5c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.06v2.58A10 10 0 0 0 12 22Z"/>
-                <path d="M6.41 13.9a6 6 0 0 1 0-3.82V7.5H3.06a10 10 0 0 0 0 9l3.35-2.6Z"/>
-                <path d="M12 5.96c1.47 0 2.79.5 3.83 1.5l2.87-2.87C16.95 2.98 14.7 2 12 2A10 10 0 0 0 3.06 7.5l3.35 2.58C7.2 7.72 9.4 5.96 12 5.96Z"/>
-              </svg>
-            </a>
-          </li>
-        </ul>
-
-        <p class="mono" style="margin-block-start: var(--space-5); color: var(--ink)">Call</p>
-        <a class="hero2__note-phone" href="tel:+15168200360" style="margin-block-start: var(--space-2)">(516)&nbsp;820-0360</a>
-        <p class="mono" style="margin-block-start: var(--space-5); color: var(--ink-muted)">Hours</p>
-        <p class="copy copy--sm" data-placeholder="true">Mon–Fri 8–18 · Sat 8–15 · Sun closed</p>
-      </div>
-    </div>
-
-    <div class="ft2__bottom">
-      <p style="margin: 0">© 2026 360 Auto Care Inc · Lynbrook, New York</p>
-      <p style="margin: 0">Preview build · content marked “to confirm”</p>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/vendor/bootstrap.bundle.min.js" defer></script>
-<script src="assets/js/reviews.data.js" defer></script>
-
-<!-- Motion. Vendored, not from a CDN: this page loads no third-party script and
-     the map iframe is already the only external request on it.
-     motion2.js runs BEFORE main.js on purpose — it strips main.js's reveal
-     hooks off this page so the two systems can never drive the same element,
-     and so main.js's three-second watchdog has nothing left to reveal. That
-     watchdog is what made the previous motion invisible: it marked all 32
-     targets arrived while the visitor was still on the first screen. -->
-<script src="assets/js/vendor/gsap.min.js" defer></script>
-<script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
-<script src="assets/js/motion2.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+{{> scripts }}
 </body>
 </html>

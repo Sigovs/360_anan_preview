@@ -1,0 +1,77 @@
+<footer class="ft2">
+  <div class="shell">
+    <div class="ft2__grid">
+      <div>
+        <a class="wm2 wm2--lg" href="{{ HOME }}#main" aria-label="360 Auto Care Inc — {{ HOME_LABEL }}">
+          <img src="assets/img/logo.svg" width="830" height="474" alt="" decoding="async">
+        </a>
+        <p class="copy copy--sm" style="margin-block-start: var(--space-4)">
+          Foreign and domestic repair, diagnostics, maintenance, NYS inspections
+          and vehicle care in Lynbrook, New York.
+        </p>
+      </div>
+
+      <nav aria-label="Footer">
+        <ul class="ft2__links">
+          <li><a href="{{ HOME }}#services">Services</a></li>
+          <li><a href="{{ HOME }}#shop">The Shop</a></li>
+          <li><a href="{{ HOME }}#care">Vehicle Care</a></li>
+          <li><a href="{{ HOME }}#process">Process</a></li>
+          <li><a href="{{ HOME }}#reviews">Reviews</a></li>
+          <li><a href="about.html"{{# ON_ABOUT }} aria-current="page"{{/ ON_ABOUT }}>About</a></li>
+          <li><a href="{{ HOME }}#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- ─────────────────────────────────────────────────────────────────
+           SOCIAL — PLACEHOLDER LINKS.
+           Nobody has confirmed that this shop has these accounts, let alone
+           their addresses, so the hrefs are dead on purpose rather than
+           invented. Marked data-placeholder so ?todo outlines them with the
+           other unconfirmed values. Replace with the real profiles or delete
+           the block — do not ship it as it stands. See docs/CONTENT-TODO.md.
+           ───────────────────────────────────────────────────────────────── -->
+      <div>
+        <p class="mono" style="color: var(--ink-muted)">Follow</p>
+        <ul class="soc2" data-placeholder="true">
+          <li>
+            <a class="soc2__link" href="#" aria-label="Facebook (link to be confirmed)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
+                <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.63A22 22 0 0 0 14.3 3.5c-2.38 0-4 1.45-4 4.12V9.9H7.6V13h2.7v8Z"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="soc2__link" href="#" aria-label="Instagram (link to be confirmed)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.75"/>
+                <circle cx="12" cy="12" r="3.9"/>
+                <circle cx="17.1" cy="6.9" r="1.05" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="soc2__link" href="#" aria-label="Google Business Profile (link to be confirmed)">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="currentColor">
+                <path d="M21.6 12.22c0-.7-.06-1.37-.18-2.02H12v3.82h5.38a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.9-1.74 2.98-4.3 2.98-7.32Z"/>
+                <path d="M12 22c2.7 0 4.96-.9 6.62-2.44l-3.24-2.5c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.06v2.58A10 10 0 0 0 12 22Z"/>
+                <path d="M6.41 13.9a6 6 0 0 1 0-3.82V7.5H3.06a10 10 0 0 0 0 9l3.35-2.6Z"/>
+                <path d="M12 5.96c1.47 0 2.79.5 3.83 1.5l2.87-2.87C16.95 2.98 14.7 2 12 2A10 10 0 0 0 3.06 7.5l3.35 2.58C7.2 7.72 9.4 5.96 12 5.96Z"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+
+        <p class="mono" style="margin-block-start: var(--space-5); color: var(--ink)">Call</p>
+        <a class="hero2__note-phone" href="{{ PHONE_HREF }}" style="margin-block-start: var(--space-2)">{{ PHONE_NBSP }}</a>
+        <p class="mono" style="margin-block-start: var(--space-5); color: var(--ink-muted)">Hours</p>
+        <p class="copy copy--sm" data-placeholder="true">Mon–Fri 8–18 · Sat 8–15 · Sun closed</p>
+      </div>
+    </div>
+
+    <div class="ft2__bottom">
+      <p style="margin: 0">© {{ YEAR }} 360 Auto Care Inc · Lynbrook, New York</p>
+      <p style="margin: 0">Preview build · content marked “to confirm”</p>
+    </div>
+  </div>
+</footer>

@@ -947,6 +947,198 @@ h4 {
   .hero2__note { display: none; }
 }
 
+// ── Page head · the interior-page counterpart to the hero ───────────────────
+// An interior page cannot open with .hero2. The hero is a full-viewport
+// photographic ground with the type carried to the very bottom of the screen,
+// and it works because it is the FIRST thing in the document — it earns the
+// whole screen by being the page's arrival. Cloning it on page two gives every
+// page the same rank as the homepage, which is another way of saying no page
+// has rank. So this is the same photographic language at a third of the height:
+// it establishes the register, states what the page is, and hands over.
+//
+// Height is bounded on both sides. The floor keeps the type mass off the
+// masthead at small heights; the ceiling stops a long-format screen turning the
+// head back into a hero.
+.phead {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  min-block-size: clamp(19rem, 34svh + 9rem, 27rem);
+  display: flex;
+}
+
+.phead__media {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
+}
+
+.phead__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  // The lit bays and the entrance sit right of centre in this frame and the
+  // left quarter is open tarmac and sky. Holding the crop right keeps the
+  // building whole and leaves the type its own field, rather than setting the
+  // headline over the brightest part of the photograph and then rescuing it.
+  object-position: 68% 52%;
+}
+
+// Three passes, measured on the composited render — figures in
+// docs/CONTENT-TODO.md.
+//
+// The LEFT pass is the one this composition needs and the hero does not. The
+// type mass here occupies the left half from 22% down, and the subject — the
+// lit bays and the entrance — sits on the right. A bottom-up scrim deep enough
+// to carry type that high would have to darken the whole frame including the
+// building. Carrying the left column instead costs the photograph nothing: the
+// eyebrow measured 2.57:1 against the 4.5 it owes, on warm tarmac at 51% width.
+//
+// The bottom-up and top passes do the same jobs they do on the hero: the type
+// mass, and the masthead, which is transparent until it scrolls.
+.phead__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background:
+    linear-gradient(to right,
+      rgb(8 8 13 / .78) 0%,
+      rgb(8 8 13 / .66) 30%,
+      rgb(8 8 13 / .44) 52%,
+      rgb(8 8 13 / .12) 72%,
+      rgb(8 8 13 / 0) 88%),
+    linear-gradient(to top,
+      rgb(8 8 13 / .86) 0%,
+      rgb(8 8 13 / .62) 22%,
+      rgb(8 8 13 / .34) 46%,
+      rgb(8 8 13 / .10) 72%,
+      rgb(8 8 13 / 0) 92%),
+    linear-gradient(to bottom, rgb(8 8 13 / .82) 0%, rgb(8 8 13 / 0) 26%);
+}
+
+// One column: the panel spans the full width, so the left pass now falls INSIDE
+// the type instead of beside it and stops separating anything. Measured, the
+// lead came out at 3.22:1 against the 4.5 it owes — the horizontal construction
+// is a desktop answer to a desktop composition, and it does not survive the
+// stack. Below the breakpoint the frame goes back to a deep bottom-up pass, and
+// the subject is protected by the crop rather than by an empty column.
+@media (max-width: 61.9375rem) {
+  .phead__media::after {
+    background:
+      linear-gradient(to top,
+        rgb(8 8 13 / .95) 0%,
+        rgb(8 8 13 / .90) 36%,
+        rgb(8 8 13 / .74) 58%,
+        rgb(8 8 13 / .34) 80%,
+        rgb(8 8 13 / 0) 100%),
+      linear-gradient(to bottom, rgb(8 8 13 / .84) 0%, rgb(8 8 13 / 0) 24%);
+  }
+}
+
+// One rank up from the section eyebrow's default, for the same reason index2's
+// hero eyebrow was raised: the scrim that would carry --ink-muted this high in
+// the frame also flattens the subject. A 12px mono label tracked .16em cannot be
+// mistaken for the lead at any tone, so the rank stays unambiguous.
+.phead .eyebrow { color: var(--ink-body); }
+
+.phead .shell {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  align-items: flex-end;
+  inline-size: 100%;
+}
+
+.phead__panel {
+  padding-block: calc(var(--mh-h) + var(--space-6)) var(--space-8);
+  max-inline-size: 46rem;
+}
+
+.phead__title { margin-block: var(--space-3) 0; }
+
+.phead__lead {
+  margin-block-start: var(--space-4);
+  max-inline-size: 38rem;
+}
+
+// ── Moment · one full-bleed photograph carrying one line ────────────────────
+// The page's single loud mass, and the only one that bleeds past the shell. It
+// is a counterweight, not a decoration: the two masses on either side of it are
+// a hairline rail and a text split, and without something with real tonal
+// weight between them the page reads as one long grey column.
+//
+// One line of type, and nothing else. A second element here would turn the
+// gesture into a section and it would need to compete with the split above it,
+// which is the page's actual dominant.
+.moment2 {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  min-block-size: clamp(17rem, 44svh, 26rem);
+  display: flex;
+}
+
+.moment2__media { position: absolute; inset: 0; z-index: var(--z-media); }
+
+.moment2__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  // The frame was art-directed with the technicians right of centre and the
+  // left third left empty, so the crop holds left and the line sits in space
+  // the photograph already gave it.
+  object-position: 62% 50%;
+}
+
+.moment2__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background:
+    linear-gradient(to right,
+      rgb(8 8 13 / .90) 0%,
+      rgb(8 8 13 / .78) 32%,
+      rgb(8 8 13 / .34) 62%,
+      rgb(8 8 13 / .12) 100%),
+    linear-gradient(to top, rgb(8 8 13 / .55) 0%, rgb(8 8 13 / 0) 42%);
+}
+
+.moment2 .shell {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+}
+
+.moment2__line {
+  max-inline-size: 30rem;
+  padding-block: var(--space-8);
+}
+
+@media (max-width: 47.9375rem) {
+  // One column: the empty left third stops existing, so the scrim becomes a
+  // bottom-up pass and the line goes under the subject rather than beside it.
+  .moment2__media::after {
+    background:
+      linear-gradient(to top,
+        rgb(8 8 13 / .93) 0%,
+        rgb(8 8 13 / .84) 42%,
+        rgb(8 8 13 / .40) 72%,
+        rgb(8 8 13 / 0) 100%);
+  }
+  .moment2 .shell { align-items: flex-end; }
+  .moment2__line { max-inline-size: none; padding-block: var(--space-7); }
+}
+
 // ── Rail · four hairline spec cards ─────────────────────────────────────────
 .rail2 { background: var(--g-base); border-block: var(--rule) solid var(--line); }
 

@@ -5733,6 +5733,126 @@ h4, .h4 {
     display: none;
   }
 }
+.phead {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  min-block-size: clamp(19rem, 34svh + 9rem, 27rem);
+  display: flex;
+}
+
+.phead__media {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
+}
+
+.phead__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 68% 52%;
+}
+
+.phead__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(8, 8, 13, 0.78) 0%, rgba(8, 8, 13, 0.66) 30%, rgba(8, 8, 13, 0.44) 52%, rgba(8, 8, 13, 0.12) 72%, rgba(8, 8, 13, 0) 88%), linear-gradient(to top, rgba(8, 8, 13, 0.86) 0%, rgba(8, 8, 13, 0.62) 22%, rgba(8, 8, 13, 0.34) 46%, rgba(8, 8, 13, 0.1) 72%, rgba(8, 8, 13, 0) 92%), linear-gradient(to bottom, rgba(8, 8, 13, 0.82) 0%, rgba(8, 8, 13, 0) 26%);
+}
+
+@media (max-width: 61.9375rem) {
+  .phead__media::after {
+    background: linear-gradient(to top, rgba(8, 8, 13, 0.95) 0%, rgba(8, 8, 13, 0.9) 36%, rgba(8, 8, 13, 0.74) 58%, rgba(8, 8, 13, 0.34) 80%, rgba(8, 8, 13, 0) 100%), linear-gradient(to bottom, rgba(8, 8, 13, 0.84) 0%, rgba(8, 8, 13, 0) 24%);
+  }
+}
+.phead .eyebrow {
+  color: var(--ink-body);
+}
+
+.phead .shell {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  align-items: flex-end;
+  inline-size: 100%;
+}
+
+.phead__panel {
+  padding-block: calc(var(--mh-h) + var(--space-6)) var(--space-8);
+  max-inline-size: 46rem;
+}
+
+.phead__title {
+  margin-block: var(--space-3) 0;
+}
+
+.phead__lead {
+  margin-block-start: var(--space-4);
+  max-inline-size: 38rem;
+}
+
+.moment2 {
+  position: relative;
+  isolation: isolate;
+  background: var(--g-deep);
+  min-block-size: clamp(17rem, 44svh, 26rem);
+  display: flex;
+}
+
+.moment2__media {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-media);
+}
+
+.moment2__media img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+
+.moment2__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-scrim);
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(8, 8, 13, 0.9) 0%, rgba(8, 8, 13, 0.78) 32%, rgba(8, 8, 13, 0.34) 62%, rgba(8, 8, 13, 0.12) 100%), linear-gradient(to top, rgba(8, 8, 13, 0.55) 0%, rgba(8, 8, 13, 0) 42%);
+}
+
+.moment2 .shell {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+}
+
+.moment2__line {
+  max-inline-size: 30rem;
+  padding-block: var(--space-8);
+}
+
+@media (max-width: 47.9375rem) {
+  .moment2__media::after {
+    background: linear-gradient(to top, rgba(8, 8, 13, 0.93) 0%, rgba(8, 8, 13, 0.84) 42%, rgba(8, 8, 13, 0.4) 72%, rgba(8, 8, 13, 0) 100%);
+  }
+  .moment2 .shell {
+    align-items: flex-end;
+  }
+  .moment2__line {
+    max-inline-size: none;
+    padding-block: var(--space-7);
+  }
+}
 .rail2 {
   background: var(--g-base);
   border-block: var(--rule) solid var(--line);

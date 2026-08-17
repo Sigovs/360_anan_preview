@@ -1,0 +1,61 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MASTHEAD
+     ═══════════════════════════════════════════════════════════════════════ -->
+<header class="mh" data-masthead data-solid-after="{{ SOLID_AFTER }}">
+  <div class="shell">
+    <div class="mh__inner">
+      <a class="wm2" href="{{ HOME }}#main" aria-label="360 Auto Care Inc — {{ HOME_LABEL }}">
+        <img src="assets/img/logo.svg" width="830" height="474" alt="" decoding="async">
+      </a>
+
+      <!-- Four, not six. The shell stops growing at 1440 while the wordmark, the
+           number and the CTA keep growing with the viewport, so six labels plus
+           a phone mark left the primary action wrapping onto two lines. The Shop
+           and Process are the two a visitor reaches by scrolling anyway, and
+           both keep their place in the mobile menu and in the footer — nothing
+           became unreachable, the masthead just stopped carrying everything.
+
+           About is the fifth, and it is here rather than in the overflow because
+           it is the only entry that is a PAGE — a section can be reached by
+           scrolling, a page cannot, so hiding it behind the menu button is the
+           one case where the overflow route actually costs reachability. It was
+           measured back in at every width from the nav's own breakpoint up; the
+           label is short, which is why five fits where six did not. -->
+      <nav class="mh__nav" aria-label="Primary">
+        <a class="mh__link" href="{{ HOME }}#services">Services</a>
+        <a class="mh__link" href="{{ HOME }}#care">Vehicle Care</a>
+        <a class="mh__link" href="{{ HOME }}#reviews">Reviews</a>
+        <a class="mh__link" href="about.html"{{# ON_ABOUT }} aria-current="page"{{/ ON_ABOUT }}>About</a>
+        <a class="mh__link" href="{{ HOME }}#contact">Contact</a>
+      </nav>
+
+      <div class="mh__end">
+        <a class="mh__phone" href="{{ PHONE_HREF }}">
+          {{> icon-phone }}<span aria-hidden="true">{{ PHONE_DISPLAY }}</span>
+          <span class="sr-only">Call the shop on 516 820 0360</span>
+        </a>
+        <a class="btn2 btn2--primary mh__cta" href="{{ HOME }}#contact">
+          Get started <span class="btn2__mark" aria-hidden="true">→</span>
+        </a>
+        <button class="navt" type="button" data-nav-toggle
+                aria-expanded="false" aria-controls="nav-panel">
+          <span class="navt__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span data-nav-label>Menu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="navp collapse" id="nav-panel">
+    <div class="shell navp__inner">
+      <a class="navp__link" href="{{ HOME }}#services">Services</a>
+      <a class="navp__link" href="{{ HOME }}#shop">The Shop</a>
+      <a class="navp__link" href="{{ HOME }}#care">Vehicle Care</a>
+      <a class="navp__link" href="{{ HOME }}#process">Process</a>
+      <a class="navp__link" href="{{ HOME }}#reviews">Reviews</a>
+      <a class="navp__link" href="about.html"{{# ON_ABOUT }} aria-current="page"{{/ ON_ABOUT }}>About</a>
+      <a class="navp__link" href="{{ HOME }}#contact">Contact</a>
+      <a class="navp__phone" href="{{ PHONE_HREF }}">{{> icon-phone }}{{ PHONE_DISPLAY }}</a>
+    </div>
+  </div>
+</header>

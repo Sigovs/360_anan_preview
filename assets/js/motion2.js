@@ -28,15 +28,24 @@
      no GSAP, a thrown error or reduced motion all end on the finished page.
    · Only transform, opacity, clip-path and colour are animated. Never layout.
    · Every hover behaviour has a focus equivalent.
-   · This file no-ops entirely unless `.hero2` is in the document, so index.html
-     is unaffected even if it ever loads the bundle.
+   · This file no-ops entirely unless the page opts in with `data-motion2` on
+     <html> or a `.hero2` in the document, so index.html is unaffected even if it
+     ever loads the bundle.
+
+   THE HERO IS OPTIONAL. Interior pages in this family open with `.phead`, not
+   with the full-screen hero, and everything below the first screen is bound
+   generically: a section carrying `data-scene="left|right"` gets the same
+   entrance the homepage's own sections get, with no JavaScript per page. That
+   is the whole point — a new page should cost markup, not a motion rewrite.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 (() => {
   'use strict';
 
   const hero = document.querySelector('.hero2');
-  if (!hero) return;                                   // not index2
+  const root0 = document.documentElement;
+  // index2 is recognised by its hero; every other page in the family opts in.
+  if (!hero && !root0.hasAttribute('data-motion2')) return;
   if (!window.gsap || !window.ScrollTrigger) return;   // library missing → static page stands
 
   const gsap = window.gsap;
@@ -211,64 +220,69 @@
 
       /* ── 1 · HERO ────────────────────────────────────────────────────────
          A composed opening, ~2.0s. The photograph is already on screen; what
-         plays is the shop coming up on it. */
-      const heroImg   = hero.querySelector('.hero2__media img');
-      const heroLines = [...hero.querySelectorAll('.hero2__line')];
-      const heroEyebrow = hero.querySelector('.eyebrow');
-      const heroLead  = hero.querySelector('.hero2__lead');
-      const heroCta   = hero.querySelector('.hero2__actions');
-      const heroNote  = hero.querySelector('.hero2__note');
-      const heroFrame = hero.querySelector('.hero2__media');
-      const heroRule  = ruleFor(hero.querySelector('.hero2__panel'), 'trule--hero');
+         plays is the shop coming up on it.
 
-      // The headline lines are authored, so they only need their masks.
-      heroLines.forEach((l) => {
-        const outer = document.createElement('span');
-        outer.className = 'ml';
-        l.parentNode.insertBefore(outer, l);
-        outer.appendChild(l);
-        l.classList.add('ml__i');
-      });
+         Only index2 has one. Interior pages open with `.phead`, whose entrance
+         is the generic one at the foot of this build. */
+      if (hero) {
+        const heroImg   = hero.querySelector('.hero2__media img');
+        const heroLines = [...hero.querySelectorAll('.hero2__line')];
+        const heroEyebrow = hero.querySelector('.eyebrow');
+        const heroLead  = hero.querySelector('.hero2__lead');
+        const heroCta   = hero.querySelector('.hero2__actions');
+        const heroNote  = hero.querySelector('.hero2__note');
+        const heroFrame = hero.querySelector('.hero2__media');
+        const heroRule  = ruleFor(hero.querySelector('.hero2__panel'), 'trule--hero');
 
-      if (reduce) {
-        // Static equivalent: everything at its resting value, nothing to play.
-        gsap.set([heroImg, ...heroLines, heroEyebrow, heroLead, heroCta, heroNote],
-          { clearProps: 'all' });
-        gsap.set(heroRule, { scaleX: 1 });
-      } else {
-        const c1 = curtain(heroFrame, 'right');
-
-        gsap.set(heroImg, { scale: M('heroFrom'), xPercent: 1.4, transformOrigin: '60% 50%' });
-        gsap.set(heroRule, { scaleX: 0 });
-        gsap.set(heroEyebrow, { x: -M('sub'), autoAlpha: 0 });
-        gsap.set(heroLines, { yPercent: 112 });
-        gsap.set(heroLead, { y: M('sub'), autoAlpha: 0 });
-        gsap.set(heroCta, { x: -M('lead') * 0.65, autoAlpha: 0 });
-        gsap.set(heroNote, { y: M('sub'), autoAlpha: 0 });
-
-        const tl = gsap.timeline({ defaults: { ease: E.content } });
-
-        tl.to(c1, { ...curtainOut(c1, 'right'), duration: 1.15, ease: 'power3.inOut' }, 0)
-          .to(heroImg, { scale: 1, xPercent: 0, duration: 1.9, ease: E.hero }, 0.1)
-          .to(heroRule, { scaleX: 1, duration: D.line, ease: E.line }, 0.55)
-          .to(heroEyebrow, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 0.62)
-          .to(heroLines, { yPercent: 0, duration: D.head, ease: E.lead, stagger: 0.105 }, 0.72)
-          .to(heroLead, { y: 0, autoAlpha: 1, duration: D.content, ease: E.content }, 1.12)
-          .to(heroCta, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 1.28)
-          .to(heroNote, { y: 0, autoAlpha: 1, duration: D.content, ease: E.content }, 1.44)
-          .add(() => hero.classList.add('is-open'), 1.5);   // releases the light sweep
-
-        // Scrubbed depth: the frame drifts against the type as the hero leaves.
-        gsap.to(heroImg, {
-          yPercent: M('scrub'),
-          ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 }
+        // The headline lines are authored, so they only need their masks.
+        heroLines.forEach((l) => {
+          const outer = document.createElement('span');
+          outer.className = 'ml';
+          l.parentNode.insertBefore(outer, l);
+          outer.appendChild(l);
+          l.classList.add('ml__i');
         });
-        gsap.to(hero.querySelector('.hero2__panel'), {
-          yPercent: -M('scrub') * 0.55,
-          ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 }
-        });
+
+        if (reduce) {
+          // Static equivalent: everything at its resting value, nothing to play.
+          gsap.set([heroImg, ...heroLines, heroEyebrow, heroLead, heroCta, heroNote],
+            { clearProps: 'all' });
+          gsap.set(heroRule, { scaleX: 1 });
+        } else {
+          const c1 = curtain(heroFrame, 'right');
+
+          gsap.set(heroImg, { scale: M('heroFrom'), xPercent: 1.4, transformOrigin: '60% 50%' });
+          gsap.set(heroRule, { scaleX: 0 });
+          gsap.set(heroEyebrow, { x: -M('sub'), autoAlpha: 0 });
+          gsap.set(heroLines, { yPercent: 112 });
+          gsap.set(heroLead, { y: M('sub'), autoAlpha: 0 });
+          gsap.set(heroCta, { x: -M('lead') * 0.65, autoAlpha: 0 });
+          gsap.set(heroNote, { y: M('sub'), autoAlpha: 0 });
+
+          const tl = gsap.timeline({ defaults: { ease: E.content } });
+
+          tl.to(c1, { ...curtainOut(c1, 'right'), duration: 1.15, ease: 'power3.inOut' }, 0)
+            .to(heroImg, { scale: 1, xPercent: 0, duration: 1.9, ease: E.hero }, 0.1)
+            .to(heroRule, { scaleX: 1, duration: D.line, ease: E.line }, 0.55)
+            .to(heroEyebrow, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 0.62)
+            .to(heroLines, { yPercent: 0, duration: D.head, ease: E.lead, stagger: 0.105 }, 0.72)
+            .to(heroLead, { y: 0, autoAlpha: 1, duration: D.content, ease: E.content }, 1.12)
+            .to(heroCta, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 1.28)
+            .to(heroNote, { y: 0, autoAlpha: 1, duration: D.content, ease: E.content }, 1.44)
+            .add(() => hero.classList.add('is-open'), 1.5);   // releases the light sweep
+
+          // Scrubbed depth: the frame drifts against the type as the hero leaves.
+          gsap.to(heroImg, {
+            yPercent: M('scrub'),
+            ease: 'none',
+            scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 }
+          });
+          gsap.to(hero.querySelector('.hero2__panel'), {
+            yPercent: -M('scrub') * 0.55,
+            ease: 'none',
+            scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.6 }
+          });
+        }
       }
 
       /* ── Section scene ───────────────────────────────────────────────────
@@ -299,14 +313,14 @@
         if (rule) gsap.set(rule, { scaleX: 0 });
         gsap.set(copy, { y: M('sub'), autoAlpha: 0 });
 
-        gsap.timeline({
+        const tl = gsap.timeline({
           scrollTrigger: { trigger: section, start: 'top 78%', once: true },
           defaults: { ease: E.content }
         })
           .to(label, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead })
           .to(inners, { yPercent: 0, duration: D.head, ease: E.lead, stagger: 0.09 }, 0.1)
-          .to(rule || {}, { scaleX: 1, duration: D.line, ease: E.line }, 0.34)
           .to(copy, { y: 0, autoAlpha: 1, duration: D.content, stagger: 0.07 }, 0.42);
+        if (rule) tl.to(rule, { scaleX: 1, duration: D.line, ease: E.line }, 0.34);
 
         return { heading, inners };
       };
@@ -576,6 +590,107 @@
           .to(canvas, { autoAlpha: 1, duration: D.section, ease: E.content }, 0.15)
           .to(mapBar, { y: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 0.6);
       }
+
+      /* ── 10 · PAGE HEAD — the interior-page opening ───────────────────────
+         Shorter than the hero's and deliberately so. The hero is an arrival and
+         takes two seconds to land; a head on page two is a caption on a
+         photograph, and a visitor who followed a link is already reading. Same
+         vocabulary — curtain, masked lines, rule — at about half the duration,
+         and it plays on load rather than on scroll because it is already in
+         view. */
+      const phead = document.querySelector('.phead');
+      if (phead) {
+        const pTitle = phead.querySelector('.phead__title');
+        const pLabel = phead.querySelector('.eyebrow');
+        const pLead  = phead.querySelector('.phead__lead');
+        const pFrame = phead.querySelector('.phead__media');
+        const pImg   = phead.querySelector('.phead__media img');
+        // --sec, not --hero: the hero's modifier carries `order: -1` for its flex
+        // panel, and .phead__panel is a plain block. The rule punctuates the
+        // headline here exactly as it does in a section.
+        const pRule  = ruleFor(phead.querySelector('.phead__panel'), 'trule--sec', pTitle);
+
+        if (reduce) {
+          gsap.set([pImg, pTitle, pLabel, pLead], { clearProps: 'all' });
+          if (pRule) gsap.set(pRule, { scaleX: 1 });
+        } else {
+          const inners = pTitle ? splitLines(pTitle) : [];
+          const c = curtain(pFrame, 'right');
+
+          gsap.set(pImg, { scale: M('imgFrom'), transformOrigin: '60% 50%' });
+          gsap.set(pLabel, { x: -M('sub'), autoAlpha: 0 });
+          gsap.set(inners, { yPercent: 112 });
+          gsap.set(pLead, { y: M('sub'), autoAlpha: 0 });
+          if (pRule) gsap.set(pRule, { scaleX: 0 });
+
+          const ptl = gsap.timeline({ defaults: { ease: E.content } })
+            .to(c, { ...curtainOut(c, 'right'), duration: 0.9, ease: 'power3.inOut' }, 0)
+            .to(pImg, { scale: 1, duration: 1.4, ease: E.hero }, 0.08)
+            .to(pLabel, { x: 0, autoAlpha: 1, duration: D.content, ease: E.lead }, 0.38)
+            .to(inners, { yPercent: 0, duration: D.head, ease: E.lead, stagger: 0.095 }, 0.46)
+            .to(pLead, { y: 0, autoAlpha: 1, duration: D.content }, 0.78);
+          if (pRule) ptl.to(pRule, { scaleX: 1, duration: D.line, ease: E.line }, 0.34);
+
+          gsap.to(pImg, {
+            yPercent: M('scrub'), ease: 'none',
+            scrollTrigger: { trigger: phead, start: 'top top', end: 'bottom top', scrub: 0.6 }
+          });
+        }
+      }
+
+      /* ── 11 · MOMENT — the full-bleed band ────────────────────────────────
+         One line over one photograph. The curtain goes up rather than sideways
+         because this mass is wider than it is tall and a horizontal panel would
+         be travelling for most of a second across an otherwise still page. */
+      document.querySelectorAll('.moment2').forEach((band) => {
+        const frame = band.querySelector('.moment2__media');
+        const line  = band.querySelector('.moment2__line');
+        if (!frame) return;
+        if (reduce) { gsap.set(line, { clearProps: 'all' }); return; }
+
+        revealFrame(frame, 'up', { trigger: band, start: 'top 78%', scrubTo: M('scrub') });
+
+        const heading = line ? line.querySelector('h2, p') : null;
+        if (!heading) return;
+        const inners = splitLines(heading);
+        gsap.set(inners, { yPercent: 110 });
+        gsap.to(inners, {
+          yPercent: 0, duration: D.head, ease: E.lead, stagger: 0.09,
+          scrollTrigger: { trigger: band, start: 'top 72%', once: true }
+        });
+      });
+
+      /* ── 12 · GENERIC SECTIONS ────────────────────────────────────────────
+         Everything above binds a section of index2 by name, because each one
+         has a composition of its own. This binds anything else that asks, and
+         it is what makes a new page cost markup instead of JavaScript:
+
+           <section class="band" data-scene="right">   label → heading → rule → copy
+           …with a .split2__media inside                 …and the frame gets a curtain
+
+         `data-scene` names the side the TEXT is on, matching the reasoning in
+         4b — the type arrives from its own column rather than across the
+         picture. Sections already handled above are skipped, so adding the
+         attribute to one of them is harmless rather than a double-bind. */
+      const NAMED = ['#services', '#shop', '#protection', '#care', '#process',
+                     '#reviews', '#contact'];
+      const claimed = new Set(NAMED.map((s) => document.querySelector(s)).filter(Boolean));
+
+      document.querySelectorAll('[data-scene]').forEach((section) => {
+        if (claimed.has(section)) return;
+        const dir = section.dataset.scene === 'right' ? 'right' : 'left';
+        scene(section, { dir });
+
+        const frame = section.querySelector('.split2__media');
+        if (!frame || reduce) return;
+        revealFrame(frame, 'up', { start: 'top 80%', scrubTo: M('scrub') });
+        const img = frame.querySelector(':scope > img');
+        if (img) {
+          gsap.fromTo(img, { filter: 'brightness(0.45) contrast(1.05)' },
+            { filter: 'brightness(1) contrast(1)', duration: D.section, ease: E.content,
+              scrollTrigger: { trigger: frame, start: 'top 80%', once: true } });
+        }
+      });
     });   // no scope element: selector strings inside must resolve against the document
   };
 
@@ -622,7 +737,7 @@
     document.querySelectorAll('.curtain, .panel-wipe').forEach((n) => n.remove());
     document.querySelectorAll('.trule:not(.rule-draw)').forEach((n) => n.remove());
     document.querySelectorAll('.rule-draw').forEach((n) => n.classList.remove('trule', 'trule--sec'));
-    hero.classList.remove('is-open');
+    if (hero) hero.classList.remove('is-open');   // interior pages have no hero
     start();
   }
 

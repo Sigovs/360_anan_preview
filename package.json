@@ -9,7 +9,8 @@
     "watch": "sass --watch src/scss/main.scss:assets/css/main.css --load-path=node_modules --style=expanded --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions",
     "js": "cp src/js/main.js src/js/reviews.data.js src/js/motion2.js assets/js/",
     "vendor": "cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js assets/js/vendor/bootstrap.bundle.min.js && cp node_modules/gsap/dist/gsap.min.js node_modules/gsap/dist/ScrollTrigger.min.js assets/js/vendor/",
-    "build": "npm run css && npm run css:min && npm run css2 && npm run css2:min && npm run js && npm run vendor",
+    "pages": "node tools/build-pages.mjs",
+    "build": "npm run css && npm run css:min && npm run css2 && npm run css2:min && npm run js && npm run vendor && npm run pages",
     "serve": "npx --yes live-server --port=5188 --no-browser .",
     "css2": "sass src/scss/main2.scss assets/css/main2.css --load-path=node_modules --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions --style=expanded",
     "css2:min": "sass src/scss/main2.scss assets/css/main2.min.css --load-path=node_modules --no-source-map --quiet-deps --silence-deprecation=import,global-builtin,color-functions --style=compressed"

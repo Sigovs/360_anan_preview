@@ -1,0 +1,14 @@
+<script src="assets/js/vendor/bootstrap.bundle.min.js" defer></script>
+{{# NEEDS_REVIEWS }}<script src="assets/js/reviews.data.js" defer></script>
+{{/ NEEDS_REVIEWS }}
+<!-- Motion. Vendored, not from a CDN: this page loads no third-party script and
+     the map iframe is already the only external request on it.
+     motion2.js runs BEFORE main.js on purpose — it strips main.js's reveal
+     hooks off this page so the two systems can never drive the same element,
+     and so main.js's three-second watchdog has nothing left to reveal. That
+     watchdog is what made the previous motion invisible: it marked all 32
+     targets arrived while the visitor was still on the first screen. -->
+<script src="assets/js/vendor/gsap.min.js" defer></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/motion2.js" defer></script>
+<script src="assets/js/main.js" defer></script>

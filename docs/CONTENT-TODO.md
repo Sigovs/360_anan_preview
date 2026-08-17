@@ -109,6 +109,40 @@ Three frames carry small artefacts worth knowing about:
 - `warranty-workorder.jpg` — the form on the clipboard reads as a generic
   service work order. Deliberately shallow-focused, but legible enough to notice.
 
+## 8 · `about.html` — four facts, and the building  ⚠ THE MOST EXPOSED PAGE
+
+An about page runs on exactly the facts nobody has supplied, so this one is
+built from what IS known — the address, the number, the service taxonomy and
+the shop's own stated practice — and everything else is marked rather than
+written. **Do not fill these in with something plausible.** "Family owned since
+1998" is the failure this file exists to prevent, and on an about page it is a
+claim a customer will repeat back to you.
+
+Marked with `data-placeholder="true"` in the record plate, so `?todo` outlines
+them:
+
+| Row | What is needed |
+|---|---|
+| **Established** | The year the business started trading |
+| **Technicians** | How many, and whether that number is stable enough to print |
+| **Certifications** | ASE, manufacturer training, state licences, trade bodies — whatever is real and current |
+| **Hours** | Same unconfirmed value as §3; it is the same fact in a second place |
+
+**The photography is more of a problem here than anywhere else on the site.**
+Elsewhere a generated frame reads as art direction. On an about page a building
+reads as *this building* and a face reads as *this person*, and neither is true:
+
+- `shop-exterior.jpg` in the page head is a generated exterior, not 10 N
+  Prospect Ave. The alt text describes the frame and deliberately makes no claim
+  about whose building it is, but a visitor will read it as the shop. **This is
+  the first image to replace with a real photograph**, ahead of every other
+  frame on the site.
+- No image on this page is captioned as staff, and there is no "meet the team"
+  block, for the same reason — a generated person presented as an employee is a
+  false statement about who works there. When real photographs of the actual
+  people exist, that block becomes worth adding; until then its absence is the
+  honest answer, not an omission to fix.
+
 ---
 
 ## Measured contrast
@@ -197,6 +231,34 @@ now runs one rank up, at `--ink-body`; the rank is still unambiguous because a
 
 **If any image is replaced, re-measure.** The scrims are tuned to these
 photographs.
+
+### `about.html` — type over the page head and the moment band, worst pixel
+
+Measured the same way: on the composited render, over the glyph runs themselves
+rather than the block boxes, with `document.fonts.size` at 43 before any figure
+was taken.
+
+| Element | 390×844 | 768×1024 | 1440×900 | 1920×1080 | Needs |
+|---|---|---|---|---|---|
+| head eyebrow, 12px `--ink-body` | 6.64:1 | 5.63:1 | 7.46:1 | 7.66:1 | 4.5 |
+| head H1 | 9.58:1 | 9.17:1 | 7.48:1 | 5.16:1 | 3.0 |
+| head lead, 17–20px | 7.40:1 | 8.01:1 | 7.33:1 | 7.18:1 | 4.5 |
+| moment line, 28–46px | 14.24:1 | 10.19:1 | 17.07:1 | 9.30:1 | 3.0 |
+
+**The head's scrim is horizontal above 62rem and vertical below it, and that is
+not a detail.** The type mass occupies the left half on wide formats while the
+subject — the lit bays and the entrance — sits on the right, so the left column
+is carried deep and the building keeps its own contrast. Stacked, the panel goes
+full-width, the horizontal pass falls *inside* the type instead of beside it,
+and it stops separating anything: the lead measured **3.22:1** that way, against
+the 4.5 it owes. The narrow breakpoint restores a deep bottom-up pass.
+
+Two figures to watch. The eyebrow runs at `--ink-body`, one rank above the
+section default, for the same reason index2's hero eyebrow does — the scrim deep
+enough to carry `--ink-muted` that high in the frame also flattens the subject.
+And the H1's 5.16:1 at 1920 is the tightest number on the page; it is well over
+the 3.0 large text owes, but it is the one that moves if the display rank is
+raised again.
 
 ---
 

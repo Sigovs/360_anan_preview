@@ -1,0 +1,366 @@
+<!---
+TITLE:        About — 360 Auto Care Inc · Lynbrook, NY
+DESCRIPTION:  An independent repair shop in Lynbrook, New York, working on foreign and domestic vehicles. How the work is decided, and what the shop is set up for.
+HOME:         index2.html
+HOME_LABEL:   to the home page
+SOLID_AFTER:  .phead
+ON_ABOUT:     true
+--->
+<!doctype html>
+<html lang="en" data-motion2>
+<head>
+{{> head }}
+</head>
+
+<body>
+
+<a class="sr-only" href="#main">Skip to content</a>
+
+{{> masthead }}
+
+<main id="main">
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     PAGE HEAD
+     The interior-page counterpart to index2's hero, at roughly a third of the
+     height. The hero earns a full screen by being the page's arrival; a visitor
+     who followed a link here is already reading, and giving page two the same
+     opening would give every page the homepage's rank — which is another way of
+     saying no page has one.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="phead" aria-labelledby="about-title">
+  <div class="phead__media">
+    <!-- PLACEHOLDER PHOTOGRAPH. Generated art direction, not a photograph of
+         this shop or its building — see docs/CONTENT-TODO.md §7. The alt text
+         describes the frame and deliberately does not claim it is 10 N Prospect
+         Ave, because it is not. Replace with a real exterior before launch;
+         this is the one image on the site where a stand-in makes a statement
+         about the business rather than setting a mood. -->
+    <img src="assets/img/shop-exterior.jpg" width="2000" height="939" fetchpriority="high" decoding="async"
+         data-placeholder="true"
+         alt="An independent repair shop at dusk: four bay doors along the side of the building, lit warm from inside, and a lit office entrance at the corner. Wet tarmac in front reflects the light.">
+  </div>
+
+  <div class="shell">
+    <div class="phead__panel">
+      <p class="eyebrow">About the shop</p>
+      <h1 class="phead__title" id="about-title">A shop that finds out before it replaces</h1>
+      <p class="lead phead__lead">
+        360 Auto Care is an independent repair shop on North Prospect Avenue in
+        Lynbrook, working on foreign and domestic vehicles — the commuters,
+        family cars, work vans and pickups people actually depend on.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     THE PRINCIPLE — the page's dominant mass
+     The one thing about this business that is both true and specific enough to
+     build a page on. It is index2's own line, given the room to be an argument
+     instead of a caption.
+
+     data-scene="right": the label, heading and copy arrive from the right,
+     which is the side the TEXT is on. Same reasoning as the homepage's split
+     sections — the type enters from its own column rather than across the
+     picture.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="band" id="method" data-scene="right">
+  <div class="shell">
+    <div class="row g-0 gy-7 gy-lg-0">
+      <div class="col-lg-6 d-lg-flex">
+        <div class="split2__media split2__media--fill">
+          <img src="assets/img/inspection-lift.jpg" width="1800" height="1013" loading="lazy" decoding="async"
+               data-placeholder="true"
+               alt="A sedan raised chest-high on a lift, a technician holding a flashlight into the front subframe while checking it over.">
+        </div>
+      </div>
+
+      <div class="col-lg-5 offset-lg-1">
+        <p class="eyebrow">How the work is decided</p>
+        <h2 class="mask-line">Nothing gets replaced to find out whether it was the problem</h2>
+        <span class="rule-draw" aria-hidden="true"></span>
+        <p class="copy" style="margin-block-start: var(--space-5)">
+          A fault is identified on equipment before a part is ordered. It is a
+          slower way to start a job and a faster way to finish one: what the
+          diagnosis finds is what gets replaced, and nothing else does.
+        </p>
+
+        <div class="split2__subs">
+          <div class="split2__sub">
+            <h3 class="subhead">What the work covers</h3>
+            <p class="copy copy--sm">
+              Routine maintenance through to major repair — diagnostics, brakes,
+              tires and alignment, climate, state inspection, detailing and
+              pre-purchase checks.
+            </p>
+          </div>
+          <div class="split2__sub">
+            <h3 class="subhead">What comes through the bays</h3>
+            <p class="copy copy--sm">
+              Imported and domestic cars, crossovers, vans and light trucks.
+            </p>
+          </div>
+        </div>
+
+        <p style="margin-block-start: var(--space-7)">
+          <a class="btn2 btn2--secondary" href="index2.html#services">
+            See the services <span class="btn2__mark" aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     WHO IT IS FOR — a text band, no photograph
+     The page's only mass made entirely of type. It sits between two picture
+     splits on purpose: three photo/text spreads in a row stop reading as
+     rhythm and start reading as a template, and the eye needs somewhere to
+     rest that is not another framed image.
+
+     It is also the block type a future page will need most — an editorial
+     statement with two supporting columns and nothing to art-direct.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="band band--panel" id="who" data-scene="left">
+  <div class="shell">
+    <div class="sec-head">
+      <p class="eyebrow">Who the shop is for</p>
+      <h2 class="mask-line">An independent shop, in one town</h2>
+      <span class="rule-draw" aria-hidden="true"></span>
+    </div>
+
+    <div class="row g-0 gy-6 gy-lg-0" style="margin-block-start: var(--space-7)">
+      <div class="col-lg-5">
+        <p class="lead">
+          Not a dealership service department and not a chain — one shop on
+          North Prospect Avenue, working on the vehicles that are parked around
+          it the rest of the week.
+        </p>
+      </div>
+
+      <div class="col-lg-5 offset-lg-1">
+        <div class="split2__subs">
+          <div class="split2__sub">
+            <h3 class="subhead">The area</h3>
+            <p class="copy copy--sm">
+              Lynbrook, Valley Stream, Malverne, Rockville Centre and East
+              Rockaway.
+            </p>
+          </div>
+          <div class="split2__sub">
+            <h3 class="subhead">The vehicles</h3>
+            <p class="copy copy--sm">
+              Commuters, family cars, work vans and pickups — imported and
+              domestic, on the same equipment.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     ALSO IN THE SHOP — the mirror of the principle split
+     Text in the left column, photograph in the right: the inverse of #method
+     above, which is what keeps two picture splits on one page from reading as
+     the same section twice. Same reasoning as #shop and #protection on the
+     homepage, and data-scene="left" for the same reason — the type arrives
+     from its own column rather than across the picture.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="band" id="also" data-scene="left">
+  <div class="shell">
+    <div class="row g-0 gy-7 gy-lg-0">
+      <div class="col-lg-5">
+        <p class="eyebrow">Also in the shop</p>
+        <h2 class="mask-line">Inspections and covered work, in one visit</h2>
+        <span class="rule-draw" aria-hidden="true"></span>
+        <p class="copy" style="margin-block-start: var(--space-5)">
+          Two of the jobs people expect to be sent elsewhere for are done here,
+          on the same lift, in the same visit as whatever brought the vehicle
+          in.
+        </p>
+
+        <div class="split2__subs">
+          <div class="split2__sub">
+            <h3 class="subhead">New York State inspections</h3>
+            <p class="copy copy--sm">
+              Carried out in the shop, while the vehicle is already on the lift.
+            </p>
+          </div>
+          <div class="split2__sub">
+            <h3 class="subhead">Extended warranty repairs</h3>
+            <p class="copy copy--sm">
+              Work covered by an extended warranty, handled in the shop.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 offset-lg-1 d-lg-flex">
+        <div class="split2__media split2__media--fill">
+          <img src="assets/img/shop-detail-tools.jpg" width="900" height="900" loading="lazy" decoding="async"
+               data-placeholder="true"
+               alt="An open tool drawer under a low light: combination wrenches, sockets and a ratchet laid into cut foam.">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     RAIL — four hairline cells
+     Reuses the homepage's rail wholesale, including its entrance, which binds on
+     .rail2__item and needed nothing added. The four capabilities here are the
+     four the homepage rail does NOT carry, so the two pages state eight between
+     them rather than the same four twice.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="rail2" aria-labelledby="rail-heading">
+  <div class="shell">
+    <h2 class="sr-only" id="rail-heading">Also handled in the shop</h2>
+    <ul class="rail2__set">
+      <li class="rail2__item">
+        <h3>Pre-Purchase Inspections</h3>
+        <p class="copy copy--sm">A used vehicle checked over on the lift before the money moves.</p>
+      </li>
+      <li class="rail2__item">
+        <h3>Tires &amp; Alignment</h3>
+        <p class="copy copy--sm">Fitting, balancing and alignment in the same visit as the rest of the work.</p>
+      </li>
+      <li class="rail2__item">
+        <h3>Vehicle Care &amp; Detailing</h3>
+        <p class="copy copy--sm">Paint, interior and finish treated as work rather than as a wash.</p>
+      </li>
+      <li class="rail2__item">
+        <h3>LoJack<sup class="tm">&reg;</sup> Protection</h3>
+        <p class="copy copy--sm">Connected vehicle technology with stolen vehicle recovery support.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MOMENT — the one full-bleed mass
+     The page's counterweight. Either side of it is a hairline rail and a text
+     record; without something carrying real tonal weight between them the page
+     reads as one long grey column. One line and nothing else — a second element
+     here would turn the gesture into a section, and it would then compete with
+     the split above, which is the page's actual dominant.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="moment2" aria-labelledby="moment-line">
+  <div class="moment2__media">
+    <img src="assets/img/moment-underbody.jpg" width="2400" height="1340" loading="lazy" decoding="async"
+         data-placeholder="true"
+         alt="Three technicians working across a dark shop floor at night — one wiping down the flank of a dark crossover, two at a bench further back.">
+  </div>
+
+  <div class="shell">
+    <div class="moment2__line">
+      <h2 id="moment-line">The cars that come through here are the ones people rely on</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     THE RECORD — facts as a plate
+     Composed as a record rather than as prose, which is the same treatment the
+     contact section gives the address and hours on the homepage.
+
+     FOUR OF THESE SEVEN VALUES ARE NOT CONFIRMED and are marked as such rather
+     than invented. An about page conventionally runs on exactly the facts
+     nobody has supplied yet — founding year, the people, certifications — and
+     the failure mode here is not an empty row, it is a plausible "family owned
+     since 1998" that nobody ever checked. See docs/CONTENT-TODO.md §8.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="band band--panel" id="record" data-scene="left">
+  <div class="shell">
+    <div class="row g-0 gy-7 gy-lg-0">
+      <div class="col-lg-5">
+        <p class="eyebrow">The shop</p>
+        <h2 class="mask-line">Where it is, and what it runs on</h2>
+        <span class="rule-draw" aria-hidden="true"></span>
+        <p class="copy" style="margin-block-start: var(--space-5)">
+          The address and the number are confirmed. The rest of this record is
+          waiting on the shop, and is shown marked rather than filled in with
+          something that reads well.
+        </p>
+      </div>
+
+      <div class="col-lg-6 offset-lg-1">
+        <dl class="plate2">
+          <div>
+            <dt>Address</dt>
+            <dd>10 N Prospect Ave<br>Lynbrook, New York 11563</dd>
+          </div>
+          <div>
+            <dt>Phone</dt>
+            <dd><a class="hero2__note-phone" href="{{ PHONE_HREF }}">{{ PHONE_NBSP }}</a></dd>
+          </div>
+          <div>
+            <dt>Serving</dt>
+            <dd>Lynbrook, Valley Stream, Malverne, Rockville Centre and East Rockaway</dd>
+          </div>
+          <div>
+            <dt>Hours</dt>
+            <dd data-placeholder="true">Mon–Fri 8:00 – 18:00<br>Sat 8:00 – 15:00<br>Sun closed</dd>
+          </div>
+          <div>
+            <dt>Established</dt>
+            <dd data-placeholder="true"><span class="mono">To confirm</span></dd>
+          </div>
+          <div>
+            <dt>Technicians</dt>
+            <dd data-placeholder="true"><span class="mono">To confirm</span></dd>
+          </div>
+          <div>
+            <dt>Certifications</dt>
+            <dd data-placeholder="true"><span class="mono">To confirm</span></dd>
+          </div>
+        </dl>
+
+        <p class="copy copy--sm" data-placeholder="true"
+           style="margin-block-start: var(--space-5); color: var(--ink-muted)">
+          Four values above are unconfirmed and are marked on the page. Add
+          <code>?todo</code> to the address bar to outline every unconfirmed
+          value on the site.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     CLOSE — the page resolves on the visitor's actual task
+     Two action tiers, no third. An about page is read by somebody deciding
+     whether to call, so it ends on calling.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="band band--deep" id="close" data-scene="left">
+  <div class="shell">
+    <div class="sec-head sec-head--center">
+      <p class="eyebrow eyebrow--center">Bring a vehicle in</p>
+      <h2>Tell the shop what the vehicle is doing</h2>
+      <p class="lead" style="margin-block-start: var(--space-4)">
+        Call during opening hours, or send the details and the shop will pick it
+        up from there.
+      </p>
+      <p style="margin-block-start: var(--space-6)">
+        <a class="btn2 btn2--primary" href="index2.html#contact">
+          Schedule service <span class="btn2__mark" aria-hidden="true">→</span>
+        </a>
+        <a class="btn2 btn2--secondary" href="{{ PHONE_HREF }}" style="margin-inline-start: var(--space-3)">
+          {{ PHONE_DISPLAY }} <span class="btn2__mark" aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+{{> footer }}
+
+{{> scripts }}
+</body>
+</html>
